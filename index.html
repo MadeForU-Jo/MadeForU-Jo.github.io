@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timber & Grain | Handcrafted Woodwork Catalog</title>
+  <meta name="description" content="Handcrafted artisan woodworking shop. Live edge tables, end-grain cutting boards, kitchenware, and decor. Cash on delivery only.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-banner">
+    <span class="tag">Local Delivery</span>
+    <span>🪵 100% Solid Natural Wood • Cash on Delivery (COD) Only</span>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">🪵</div>
+        <div>
+          <div class="brand-title">Timber & Grain</div>
+          <div class="brand-sub">Handcrafted Woodwork</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button id="openCartBtn" class="cart-btn" aria-label="View Cart">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span>Cart</span>
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Handmade With Passion</span>
+      <h1>Artisan Woodcraft Built to Last Generations</h1>
+      <p>From walnut kitchenware to bespoke live-edge furniture, every piece is shaped by hand from sustainably harvested hardwoods.</p>
+      <div class="hero-features">
+        <div class="hero-feat-item">✓ 100% Solid Hardwood</div>
+        <div class="hero-feat-item">✓ Food-Safe Organic Finishes</div>
+        <div class="hero-feat-item">✓ Pay When You Receive (COD)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Store Section -->
+  <main class="main-container">
+
+    <!-- Filters & Search Toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search cutting board, table, oak..." aria-label="Search items">
+      </div>
+      <div class="category-pills" id="categoryContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="products-grid" id="productsGrid">
+      <!-- Products loaded via products.js & app.js -->
+    </div>
+
+    <!-- How Cash on Delivery Works Section -->
+    <section class="how-it-works">
+      <h2>How Ordering Works</h2>
+      <p class="sub">No online credit card payments required. Inspect your piece in person before paying!</p>
+      
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h4>Choose Your Items</h4>
+          <p>Browse our catalog, check dimensions, wood types, and add your favorite handmade items to your cart.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h4>Provide Delivery Info</h4>
+          <p>Enter your delivery address and phone number. Submit easily through our form or directly on WhatsApp.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h4>We Confirm & Craft/Pack</h4>
+          <p>We'll give you a quick confirmation call or message with your expected delivery date and tracking.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h4>Cash on Delivery</h4>
+          <p>The courier arrives at your door. You inspect your woodwork piece and pay cash directly upon delivery.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Timber & Grain</h4>
+        <p>Dedicated to preserving traditional joinery and showcasing the authentic beauty of natural timber.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Custom Orders</h4>
+        <p>Looking for custom dimensions or a specific wood species? Send us a message with your specs!</p>
+      </div>
+      <div class="footer-col">
+        <h4>Payment & Delivery</h4>
+        <p>💵 Payment: Cash on Delivery Only.<br>🚚 Safe, padded transport for all furniture and delicate craft pieces.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="yearSpan"></span> Timber & Grain Woodworking. All rights reserved. Hosted free on GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <!-- Product Detail Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-window">
+      <button class="modal-close" id="closeProductModal">&times;</button>
+      <img id="modalImg" class="modal-detail-img" src="" alt="Product Detail">
+      <div class="modal-detail-content">
+        <span id="modalBadge" class="modal-badge">Featured</span>
+        <h2 id="modalTitle" class="modal-title">Item Title</h2>
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <strong>Wood Species</strong>
+            <span id="modalWood">Walnut</span>
+          </div>
+          <div class="modal-meta-item">
+            <strong>Dimensions</strong>
+            <span id="modalDimensions">16" x 12"</span>
+          </div>
+        </div>
+        <p id="modalDesc" class="modal-desc"></p>
+        <div class="modal-footer">
+          <div class="product-price" id="modalPrice">$0</div>
+          <button id="modalAddToCartBtn" class="add-btn">
+            <span>+ Add to Cart</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer Overlay -->
+  <div class="modal-overlay" id="cartOverlay"></div>
+
+  <!-- Slide-out Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3>Your Cart</h3>
+      <button class="modal-close" id="closeCartBtn" style="position:static;">&times;</button>
+    </div>
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- Items dynamically listed -->
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cod-tag-pill">💵 Cash on Delivery • Pay When It Arrives</div>
+      <div class="cart-summary-line">
+        <span>Items Total:</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <div class="cart-summary-line">
+        <span>Delivery:</span>
+        <span>Calculated at door</span>
+      </div>
+      <div class="cart-summary-line total">
+        <span>Estimated Total:</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button id="proceedToCheckoutBtn" class="checkout-btn" style="margin-top: 1rem;">
+        Order via Cash on Delivery
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout / COD Order Modal -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-window">
+      <button class="modal-close" id="closeCheckoutModal">&times;</button>
+      <div class="checkout-form" id="checkoutFormContainer">
+        <h3>Cash on Delivery Order</h3>
+        <p class="sub">Enter your delivery address below. Pay cash when the order reaches your doorstep.</p>
+
+        <div class="form-payment-badge">
+          <span style="font-size: 1.4rem;">💵</span>
+          <div>
+            <strong>Payment Method: Cash on Delivery</strong>
+            <div style="font-size: 0.75rem; color: #666;">No cards required. Have exact cash ready when courier arrives.</div>
+          </div>
+        </div>
+
+        <form id="codOrderForm">
+          <div class="form-group">
+            <label for="custName">Your Full Name *</label>
+            <input type="text" id="custName" required placeholder="e.g. John Smith">
+          </div>
+          <div class="form-group">
+            <label for="custPhone">Phone Number *</label>
+            <input type="tel" id="custPhone" required placeholder="e.g. +1 555-019-2834 (for delivery call)">
+          </div>
+          <div class="form-group">
+            <label for="custAddress">Complete Delivery Address *</label>
+            <textarea id="custAddress" rows="3" required placeholder="Street address, apartment/unit, city, postal code"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="custNotes">Special Instructions (Optional)</label>
+            <textarea id="custNotes" rows="2" placeholder="e.g. Leave with doorman or call before arrival"></textarea>
+          </div>
+
+          <div style="background: var(--cream-bg); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.85rem;">
+            <div style="display:flex; justify-content:space-between; font-weight:700;">
+              <span>Total Payable on Delivery:</span>
+              <span id="checkoutOrderTotal">$0.00</span>
+            </div>
+          </div>
+
+          <!-- Primary Submit Option: Web/Local Order Confirmation -->
+          <button type="submit" class="submit-order-btn">
+            Confirm Cash on Delivery Order
+          </button>
+
+          <!-- Alternative Direct Option: Instant WhatsApp Order -->
+          <button type="button" id="whatsappOrderBtn" class="whatsapp-submit-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
+            </svg>
+            Send Order via WhatsApp
+          </button>
+        </form>
+      </div>
+
+      <!-- Success Screen -->
+      <div class="order-success" id="orderSuccessView" style="display:none;">
+        <div class="success-icon">✓</div>
+        <div class="order-id-badge" id="successOrderNumber">Order #TG-1001</div>
+        <h3>Order Confirmed!</h3>
+        <p>Thank you for shopping handmade woodwork. We'll contact you shortly to confirm dispatch. Have cash ready upon delivery!</p>
+        <button class="checkout-btn" id="doneBtn" style="max-width: 220px; margin: 0 auto;">Back to Catalog</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Added to cart!</div>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

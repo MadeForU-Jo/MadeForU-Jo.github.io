@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders Management | Timber & Grain</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .admin-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    .order-card-box {
+      background: #fff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .order-header-line {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .status-cod {
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+    }
+    .order-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">🪵</div>
+        <div class="brand-title">Timber & Grain — Orders Dashboard</div>
+      </a>
+      <a href="index.html" class="cart-btn" style="text-decoration: none;">&larr; Back to Shop</a>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <div>
+        <h1 style="font-family: Georgia, serif; font-size: 1.75rem;">Cash on Delivery Orders</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Orders placed through the website on this computer.</p>
+      </div>
+      <button id="clearOrdersBtn" style="background:#fee2e2; color:#991b1b; border:none; padding:0.5rem 1rem; border-radius:6px; cursor:pointer; font-weight:600;">
+        Clear All Orders
+      </button>
+    </div>
+
+    <div id="ordersList">
+      <!-- Injected -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const ordersList = document.getElementById("ordersList");
+      const clearBtn = document.getElementById("clearOrdersBtn");
+      const orders = JSON.parse(localStorage.getItem("timber_orders") || "[]");
+
+      function renderOrders() {
+        if (orders.length === 0) {
+          ordersList.innerHTML = `
+            <div style="background:#fff; border-radius:12px; padding:3rem; text-align:center; border:1px solid #e8e2d9;">
+              <p style="font-size: 2rem; margin-bottom: 0.5rem;">📦</p>
+              <h3>No orders yet</h3>
+              <p style="color:#666; margin-top: 0.25rem;">When customers place Cash on Delivery orders, they will show up right here.</p>
+            </div>
+          `;
+          return;
+        }
+
+        ordersList.innerHTML = orders.slice().reverse().map(o => `
+          <div class="order-card-box">
+            <div class="order-header-line">
+              <div>
+                <strong>${o.orderNumber}</strong> • <span style="color:#777;">${new Date(o.date).toLocaleString()}</span>
+              </div>
+              <div>
+                <span class="status-cod">💵 Cash on Delivery</span>
+              </div>
+            </div>
+
+            <div class="order-detail-grid">
+              <div>
+                <h4 style="margin-bottom:0.35rem; color:#6B4423;">Customer Info:</h4>
+                <div><strong>Name:</strong> ${o.customer.name}</div>
+                <div><strong>Phone:</strong> <a href="tel:${o.customer.phone}">${o.customer.phone}</a></div>
+                <div><strong>Address:</strong> ${o.customer.address}</div>
+                ${o.customer.notes ? `<div><strong>Notes:</strong> ${o.customer.notes}</div>` : ""}
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.35rem; color:#6B4423;">Ordered Items:</h4>
+                <ul style="padding-left: 1.2rem; color: #444;">
+                  ${o.items.map(i => `<li>${i.title} &times; ${i.qty} (${STORE_CONFIG.currency || '$'}${(i.price * i.qty).toFixed(2)})</li>`).join("")}
+                </ul>
+                <div style="margin-top:0.75rem; font-size:1.1rem; font-weight:bold; color:#2B1D14;">
+                  Total to Collect: $${o.total.toFixed(2)}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      clearBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to clear the local order history?")) {
+          localStorage.removeItem("timber_orders");
+          location.reload();
+        }
+      });
+
+      renderOrders();
+    });
+  </script>
+</body>
+</html>
