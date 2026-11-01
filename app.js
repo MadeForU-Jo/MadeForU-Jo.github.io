@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 40 سم</span> • <span>🪵 خشب MDF (7 د.أ) أو أكريليك (10 د.أ)</span>
+            <span>📏 40 سم</span> • <span>🌀 فركتال صلب (ليس ورقاً)</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">

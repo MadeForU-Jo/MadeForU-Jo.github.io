@@ -608,6 +608,112 @@ body {
   line-height: 1.7;
   margin-bottom: 1.5rem;
 }
+/* GAME SHOWCASE SECTION (GOOGLE PLAY) */
+.game-showcase-section {
+  margin: 3.5rem 0;
+}
+.game-showcase-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.game-content {
+  max-width: 620px;
+}
+.game-badge {
+  display: inline-block;
+  background: rgba(37, 211, 102, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.game-content h2 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+  color: #fff;
+}
+.game-content p {
+  color: #94a3b8;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+.game-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.google-play-btn {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: var(--transition);
+}
+.google-play-btn:hover {
+  background: #111;
+  border-color: #4ade80;
+  transform: translateY(-2px);
+}
+.game-note {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+.game-phone-mockup {
+  width: 140px;
+  height: 180px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.game-header-btn {
+  background: rgba(30, 41, 59, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: var(--transition);
+}
+.game-header-btn:hover {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
 /* MATERIAL & COLOR OPTIONS IN MODAL */
 .modal-options-block {
   margin: 1.25rem 0;
