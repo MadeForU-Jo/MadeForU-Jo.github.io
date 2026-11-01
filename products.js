@@ -13,6 +13,8 @@ const STORE_CONFIG = {
   whatsappNumber: "962789423717",
   logo: "images/Logo/puzzleme logo.png",
   appUrl: "https://play.google.com/store/apps/details?id=com.ZaytuneGames.Puzzleme&hl=en",
+  instagramUrl: "https://www.instagram.com/puzzleme.jo/",
+  facebookUrl: "https://www.facebook.com/Puzzleme.Jo",
 
   // خدمة الحفر المخصص بالليزر
   engravingFee: 5.0,       // رسم الحفر: 5 دنانير (يتم تحويله مسبقاً بالتنسيق عبر الواتساب)
