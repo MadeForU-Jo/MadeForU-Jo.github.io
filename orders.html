@@ -113,7 +113,7 @@
               <div>
                 <h4 style="margin-bottom:0.4rem; color:var(--brand-primary);">المنتجات المطلوبة:</h4>
                 <ul style="padding-right: 1.2rem; color: #444; margin-bottom: 0.75rem;">
-                  ${o.items.map(i => `<li><strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} | لون: ${i.colorName}</small>` : ''}</li>`).join("")}
+                  ${o.items.map(i => `<li><strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} | لون: ${i.colorName}</small>` : ''}${i.hasEngraving ? `<br><small style="color:#b45309; font-weight:bold;">✨ حفر ليزر مخصص (+5 د.أ): "${i.engravingText}"</small>` : ''}</li>`).join("")}
                 </ul>
                 <div style="border-top:1px dashed #eee; padding-top:0.5rem; font-size:0.9rem; color:#555;">
                   <div>سعر البازل: ${(o.subtotal || 0).toFixed(2)} د.أ</div>

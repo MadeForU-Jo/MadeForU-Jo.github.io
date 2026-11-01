@@ -14,6 +14,11 @@ const STORE_CONFIG = {
   logo: "images/Logo/puzzleme logo.png",
   appUrl: "https://play.google.com/store/apps/details?id=com.ZaytuneGames.Puzzleme&hl=en",
 
+  // خدمة الحفر المخصص بالليزر
+  engravingFee: 5.0,       // رسم الحفر: 5 دنانير
+  cliqAlias: "PUZZLEME",   // معرف كليك CliQ (يمكنك تعديله لحسابك البنكي)
+  walletNumber: "0789423717", // رقم المحفظة الإلكترونية (زين كاش / أورنج / أمنية)
+
   // خيارات المواد والألوان بأسماء مباشرة وبسيطة (بدون ذكر السماكة)
   materials: [
     {

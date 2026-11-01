@@ -714,6 +714,96 @@ body {
   border-color: #0f172a;
 }
 
+/* CUSTOM LASER ENGRAVING ADDON */
+.engraving-addon-box {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: #FFFDF9;
+  border: 1.5px dashed var(--wood-amber);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+.engraving-addon-box.active {
+  border-color: var(--brand-primary);
+  background: #FFF9F5;
+}
+.engraving-toggle-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+.engraving-toggle-checkbox {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--brand-primary);
+  cursor: pointer;
+  margin-top: 2px;
+}
+.engraving-toggle-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--wood-dark);
+}
+.engraving-toggle-info p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+}
+.engraving-input-wrap {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--border-subtle);
+}
+.engraving-input-wrap input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  background: #fff;
+  transition: var(--transition);
+}
+.engraving-input-wrap input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(140, 72, 40, 0.15);
+}
+.engraving-notice-pill {
+  margin-top: 0.65rem;
+  background: #FEF3C7;
+  color: #92400E;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  border: 1px solid #FDE68A;
+}
+
+.checkout-cliq-notice {
+  background: #FEF3C7;
+  border: 1.5px solid #F59E0B;
+  color: #78350F;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.cliq-details-chip {
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  gap: 0.75rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  border: 1px solid #FCD34D;
+  font-size: 0.85rem;
+}
+
 /* MATERIAL & COLOR OPTIONS IN MODAL */
 .modal-options-block {
   margin: 1.25rem 0;

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PuzzleMe JO | متجر البازل والأحاجي الخشبية في عمان والأردن</title>
   <meta name="description" content="متجر بازل مي الأردن - أجمل أحاجي وبازل خشبية فنية وثلاثية الأبعاد في عمان. الدفع عند الاستلام والتوصيل دينار واحد فقط.">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
 
@@ -201,6 +201,23 @@
           <div class="colors-swatches-grid" id="modalColorOptions">
             <!-- يتم تعبئتها ديناميكياً -->
           </div>
+
+          <!-- خدمة الحفر المخصص بالليزر (+5 د.أ) -->
+          <div class="engraving-addon-box" id="engravingBox">
+            <label class="engraving-toggle-label">
+              <input type="checkbox" id="modalEngravingToggle" class="engraving-toggle-checkbox">
+              <div class="engraving-toggle-info">
+                <strong>✨ إضافة حفر ليزر مخصص على قاعدة البازل (+5.00 د.أ)</strong>
+                <p>حفر اسم، تاريخ، عبارة إهداء خاصة، أو لوجو شخصي على القاعدة.</p>
+              </div>
+            </label>
+            <div class="engraving-input-wrap" id="engravingInputWrap" style="display: none;">
+              <input type="text" id="modalEngravingText" placeholder="اكتب النص أو الإهداء المطلوب (أو اكتب 'إرسال لوجو عبر الواتساب')...">
+              <div class="engraving-notice-pill">
+                ⚠️ <strong>سياسة الدفع لخدمة الحفر المخصص:</strong> نظراً لأن الحفر يُصمم خصيصاً باسمك، يُدفع رسم الحفر (5 دنانير) مسبقاً عبر <strong>CliQ</strong> أو المحفظة الإلكترونية (<strong>Zain Cash</strong>)، بينما يُدفع باقي ثمن البازل والتوصيل كاش عند الاستلام.
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <div class="product-price" id="modalPrice">0 د.أ</div>
@@ -258,9 +275,20 @@
         <div class="form-payment-badge">
           <span style="font-size: 1.5rem;">💵</span>
           <div>
-            <strong>طريقة الدفع: كاش عند الاستلام فقط</strong>
-            <div style="font-size: 0.8rem; color: #666;">يرجى تجهيز المبلغ نقداً عند تسلّم الطلب من المندوب.</div>
+            <strong>طريقة الدفع: كاش عند الاستلام</strong>
+            <div style="font-size: 0.8rem; color: #666;">يرجى تجهيز المبلغ المطلوب نقداً عند استلام الطلب من المندوب.</div>
           </div>
+        </div>
+
+        <!-- تنبيه تحويل عربون الحفر المخصص مسبقاً (يظهر فقط إن وُجد حفر مخصص) -->
+        <div id="checkoutCliqNoticeContainer" style="display: none;" class="checkout-cliq-notice">
+          <strong>⚠️ تنبيه الحفر المخصص (دفع مسبق عبر CliQ أو المحفظة):</strong>
+          <div>يتضمن طلبك خدمة حفر ليزر مخصص. يُرجى تحويل عربون الحفر (5 دنانير) لتأكيد بدء التنفيذ عبر:</div>
+          <div class="cliq-details-chip">
+            <span>🔹 كليك (CliQ): <strong id="cliqAliasText">PUZZLEME</strong></span>
+            <span>📱 محفظة زين كاش: <strong id="walletNumberText">0789423717</strong></span>
+          </div>
+          <div style="font-size: 0.78rem; margin-top: 0.35rem; color: #92400e;">(باقي ثمن البازل وأجرة التوصيل يُدفع كاش عند الاستلام).</div>
         </div>
 
         <form id="codOrderForm">
@@ -305,13 +333,25 @@
               <span>سعر البازل:</span>
               <span id="checkoutSubtotal">0 د.أ</span>
             </div>
+            <div class="breakdown-row" id="checkoutEngravingRow" style="display: none; color: var(--brand-primary); font-weight: 700;">
+              <span>خدمة الحفر المخصص بالليزر:</span>
+              <span id="checkoutEngravingTotal">5.00 د.أ</span>
+            </div>
             <div class="breakdown-row">
               <span id="checkoutDeliveryLabel">أجرة التوصيل (داخل عمان):</span>
               <span id="checkoutDeliveryFee">1.00 د.أ</span>
             </div>
             <div class="breakdown-row total-row">
-              <span>المبلغ الكلي المطلوب كاش عند الاستلام:</span>
+              <span>المجموع الكلي للطلب:</span>
               <span id="checkoutOrderTotal">0 د.أ</span>
+            </div>
+            <div id="checkoutPaymentSplitRow" style="display: none; margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px dashed #d1c5b4; font-size: 0.85rem;">
+              <div style="color: #92400e; font-weight: 700; margin-bottom: 0.2rem;">
+                💳 الدفع المسبق عبر CliQ أو المحفظة: <span id="checkoutUpfrontAmount">5.00 د.أ</span>
+              </div>
+              <div style="color: var(--forest-green); font-weight: 700;">
+                💵 المتبقي كاش عند الاستلام: <span id="checkoutCodAmount">0.00 د.أ</span>
+              </div>
             </div>
           </div>
 
@@ -342,7 +382,7 @@
   <!-- رسالة التنبيه العائمة (Toast) -->
   <div class="toast" id="toast">تمت الإضافة إلى السلة!</div>
 
-  <script src="products.js?v=12"></script>
-  <script src="app.js?v=12"></script>
+  <script src="products.js?v=13"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>
