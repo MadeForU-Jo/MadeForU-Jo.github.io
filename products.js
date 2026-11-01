@@ -25,11 +25,11 @@ const PRODUCTS = [
     badge: "الأكثر طلباً 🇯🇴",
     shortDesc: "خريطة الأردن بتصميم خشبي ثلاثي الأبعاد مقصوص بدقة متناهية. كل قطعة بقصة فريدة لا تتكرر!",
     description: "أحجية خريطة المملكة الأردنية الهاشمية المصنوعة من خشب MDF الصلب بسماكة 5 ملم متينة تدوم لسنوات طويلة دون اهتراء أو تمزق كالكرتون العادي. يتميز كل بازل بنمط تقطيع هندسي داخلي فريد وخاص بكل طلب، مع الحفاظ على الإطار الجغرافي الخارجي المتقن.",
-    image: "images/Jordan Map Puzzle/Jordan Map render0002.png",
+    image: "images/Jordan Map Puzzle/Jordan Map render s0000.png",
     gallery: [
+      "images/Jordan Map Puzzle/Jordan Map render s0000.png",
+      "images/Jordan Map Puzzle/Jordan Map render s0001.png",
       "images/Jordan Map Puzzle/Jordan Map render0002.png",
-      "images/Jordan Map Puzzle/Jordan Map render0001.png",
-      "images/Jordan Map Puzzle/Jordan Map render0000.png",
       "images/Jordan Map Puzzle/Top.png"
     ]
   },
