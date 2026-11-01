@@ -1,7 +1,7 @@
 // ==========================================
-// PUZZLEME JO - قائمة المنتجات والإعدادات
+// PUZZLEME JO - قائمة المنتجات الكاملة
+// يشمل جميع الحروف الأبجدية من A إلى Z (104 زاوية)
 // خيارات الخامات: خشب MDF صلب (7 د.أ) • أكريليك صلب فاخر (10 د.أ)
-// ألوان متعددة مع عينات لونية تفاعلية
 // ==========================================
 
 const STORE_CONFIG = {
@@ -43,7 +43,8 @@ const STORE_CONFIG = {
   ]
 };
 
-const PRODUCTS = [
+// المنتجات الأساسية (الخرائط والأشكال الفنية)
+const BASE_PRODUCTS = [
   {
     id: 1,
     title: "بازل خريطة الأردن الملكية",
@@ -115,77 +116,30 @@ const PRODUCTS = [
       "images/Shapes/star0002.png",
       "images/Shapes/star0000.png"
     ]
-  },
-  {
-    id: 5,
-    title: "بازل الحروف المخصصة — حرف A",
-    category: "حروف بالاسم",
-    price: 7,
-    priceAcrylic: 10,
-    dimensions: "الارتفاع 40 سم",
-    badge: "حسب طلبك 🔤",
-    shortDesc: "حرف A كبير بحجم 40 سم وبقصة بازل فريدة. متوفر بخشب MDF أو أكريليك!",
-    description: "بازل شخصي مميز للأطفال وغرف النوم أو المكاتب. حجم كبير بارتفاع 40 سم. اختر الخامة المفضلة (خشب MDF أو أكريليك) واللون المطلوب. كل حرف يتم تفصيل قطعه الداخلية بنمط مميز لا يشبه أي حرف آخر.",
-    image: "images/Letters/A0003.png",
-    gallery: [
-      "images/Letters/A0003.png",
-      "images/Letters/A0002.png",
-      "images/Letters/A0001.png",
-      "images/Letters/A0000.png"
-    ]
-  },
-  {
-    id: 6,
-    title: "بازل الحروف المخصصة — حرف B",
-    category: "حروف بالاسم",
-    price: 7,
-    priceAcrylic: 10,
-    dimensions: "الارتفاع 40 سم",
-    badge: "حسب طلبك 🔤",
-    shortDesc: "حرف B كبير 40 سم. نمط القطع الداخلي فريد وحصري لكل طلب.",
-    description: "احصل على الحرف الأول من اسمك أو اسم من تحب كأحجية فاخرة. اختر بين خشب MDF الصلب (5 ملم) أو الأكريليك الصلب بالألوان المتعددة.",
-    image: "images/Letters/B0003.png",
-    gallery: [
-      "images/Letters/B0003.png",
-      "images/Letters/B0002.png",
-      "images/Letters/B0001.png",
-      "images/Letters/B0000.png"
-    ]
-  },
-  {
-    id: 7,
-    title: "بازل الحروف المخصصة — حرف C",
-    category: "حروف بالاسم",
-    price: 7,
-    priceAcrylic: 10,
-    dimensions: "الارتفاع 40 سم",
-    badge: "حسب طلبك 🔤",
-    shortDesc: "حرف C كبير 40 سم. خامات قوية ومظهر أنيق بلونك المفضل.",
-    description: "تصميم أنيق لحرف C يجمع بين الديكور المودرن والتسلية الهادفة. متوفر بخيارات خشب MDF أو أكريليك فاخر مع قصة ليزر فريدة تمنح كل قطعة هويتها المستقلة.",
-    image: "images/Letters/C0003.png",
-    gallery: [
-      "images/Letters/C0003.png",
-      "images/Letters/C0002.png",
-      "images/Letters/C0001.png",
-      "images/Letters/C0000.png"
-    ]
-  },
-  {
-    id: 8,
-    title: "بازل الحروف المخصصة — حرف D",
-    category: "حروف بالاسم",
-    price: 7,
-    priceAcrylic: 10,
-    dimensions: "الارتفاع 40 سم",
-    badge: "حسب طلبك 🔤",
-    shortDesc: "حرف D بارتفاع 40 سم. يمكنك كتابة أي حرف مطلوب في الملاحظات عند الطلب!",
-    description: "قطعة فنية بارتفاع 40 سم. متوفرة بخشب MDF صلب (7 د.أ) أو أكريليك صلب (10 د.أ) بالألوان المتعددة. كل قطعة مقصوصة بتقنية فريدة تضمن عدم تكرار التشكيل الداخلي مع أي شخص آخر.",
-    image: "images/Letters/D0003.png",
-    gallery: [
-      "images/Letters/D0003.png",
-      "images/Letters/D0002.png",
-      "images/Letters/D0001.png",
-      "images/Letters/D0000.png"
-    ]
   }
 ];
+
+// توليد جميع الحروف الأبجدية الـ 26 (من A إلى Z) تلقائياً
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+const LETTER_PRODUCTS = ALPHABET.map((char, index) => ({
+  id: 5 + index,
+  title: `بازل الحروف المخصصة — حرف ${char}`,
+  category: "حروف بالاسم",
+  price: 7,
+  priceAcrylic: 10,
+  dimensions: "الارتفاع 40 سم",
+  badge: `حرف ${char} 🔤`,
+  shortDesc: `حرف ${char} بارتفاع 40 سم. نمط القطع الداخلي فريد وحصري لكل طلب.`,
+  description: `بازل الحرف الشخصي (${char}) بمقاس كبير 40 سم. متوفر بخيارين: خشب MDF صلب 5 ملم (7 د.أ) أو أكريليك صلب فاخر (10 د.أ) بمختلف الألوان الفاتحة والداكنة. كل حرف مقصوص بنمط ليزر فريد لا يتكرر أبداً.`,
+  image: `images/Letters/${char}0003.png`,
+  gallery: [
+    `images/Letters/${char}0003.png`,
+    `images/Letters/${char}0002.png`,
+    `images/Letters/${char}0001.png`,
+    `images/Letters/${char}0000.png`
+  ]
+}));
+
+// دمج كافة المنتجات في قائمة موحدة (إجمالي 30 منتجاً)
+const PRODUCTS = [...BASE_PRODUCTS, ...LETTER_PRODUCTS];
