@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const codOrderForm = document.getElementById("codOrderForm");
   const checkoutSubtotal = document.getElementById("checkoutSubtotal");
   const checkoutOrderTotal = document.getElementById("checkoutOrderTotal");
-  const whatsappOrderBtn = document.getElementById("whatsappOrderBtn");
   const checkoutFormContainer = document.getElementById("checkoutFormContainer");
   const orderSuccessView = document.getElementById("orderSuccessView");
   const successOrderNumber = document.getElementById("successOrderNumber");
