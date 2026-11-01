@@ -11,18 +11,19 @@
 
   <!-- شريط الإعلان العلوي -->
   <div class="top-banner">
-    <span class="tag">عمان والأردن 🇯🇴</span>
-    <span>🧩 أحاجي وبازل خشبية مميزة • الدفع عند الاستلام فقط • التوصيل دينار واحد (1 د.أ)</span>
+    <span class="tag">عمان والمحافظات 🇯🇴</span>
+    <span>🧩 خشب MDF صلب 5 ملم • مقاس 40 سم • نمط تقطيع فريد لكل طلب • التوصيل: عمان 1 د.أ / باقي المحافظات 2 د.أ</span>
   </div>
 
   <!-- الترويسة وشعار المتجر -->
   <header class="header">
     <div class="header-container">
       <a href="#" class="brand">
-        <div class="brand-icon">🧩</div>
+        <img src="images/Logo/puzzleme logo.png" alt="PuzzleMe JO Logo" class="brand-logo" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='flex';" style="height: 48px; width: auto; object-fit: contain;">
+        <div class="brand-icon" id="fallbackIcon" style="display: none;">🧩</div>
         <div>
           <div class="brand-title">PuzzleMe JO</div>
-          <div class="brand-sub">بازل مي الأردن — عمان</div>
+          <div class="brand-sub">أحاجي وبازل خشبية متينة — الأردن</div>
         </div>
       </a>
 
@@ -41,13 +42,14 @@
   <!-- القسم الترحيبي (Hero) -->
   <section class="hero">
     <div class="hero-content">
-      <span class="hero-badge">تحدٍ وإبداع لكل الأعمار</span>
-      <h1>عالم البازل والأحاجي الخشبية الفريدة</h1>
-      <p>تصاميم خشبية استثنائية مقصوصة بدقة الليزر للكبار والصغار. استمتع بساعات من التركيز والاسترخاء، أو قدّمها كهدية راقية لمن تحب.</p>
+      <span class="hero-badge">خشب MDF صلب 5 ملم — مقاس 40 سم</span>
+      <h1>أحاجي وبازل خشبية فريدة لا تتكرر أبداً</h1>
+      <p>ليست كرتوناً أو ورقاً قابلاً للتمزق! مصنوعة من خشب MDF الصلب بسماكة 5 ملم وبمقاس 40 سم، وكل طلب يُقص بنمط هندسي داخلي فريد خاص بك وحدك، بحيث لا يوجد بازلان متطابقان على الإطلاق.</p>
       <div class="hero-features">
-        <div class="hero-feat-item">✓ خشب طبيعي متين عالي الجودة</div>
-        <div class="hero-feat-item">✓ توصيل لكافة مناطق عمان (1 دينار)</div>
-        <div class="hero-feat-item">✓ الدفع عند الاستلام (كاش)</div>
+        <div class="hero-feat-item">✓ خشب MDF صلب 5 ملم (مقاوم للكسر والتمزق)</div>
+        <div class="hero-feat-item">✓ مقاس 40 سم لكل قطعة</div>
+        <div class="hero-feat-item">✓ نمط تقطيع حصري لكل طلب</div>
+        <div class="hero-feat-item">✓ التوصيل: عمان 1 د.أ / المحافظات 2 د.أ</div>
       </div>
     </div>
   </section>
@@ -134,12 +136,16 @@
         <h2 id="modalTitle" class="modal-title">اسم البازل</h2>
         <div class="modal-meta-grid">
           <div class="modal-meta-item">
-            <strong>عدد القطع</strong>
-            <span id="modalWood">200 قطعة</span>
+            <strong>الخامة والمتانة</strong>
+            <span id="modalWood">خشب MDF صلب 5 ملم (مقاوم للكسر)</span>
           </div>
           <div class="modal-meta-item">
-            <strong>الأبعاد والمقاس</strong>
-            <span id="modalDimensions">30 × 30 سم</span>
+            <strong>المقاس والأبعاد</strong>
+            <span id="modalDimensions">40 سم</span>
+          </div>
+          <div class="modal-meta-item" style="grid-column: 1 / -1;">
+            <strong>النمط الهندسي الداخلي</strong>
+            <span style="color: var(--brand-primary); font-weight: bold;">✨ نمط تقطيع فريد وحصري لكل طلب — لا يوجد بازلان متطابقان</span>
           </div>
         </div>
         <p id="modalDesc" class="modal-desc"></p>
@@ -214,16 +220,21 @@
             <input type="tel" id="custPhone" required placeholder="مثال: 0791234567 للتنسيق مع المندوب">
           </div>
           <div class="form-group">
-            <label for="custCity">المدينة / المنطقة *</label>
+            <label for="custCity">منطقة التوصيل *</label>
             <select id="custCity" required>
-              <option value="عمان - الجبيهة / صويلح">عمان - الجبيهة / صويلح</option>
-              <option value="عمان - دابوق / خلدا / تلاع العلي">عمان - دابوق / خلدا / تلاع العلي</option>
-              <option value="عمان - عبدون / دير غبار / الصويفية">عمان - عبدون / دير غبار / الصويفية</option>
-              <option value="عمان - الشميساني / اللويبدة / جبل عمان">عمان - الشميساني / اللويبدة / جبل عمان</option>
-              <option value="عمان - طبربور / طارق / شفا بدران">عمان - طبربور / طارق / شفا بدران</option>
-              <option value="عمان - المقابلين / مرج الحمام / اليادودة">عمان - المقابلين / مرج الحمام / اليادودة</option>
-              <option value="عمان - منطقة أخرى">عمان - منطقة أخرى</option>
-              <option value="محافظة أخرى">محافظة أخرى</option>
+              <option value="عمان - الجبيهة / صويلح" data-fee="1">عمان - الجبيهة / صويلح (توصيل 1 د.أ)</option>
+              <option value="عمان - دابوق / خلدا / تلاع العلي" data-fee="1">عمان - دابوق / خلدا / تلاع العلي (توصيل 1 د.أ)</option>
+              <option value="عمان - عبدون / دير غبار / الصويفية" data-fee="1">عمان - عبدون / دير غبار / الصويفية (توصيل 1 د.أ)</option>
+              <option value="عمان - الشميساني / اللويبدة / جبل عمان" data-fee="1">عمان - الشميساني / اللويبدة / جبل عمان (توصيل 1 د.أ)</option>
+              <option value="عمان - طبربور / طارق / شفا بدران" data-fee="1">عمان - طبربور / طارق / شفا بدران (توصيل 1 د.أ)</option>
+              <option value="عمان - المقابلين / مرج الحمام / اليادودة" data-fee="1">عمان - المقابلين / مرج الحمام / اليادودة (توصيل 1 د.أ)</option>
+              <option value="عمان - منطقة أخرى داخل عمان" data-fee="1">عمان - أي منطقة أخرى داخل عمان (توصيل 1 د.أ)</option>
+              <option value="الزرقاء (خارج عمان)" data-fee="2">الزرقاء (خارج عمان - توصيل 2 د.أ)</option>
+              <option value="إربد (خارج عمان)" data-fee="2">إربد (خارج عمان - توصيل 2 د.أ)</option>
+              <option value="البلقاء / السلط (خارج عمان)" data-fee="2">البلقاء / السلط (خارج عمان - توصيل 2 د.أ)</option>
+              <option value="مادبا (خارج عمان)" data-fee="2">مادبا (خارج عمان - توصيل 2 د.أ)</option>
+              <option value="العقبة (خارج عمان)" data-fee="2">العقبة (خارج عمان - توصيل 2 د.أ)</option>
+              <option value="باقي المحافظات (خارج عمان)" data-fee="2">باقي محافظات المملكة (خارج عمان - توصيل 2 د.أ)</option>
             </select>
           </div>
           <div class="form-group">
@@ -231,22 +242,22 @@
             <textarea id="custAddress" rows="2" required placeholder="مثال: شارع الجامعة، قرب بنك الإسكان، عمارة 12 شقة 4"></textarea>
           </div>
           <div class="form-group">
-            <label for="custNotes">ملاحظات إضافية (اختياري)</label>
-            <textarea id="custNotes" rows="2" placeholder="مثال: التسليم بعد الساعة 4 مساءً أو التنسيق قبل الوصول"></textarea>
+            <label for="custNotes">ملاحظات إضافية (أو تحديد الحرف المطلوب إن اخترت بازل الحروف)</label>
+            <textarea id="custNotes" rows="2" placeholder="مثال: تحديد حرف معين، أو وقت التوصيل المناسب..."></textarea>
           </div>
 
           <!-- تفاصيل الحساب والتوصيل -->
           <div class="order-breakdown-box">
             <div class="breakdown-row">
-              <span>سعر المنتجات:</span>
+              <span>سعر البازل:</span>
               <span id="checkoutSubtotal">0 د.أ</span>
             </div>
             <div class="breakdown-row">
-              <span>أجرة التوصيل:</span>
-              <span>1.00 د.أ</span>
+              <span id="checkoutDeliveryLabel">أجرة التوصيل (داخل عمان):</span>
+              <span id="checkoutDeliveryFee">1.00 د.أ</span>
             </div>
             <div class="breakdown-row total-row">
-              <span>المبلغ الكلي المطلوب عند الاستلام:</span>
+              <span>المبلغ الكلي المطلوب كاش عند الاستلام:</span>
               <span id="checkoutOrderTotal">0 د.أ</span>
             </div>
           </div>
@@ -278,7 +289,7 @@
   <!-- رسالة التنبيه العائمة (Toast) -->
   <div class="toast" id="toast">تمت الإضافة إلى السلة!</div>
 
-  <script src="products.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="products.js?v=6"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
