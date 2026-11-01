@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 40 سم</span> • <span>🌀 فركتال صلب (ليس ورقاً)</span>
+            <span>📏 40 سم</span> • <span>🌀 توليد رياضي (Fractals) صلب</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div style="text-align: center; padding: 3rem 1rem; color: #888;">
           <p style="font-size: 3rem; margin-bottom: 0.5rem;">🧩</p>
           <p style="font-weight: 700; color: #444; font-size: 1.1rem;">السلة فارغة حالياً</p>
-          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر بازل فركتال 40 سم مع إمكانية إضافة حفر ليزر مخصص!</p>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر بازل بنمط الـ Fractals مقاس 40 سم مع إمكانية إضافة حفر ليزر مخصص!</p>
         </div>
       `;
       cartSubtotal.textContent = `0.00 ${CURRENCY}`;
