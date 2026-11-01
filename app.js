@@ -371,15 +371,6 @@ document.addEventListener("DOMContentLoaded", () => {
     orderSuccessView.style.display = "block";
     codOrderForm.reset();
   });
-    successOrderNumber.textContent = `طلب رقم #${orderNumber}`;
-    checkoutFormContainer.style.display = "none";
-    orderSuccessView.style.display = "block";
-
-    cart = [];
-    saveCart();
-    renderCart();
-    codOrderForm.reset();
-  });
 
   doneBtn.addEventListener("click", () => {
     checkoutModal.classList.remove("active");
