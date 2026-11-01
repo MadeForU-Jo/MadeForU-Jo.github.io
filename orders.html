@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Orders Management | Timber & Grain</title>
+  <title>لوحة متابعة الطلبات | PuzzleMe JO</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     .admin-container {
@@ -32,15 +32,15 @@
       background: #fef3c7;
       color: #92400e;
       font-weight: 700;
-      font-size: 0.8rem;
-      padding: 0.25rem 0.65rem;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.75rem;
       border-radius: 999px;
     }
     .order-detail-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      font-size: 0.9rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      font-size: 0.92rem;
     }
   </style>
 </head>
@@ -48,42 +48,43 @@
   <div class="header">
     <div class="header-container">
       <a href="index.html" class="brand">
-        <div class="brand-icon">🪵</div>
-        <div class="brand-title">Timber & Grain — Orders Dashboard</div>
+        <div class="brand-icon">🧩</div>
+        <div class="brand-title">PuzzleMe JO — سجل الطلبات</div>
       </a>
-      <a href="index.html" class="cart-btn" style="text-decoration: none;">&larr; Back to Shop</a>
+      <a href="index.html" class="cart-btn" style="text-decoration: none;">&rarr; العودة للمتجر</a>
     </div>
   </div>
 
   <div class="admin-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
       <div>
-        <h1 style="font-family: Georgia, serif; font-size: 1.75rem;">Cash on Delivery Orders</h1>
-        <p style="color: var(--text-secondary); font-size: 0.9rem;">Orders placed through the website on this computer.</p>
+        <h1 style="font-size: 1.75rem; font-weight: 800;">طلبات الدفع عند الاستلام (كاش)</h1>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">قائمة الطلبات المسجلة من خلال الموقع على هذا الجهاز.</p>
       </div>
-      <button id="clearOrdersBtn" style="background:#fee2e2; color:#991b1b; border:none; padding:0.5rem 1rem; border-radius:6px; cursor:pointer; font-weight:600;">
-        Clear All Orders
+      <button id="clearOrdersBtn" style="background:#fee2e2; color:#991b1b; border:none; padding:0.5rem 1.15rem; border-radius:6px; cursor:pointer; font-weight:700; font-family:inherit;">
+        مسح سجل الطلبات
       </button>
     </div>
 
     <div id="ordersList">
-      <!-- Injected -->
+      <!-- يتم حقن الطلبات هنا -->
     </div>
   </div>
 
+  <script src="products.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const ordersList = document.getElementById("ordersList");
       const clearBtn = document.getElementById("clearOrdersBtn");
-      const orders = JSON.parse(localStorage.getItem("timber_orders") || "[]");
+      const orders = JSON.parse(localStorage.getItem("puzzleme_orders") || "[]");
 
       function renderOrders() {
         if (orders.length === 0) {
           ordersList.innerHTML = `
-            <div style="background:#fff; border-radius:12px; padding:3rem; text-align:center; border:1px solid #e8e2d9;">
-              <p style="font-size: 2rem; margin-bottom: 0.5rem;">📦</p>
-              <h3>No orders yet</h3>
-              <p style="color:#666; margin-top: 0.25rem;">When customers place Cash on Delivery orders, they will show up right here.</p>
+            <div style="background:#fff; border-radius:12px; padding:3.5rem; text-align:center; border:1px solid #e8e2d9;">
+              <p style="font-size: 3rem; margin-bottom: 0.5rem;">📦</p>
+              <h3 style="font-size: 1.3rem;">لا توجد طلبات جديدة حتى الآن</h3>
+              <p style="color:#666; margin-top: 0.35rem;">عند قيام أي زبون بطلب بازل عبر نموذج الموقع ستظهر بياناته هنا فوراً.</p>
             </div>
           `;
           return;
@@ -93,28 +94,33 @@
           <div class="order-card-box">
             <div class="order-header-line">
               <div>
-                <strong>${o.orderNumber}</strong> • <span style="color:#777;">${new Date(o.date).toLocaleString()}</span>
+                <strong>${o.orderNumber}</strong> • <span style="color:#777;">${new Date(o.date).toLocaleString('ar-JO')}</span>
               </div>
               <div>
-                <span class="status-cod">💵 Cash on Delivery</span>
+                <span class="status-cod">💵 دفع عند الاستلام</span>
               </div>
             </div>
 
             <div class="order-detail-grid">
               <div>
-                <h4 style="margin-bottom:0.35rem; color:#6B4423;">Customer Info:</h4>
-                <div><strong>Name:</strong> ${o.customer.name}</div>
-                <div><strong>Phone:</strong> <a href="tel:${o.customer.phone}">${o.customer.phone}</a></div>
-                <div><strong>Address:</strong> ${o.customer.address}</div>
-                ${o.customer.notes ? `<div><strong>Notes:</strong> ${o.customer.notes}</div>` : ""}
+                <h4 style="margin-bottom:0.4rem; color:var(--brand-primary);">بيانات الزبون:</h4>
+                <div><strong>الاسم:</strong> ${o.customer.name}</div>
+                <div><strong>الهاتف:</strong> <a href="tel:${o.customer.phone}" style="direction:ltr; display:inline-block;">${o.customer.phone}</a></div>
+                <div><strong>المنطقة:</strong> ${o.customer.city || "عمان"}</div>
+                <div><strong>العنوان التفصيلي:</strong> ${o.customer.address}</div>
+                ${o.customer.notes ? `<div><strong>ملاحظات:</strong> ${o.customer.notes}</div>` : ""}
               </div>
               <div>
-                <h4 style="margin-bottom:0.35rem; color:#6B4423;">Ordered Items:</h4>
-                <ul style="padding-left: 1.2rem; color: #444;">
-                  ${o.items.map(i => `<li>${i.title} &times; ${i.qty} (${STORE_CONFIG.currency || '$'}${(i.price * i.qty).toFixed(2)})</li>`).join("")}
+                <h4 style="margin-bottom:0.4rem; color:var(--brand-primary);">المنتجات المطلوبة:</h4>
+                <ul style="padding-right: 1.2rem; color: #444; margin-bottom: 0.75rem;">
+                  ${o.items.map(i => `<li>${i.title} &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)</li>`).join("")}
                 </ul>
-                <div style="margin-top:0.75rem; font-size:1.1rem; font-weight:bold; color:#2B1D14;">
-                  Total to Collect: $${o.total.toFixed(2)}
+                <div style="border-top:1px dashed #eee; padding-top:0.5rem; font-size:0.9rem; color:#555;">
+                  <div>سعر البازل: ${(o.subtotal || 0).toFixed(2)} د.أ</div>
+                  <div>أجرة التوصيل: ${(o.deliveryFee || 1).toFixed(2)} د.أ</div>
+                </div>
+                <div style="margin-top:0.5rem; font-size:1.2rem; font-weight:800; color:var(--wood-dark);">
+                  المبلغ المطلوب تحصيله: ${(o.grandTotal || o.total).toFixed(2)} د.أ
                 </div>
               </div>
             </div>
@@ -123,8 +129,8 @@
       }
 
       clearBtn.addEventListener("click", () => {
-        if (confirm("Are you sure you want to clear the local order history?")) {
-          localStorage.removeItem("timber_orders");
+        if (confirm("هل أنت متأكد من رغبتك في مسح سجل الطلبات؟")) {
+          localStorage.removeItem("puzzleme_orders");
           location.reload();
         }
       });

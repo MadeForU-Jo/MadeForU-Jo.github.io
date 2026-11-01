@@ -1,115 +1,91 @@
 // ==========================================
-// WOODWORKING PRODUCTS CATALOG
-// You can easily add, edit, or remove items here!
-// Just copy an item block and change the details.
+// قائمة منتجات بازل مي - الأردن (PuzzleMe JO)
+// يمكنك تعديل المنتجات أو إضافة منتجات جديدة بكل سهولة من هنا
+// لاحقاً يمكنك وضع صورك في مجلد images واستخدام مسار مثل "images/puzzle1.jpg"
 // ==========================================
 
 const STORE_CONFIG = {
-  storeName: "Timber & Grain",
-  tagline: "Handcrafted Artisan Woodwork",
-  currency: "$",
-  // Put your phone number here with country code (no + or spaces) for WhatsApp orders:
-  // e.g. "1234567890" or "447123456789"
-  whatsappNumber: "1234567890",
-  // Optional email address for orders
-  contactEmail: "woodworking@example.com"
+  storeName: "PuzzleMe JO",
+  storeTagline: "أحاجي وبازل خشبية مميزة في عمان والأردن",
+  currency: "د.أ", // دينار أردني
+  deliveryFee: 1.0, // أجرة التوصيل ثابتة: 1 دينار
+  city: "عمان، الأردن",
+  // ضع رقم هاتفك للواتساب مع رمز الأردن (مثال: 9627XXXXXXXX بدون علامة + أو مسافات)
+  whatsappNumber: "962790000000"
 };
 
+// المنتجات الحالية (بازل خشبية عالية الجودة)
 const PRODUCTS = [
   {
     id: 1,
-    title: "Handmade End-Grain Walnut Cutting Board",
-    category: "Kitchen & Dining",
-    price: 85,
-    woodType: "Black Walnut & Hard Maple",
-    dimensions: "16\" x 12\" x 1.75\"",
-    badge: "Bestseller",
-    shortDesc: "Durable, knife-friendly cutting board treated with food-grade mineral oil and organic beeswax.",
-    description: "Crafted with precision from premium kiln-dried American Black Walnut and Canadian Hard Maple. The end-grain construction preserves your knife's edge and heals itself from light knife marks. Features juice grooves and carved handle grips.",
-    image: "https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80"
+    title: "بازل ماندالا البومة الخشبية الفنية",
+    category: "بازل خشبي فني",
+    price: 12,
+    pieces: "200 قطعة خشبية",
+    dimensions: "28 × 28 سم",
+    badge: "الأكثر طلباً",
+    shortDesc: "قطع خشبية مقصوصة بالليزر بأشكال حيوانات ونباتات فريدة مع ألوان زاهية ثابتة.",
+    description: "أحجية بومة ساحرة مصنوعة من خشب الزان المضغوط عالي الجودة بسماكة 4 ملم. كل قطعة داخل البازل لها شكل حيوان أو رمز طبيعي فريد يمنحك تجربة تركيب ممتعة وتحدياً ذهنياً رائعاً. مناسبة للإهداء والتأطير كلوحة جدارية.",
+    image: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 2,
-    title: "Rustic Live-Edge Coffee Table",
-    category: "Living Room",
-    price: 320,
-    woodType: "Salvaged English Oak",
-    dimensions: "42\" L x 22\" W x 18\" H",
-    badge: "Unique Piece",
-    shortDesc: "Natural live-edge slab preserving organic tree contours with matte black steel hairpin legs.",
-    description: "Every table is one-of-a-kind. Hand-finished with four coats of natural hard-wax oil for lasting spill resistance while maintaining the authentic texture and warmth of natural oak.",
-    image: "https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=800&q=80"
+    title: "بازل خريطة العالم الكلاسيكية",
+    category: "بازل جغرافي وتاريخي",
+    price: 15,
+    pieces: "300 قطعة",
+    dimensions: "45 × 30 سم",
+    badge: "جديد",
+    shortDesc: "خريطة العالم بتصميم كلاسيكي محفور ومطبوع بدقة عالية على خشب طبيعي.",
+    description: "استمتع باكتشاف قارات ودول العالم قطعة تلو الأخرى. بازل تعليمية وديكور راقٍ للمكتب أو غرفة المعيشة، مصنوعة من خشب صديق للبيئة مع تفاصيل دقيقة للأقطار والبحار.",
+    image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 3,
-    title: "Artisan Turned Salad Bowl",
-    category: "Kitchen & Dining",
-    price: 65,
-    woodType: "Cherry Wood",
-    dimensions: "10\" Diameter x 4\" Deep",
-    badge: "Popular",
-    shortDesc: "Hand-lathed from a single piece of solid cherry with a warm, rich natural luster.",
-    description: "Turned by hand on a traditional lathe from responsibly sourced cherry log blocks. Smooth to the touch, deep enough for large family salads, and finished with organic food-safe oil.",
-    image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80"
+    title: "بازل الأسد الملك الملون (فن الفسيفساء)",
+    category: "بازل خشبي فني",
+    price: 14,
+    pieces: "250 قطعة",
+    dimensions: "32 × 30 سم",
+    badge: "مميز",
+    shortDesc: "تصميم هندسي بديع لوجه الأسد بألوان خشبية مبهجة وملمس ناعم.",
+    description: "قطع خشبية غير تقليدية تلتف وتتداخل بدقة مليمترية. صممت لتوفير ساعات من الاسترخاء وتصفية الذهن للكبار واليافعين، مع طبقة حماية ضد الرطوبة وتلاشي الألوان.",
+    image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 4,
-    title: "Geometric Floating Wall Shelves (Set of 3)",
-    category: "Home Decor",
-    price: 110,
-    woodType: "White Ash",
-    dimensions: "18\", 24\", 30\" Lengths (6\" Deep)",
-    badge: "New",
-    shortDesc: "Minimalist hidden-bracket shelves with clean chamfered edges for plants, books, and decor.",
-    description: "Modern minimalist floating shelves built with solid American White Ash. Includes concealed heavy-duty steel mounting brackets and hardware suitable for drywall or masonry walls.",
-    image: "https://images.unsplash.com/photo-1594040226829-7f251ab46d80?auto=format&fit=crop&w=800&q=80"
+    title: "بازل الخزنة الميكانيكية ثلاثية الأبعاد (3D)",
+    category: "بازل ثلاثي الأبعاد 3D",
+    price: 18,
+    pieces: "180 قطعة تركب بدون غراء",
+    dimensions: "15 × 15 × 15 سم",
+    badge: "حركة حقيقية",
+    shortDesc: "صندوق أمانات خشبي بقفل أرقام حقيقي يمكنك تركيبه بنفسك وفتحه برمز سري.",
+    description: "تحدٍ هندسي استثنائي! قطع خشبية تتداخل بنظام ميكانيكي دقيق لتبني خزنتك السرية الخاصة. تعمل بالكامل بواسطة تروس خشبية بدون الحاجة لأي مادة لاصقة أو براغي.",
+    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 5,
-    title: "Magnetic Wooden Knife Rack",
-    category: "Kitchen & Dining",
-    price: 45,
-    woodType: "Smoked Oak",
-    dimensions: "18\" x 2.5\" x 0.8\"",
-    badge: "",
-    shortDesc: "Ultra-strong neodymium magnets recessed behind solid wood to safeguard knife blades.",
-    description: "Keep your kitchen counters clear and show off your cutlery. Powerful hidden magnets securely hold up to 6 chef knives without scratching metal blades. Keyhole slots on the back make wall mounting flush and simple.",
-    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=800&q=80"
+    title: "بازل الديناصورات التعليمية التفاعلية للأطفال",
+    category: "أطفال وعائلة",
+    price: 8,
+    pieces: "60 قطعة كبيرة الحجم",
+    dimensions: "35 × 25 سم",
+    badge: "للأطفال",
+    shortDesc: "قطع خشبية سميكة وآمنة للأطفال بحواف دائرية ناعمة وألوان طبيعية غير سامة.",
+    description: "بازل مخصصة لتنمية مهارات التفكير البصري والحركي لدى الأطفال من سن 4 سنوات فما فوق. ألوان آمنة غذائياً وخشب طبيعي صلب يتحمل الاستخدام المتكرر.",
+    image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 6,
-    title: "Mid-Century Plant Stand with Ceramic Pot",
-    category: "Home Decor",
-    price: 55,
-    woodType: "Teak Wood",
-    dimensions: "Fits 8\" to 10\" Pots",
+    title: "بازل الفراشة السحرية متغيرة الدرجات",
+    category: "بازل خشبي فني",
+    price: 11,
+    pieces: "150 قطعة",
+    dimensions: "26 × 22 سم",
     badge: "",
-    shortDesc: "Interlocking cross-lap joint plant stand that elevates indoor greenery with timeless style.",
-    description: "Features traditional mortise and lap joints with no visible screws. Naturally water-resistant teak finish makes it perfect for indoor plants, patios, or living room corners.",
-    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 7,
-    title: "Carved Bedside Catchall & Valet Tray",
-    category: "Accessories",
-    price: 38,
-    woodType: "Mahogany",
-    dimensions: "11\" x 7\" x 1\"",
-    badge: "Gift Idea",
-    shortDesc: "Elegantly routed tray for watches, keys, coins, and phone with a dedicated cable groove.",
-    description: "Machined and hand-sanded to a glass-smooth finish. Designed with rounded compartments to scoop out coins and keys effortlessly. Lined with optional wool felt bases for scratch protection.",
-    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 8,
-    title: "Custom Wooden Coaster Set (Pack of 6)",
-    category: "Home Decor",
-    price: 30,
-    woodType: "Mixed Hardwoods (Maple, Walnut, Padauk)",
-    dimensions: "4\" x 4\" x 0.4\" each",
-    badge: "",
-    shortDesc: "Stunning striped coaster set with matching wooden holder box and cork base pads.",
-    description: "Composed of laminated hardwood offcuts, celebrating zero-waste craftsmanship. Each coaster has waterproof heat-resistant polyurethane coating to withstand icy cold and steaming hot drinks.",
-    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80"
+    shortDesc: "ألوان متدرجة ساحرة وقطع مصممة على هيئة زهور وأوراق شجر صغيرة.",
+    description: "تحفة فنية مصغرة تضفي بهجة على طاولتك. عند الانتهاء من تركيبها يمكنك استخدام لاصق مخصص وتعليقها كقطعة ديكور راقية في منزلك.",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80"
   }
 ];
