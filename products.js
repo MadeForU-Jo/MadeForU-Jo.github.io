@@ -92,7 +92,9 @@ const PRODUCTS = [
     image: "images/Letters/A0000.png",
     gallery: [
       "images/Letters/A0000.png",
-      "images/Letters/A0001.png"
+      "images/Letters/A0001.png",
+      "images/Letters/A0002.png",
+      "images/Letters/A0003.png"
     ]
   },
   {
@@ -108,7 +110,9 @@ const PRODUCTS = [
     image: "images/Letters/B0000.png",
     gallery: [
       "images/Letters/B0000.png",
-      "images/Letters/B0001.png"
+      "images/Letters/B0001.png",
+      "images/Letters/B0002.png",
+      "images/Letters/B0003.png"
     ]
   },
   {
@@ -124,7 +128,9 @@ const PRODUCTS = [
     image: "images/Letters/C0000.png",
     gallery: [
       "images/Letters/C0000.png",
-      "images/Letters/C0001.png"
+      "images/Letters/C0001.png",
+      "images/Letters/C0002.png",
+      "images/Letters/C0003.png"
     ]
   },
   {
@@ -140,7 +146,9 @@ const PRODUCTS = [
     image: "images/Letters/D0000.png",
     gallery: [
       "images/Letters/D0000.png",
-      "images/Letters/D0001.png"
+      "images/Letters/D0001.png",
+      "images/Letters/D0002.png",
+      "images/Letters/D0003.png"
     ]
   }
 ];

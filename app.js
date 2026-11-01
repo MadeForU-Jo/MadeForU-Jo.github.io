@@ -183,6 +183,26 @@ document.addEventListener("DOMContentLoaded", () => {
     modalDesc.textContent = item.description;
     modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
 
+    const thumbsContainer = document.getElementById("modalGalleryThumbnails");
+    if (thumbsContainer) {
+      if (item.gallery && item.gallery.length > 1) {
+        thumbsContainer.style.display = "flex";
+        thumbsContainer.innerHTML = item.gallery.map((gImg, idx) => `
+          <img src="${gImg}" alt="زاوية ${idx + 1}" style="width: 58px; height: 58px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid ${idx === 0 ? 'var(--brand-primary)' : 'var(--border-subtle)'};" class="modal-thumb-btn">
+        `).join("");
+        thumbsContainer.querySelectorAll(".modal-thumb-btn").forEach(thumb => {
+          thumb.addEventListener("click", () => {
+            modalImg.src = thumb.src;
+            thumbsContainer.querySelectorAll(".modal-thumb-btn").forEach(t => t.style.borderColor = "var(--border-subtle)");
+            thumb.style.borderColor = "var(--brand-primary)";
+          });
+        });
+      } else {
+        thumbsContainer.style.display = "none";
+        thumbsContainer.innerHTML = "";
+      }
+    }
+
     productModal.classList.add("active");
   }
 
