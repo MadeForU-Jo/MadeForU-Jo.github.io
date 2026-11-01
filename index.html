@@ -179,8 +179,11 @@
         <span>المجموع الكلي المطلوب:</span>
         <span id="cartTotal">0 د.أ</span>
       </div>
-      <button id="proceedToCheckoutBtn" class="checkout-btn" style="margin-top: 1rem;">
-        متابعة الطلب (دفع عند الاستلام)
+      <button id="proceedToCheckoutBtn" class="checkout-btn" style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #25D366;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
+        </svg>
+        <span>متابعة الطلب عبر الواتساب (كاش)</span>
       </button>
     </div>
   </div>
@@ -248,17 +251,12 @@
             </div>
           </div>
 
-          <!-- زر إرسال الطلب المباشر -->
-          <button type="submit" class="submit-order-btn">
-            تأكيد الطلب الآن
-          </button>
-
-          <!-- زر الإرسال عبر الواتساب المباشر -->
-          <button type="button" id="whatsappOrderBtn" class="whatsapp-submit-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <!-- زر الإرسال الموحد عبر الواتساب -->
+          <button type="submit" class="whatsapp-submit-btn" style="font-size: 1.1rem; padding: 0.95rem; margin-top: 0.5rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
             </svg>
-            إرسال الطلب فوراً عبر الواتساب
+            <span>تأكيد الطلب وإرساله عبر الواتساب</span>
           </button>
         </form>
       </div>
@@ -267,9 +265,12 @@
       <div class="order-success" id="orderSuccessView" style="display:none;">
         <div class="success-icon">✓</div>
         <div class="order-id-badge" id="successOrderNumber">طلب رقم #PZ-1001</div>
-        <h3>تم استلام طلبك بنجاح!</h3>
-        <p>شكراً لطلبك من PuzzleMe JO. سنتواصل معك عبر الهاتف أو الواتساب لتأكيد خروج المندوب. يرجى تجهيز المبلغ كاش عند الاستلام.</p>
-        <button class="checkout-btn" id="doneBtn" style="max-width: 220px; margin: 0 auto;">العودة للمتجر</button>
+        <h3>جاري فتح محادثة الواتساب...</h3>
+        <p>تم تجهيز تفاصيل طلبك وعنوانك بدقة. يرجى الضغط على زر <strong>إرسال (Send)</strong> داخل محادثة الواتساب لنقوم بتأكيد خروج المندوب فوراً!</p>
+        <a id="retryWhatsAppLink" href="#" target="_blank" class="whatsapp-submit-btn" style="text-decoration:none; margin-bottom: 1rem;">
+          📱 اضغط هنا إذا لم يفتح الواتساب تلقائياً
+        </a>
+        <button class="checkout-btn" id="doneBtn" style="max-width: 220px; margin: 0 auto; background: var(--wood-dark);">العودة للمتجر</button>
       </div>
     </div>
   </div>

@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutModal.classList.remove("active");
   });
 
-  // تسجيل الطلب محلياً
+  // تأكيد الطلب وإرساله مباشرة عبر الواتساب
   codOrderForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -311,11 +311,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const city = document.getElementById("custCity").value.trim();
     const address = document.getElementById("custAddress").value.trim();
     const notes = document.getElementById("custNotes").value.trim();
-    const orderNumber = "PZ-" + Math.floor(1000 + Math.random() * 9000);
 
+    if (!name || !phone || !address) {
+      alert("يرجى ملء الاسم ورقم الهاتف وعنوان التوصيل أولاً لتجهيز رسالة طلبك بدقة!");
+      return;
+    }
+
+    const orderNumber = "PZ-" + Math.floor(1000 + Math.random() * 9000);
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const grandTotal = subtotal + DELIVERY_FEE;
 
+    // حفظ نسخة محلية احتياطية
     const orderData = {
       orderNumber,
       customer: { name, phone, city, address, notes },
@@ -331,37 +337,11 @@ document.addEventListener("DOMContentLoaded", () => {
     existingOrders.push(orderData);
     localStorage.setItem("puzzleme_orders", JSON.stringify(existingOrders));
 
-    // تفريغ السلة
-    cart = [];
-    saveCart();
-    renderCart();
-
-    // إظهار شاشة النجاح
-    successOrderNumber.textContent = `طلب رقم #${orderNumber}`;
-    checkoutFormContainer.style.display = "none";
-    orderSuccessView.style.display = "block";
-    codOrderForm.reset();
-  });
-
-  // زر إرسال الطلب فوراً عبر الواتساب
-  whatsappOrderBtn.addEventListener("click", () => {
-    const name = document.getElementById("custName").value.trim();
-    const phone = document.getElementById("custPhone").value.trim();
-    const city = document.getElementById("custCity").value.trim();
-    const address = document.getElementById("custAddress").value.trim();
-    const notes = document.getElementById("custNotes").value.trim();
-
-    if (!name || !phone || !address) {
-      alert("يرجى ملء الاسم ورقم الهاتف وعنوان التوصيل أولاً لتجهيز رسالة طلبك بدقة!");
-      return;
-    }
-
-    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const grandTotal = subtotal + DELIVERY_FEE;
-
+    // صياغة رسالة الواتساب العربية
     let itemsText = cart.map(i => `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}`).join("\n");
 
     const message = `*طلب بازل جديد — PuzzleMe JO (دفع عند الاستلام)*\n\n` +
+      `🔢 *رقم الطلب:* #${orderNumber}\n` +
       `👤 *الاسم:* ${name}\n` +
       `📞 *رقم الهاتف:* ${phone}\n` +
       `📍 *المنطقة:* ${city}\n` +
@@ -369,15 +349,29 @@ document.addEventListener("DOMContentLoaded", () => {
       (notes ? `📝 *ملاحظات:* ${notes}\n` : "") +
       `\n*القطع المطلوبة:*\n${itemsText}\n\n` +
       `💵 مجموع المنتجات: ${subtotal.toFixed(2)} ${CURRENCY}\n` +
-      `🚚 أجرة التوصيل: ${DELIVERY_FEE.toFixed(2)} ${CURRENCY}\n` +
+      `🚚 أجرة التوصيل (عمان): ${DELIVERY_FEE.toFixed(2)} ${CURRENCY}\n` +
       `💰 *المجموع الكلي المطلوب عند الاستلام: ${grandTotal.toFixed(2)} ${CURRENCY}*`;
 
     const encoded = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encoded}`;
 
+    // إعداد زر إعادة المحاولة في حال منع المتصفح النوافذ المنبثقة
+    const retryLink = document.getElementById("retryWhatsAppLink");
+    if (retryLink) retryLink.href = whatsappUrl;
+
+    // فتح محادثة الواتساب فوراً
     window.open(whatsappUrl, "_blank");
 
-    const orderNumber = "PZ-WA-" + Math.floor(1000 + Math.random() * 9000);
+    // تفريغ السلة وعرض شاشة التأكيد
+    cart = [];
+    saveCart();
+    renderCart();
+
+    successOrderNumber.textContent = `طلب رقم #${orderNumber}`;
+    checkoutFormContainer.style.display = "none";
+    orderSuccessView.style.display = "block";
+    codOrderForm.reset();
+  });
     successOrderNumber.textContent = `طلب رقم #${orderNumber}`;
     checkoutFormContainer.style.display = "none";
     orderSuccessView.style.display = "block";
