@@ -80,11 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkoutPaymentSplitRow = document.getElementById("checkoutPaymentSplitRow");
   const checkoutUpfrontAmount = document.getElementById("checkoutUpfrontAmount");
   const checkoutCodAmount = document.getElementById("checkoutCodAmount");
-  const cliqAliasText = document.getElementById("cliqAliasText");
-  const walletNumberText = document.getElementById("walletNumberText");
-
-  if (cliqAliasText && STORE_CONFIG.cliqAlias) cliqAliasText.textContent = STORE_CONFIG.cliqAlias;
-  if (walletNumberText && STORE_CONFIG.walletNumber) walletNumberText.textContent = STORE_CONFIG.walletNumber;
 
   // تفاعل خيار الحفر المخصص في المودال
   if (modalEngravingToggle) {
@@ -517,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
       totalEngraving,
       deliveryFee,
       grandTotal,
-      paymentMethod: totalEngraving > 0 ? "عربون حفر مسبق (CliQ) + متبقي كاش عند الاستلام" : "دفع عند الاستلام (كاش)",
+      paymentMethod: totalEngraving > 0 ? "عربون حفر مسبق + متبقي كاش عند الاستلام" : "دفع عند الاستلام (كاش)",
       date: new Date().toISOString()
     };
 
@@ -525,7 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
     existingOrders.push(orderData);
     localStorage.setItem("puzzleme_orders", JSON.stringify(existingOrders));
 
-    // صياغة رسالة الواتساب العربية مع تفاصيل الحفر والـ CliQ
+    // صياغة رسالة الواتساب العربية مع تفاصيل الحفر
     let itemsText = cart.map(i => {
       let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName} | اللون: ${i.colorName}`;
@@ -542,8 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paymentSplitMessage = `\n━━━━━━━━━━━━━━━━━━━━\n` +
         `⚠️ *سياسة دفع الحفر المخصص:*\n` +
         `💳 *عربون الحفر المطلوب تحويله مسبقاً:* ${totalEngraving.toFixed(2)} ${CURRENCY}\n` +
-        `   • معرف كليك (CliQ): *${STORE_CONFIG.cliqAlias || 'PUZZLEME'}*\n` +
-        `   • محفظة زين كاش: *${STORE_CONFIG.walletNumber || '0789423717'}*\n` +
+        `   • (سيتم تزويدك ببيانات التحويل عبر CliQ / المحفظة هنا في المحادثة مباشرة)\n` +
         `💵 *المتبقي كاش عند الاستلام:* ${remainingCod.toFixed(2)} ${CURRENCY}\n` +
         `━━━━━━━━━━━━━━━━━━━━\n`;
     }
