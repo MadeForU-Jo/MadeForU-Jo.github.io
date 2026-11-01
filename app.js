@@ -1,5 +1,7 @@
 // ==========================================
 // PUZZLEME JO - وظائف المتجر وسلة الشراء
+// دعم خيارات الخامات (خشب MDF 7 د.أ / أكريليك 10 د.أ)
+// وعينات الألوان التفاعلية
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,6 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeCategory = "الكل";
   let searchQuery = "";
   let selectedProduct = null;
+
+  // الخيارات النشطة في نافذة المنتج
+  let currentMaterial = STORE_CONFIG.materials[0]; // افتراضي: MDF
+  let currentColor = currentMaterial.colors[0];   // افتراضي: أول لون
 
   const CURRENCY = STORE_CONFIG.currency || "د.أ";
 
@@ -43,6 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDesc = document.getElementById("modalDesc");
   const modalPrice = document.getElementById("modalPrice");
   const modalAddToCartBtn = document.getElementById("modalAddToCartBtn");
+  const modalMaterialOptions = document.getElementById("modalMaterialOptions");
+  const modalColorOptions = document.getElementById("modalColorOptions");
+  const selectedColorLabel = document.getElementById("selectedColorLabel");
 
   // نافذة إتمام الطلب
   const checkoutModal = document.getElementById("checkoutModal");
@@ -131,39 +140,84 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="product-card" data-id="${item.id}">
         <div class="product-img-wrap">
           ${item.badge ? `<span class="card-badge">${item.badge}</span>` : ""}
-          <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=800&q=80'">
+          <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/Shapes/heart0005.png'">
         </div>
         <div class="product-body">
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 40 سم</span> • <span>🪵 خشب MDF صلب 5 ملم</span>
+            <span>📏 40 سم</span> • <span>🪵 خشب MDF (7 د.أ) أو أكريليك (10 د.أ)</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">
-            <span class="product-price">${item.price.toFixed(2)} ${CURRENCY}</span>
+            <div>
+              <span class="product-price">${item.price.toFixed(2)} ${CURRENCY}</span>
+              <span style="font-size:0.75rem; color:#888; display:block;">(خشب 7 د.أ / أكريليك 10 د.أ)</span>
+            </div>
             <button class="add-btn add-to-cart-quick" data-id="${item.id}">
-              + أضف للسلة
+              اختر الخامة واللون
             </button>
           </div>
         </div>
       </div>
     `).join("");
 
-    // تفعيل النقر على الكرت لعرض التفاصيل والنقر على الزر للإضافة
+    // عند النقر على الكرت أو الزر يُفتح المودال لاختيار الخامة واللون
     productsGrid.querySelectorAll(".product-card").forEach(card => {
-      card.addEventListener("click", (e) => {
-        if (e.target.closest(".add-to-cart-quick")) return;
+      card.addEventListener("click", () => {
         const id = parseInt(card.getAttribute("data-id"));
         openProductModalView(id);
       });
     });
+  }
 
-    productsGrid.querySelectorAll(".add-to-cart-quick").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const id = parseInt(btn.getAttribute("data-id"));
-        addToCart(id);
+  // توليد خيارات الخامة والألوان داخل المودال
+  function renderOptionsUI() {
+    if (!modalMaterialOptions || !modalColorOptions) return;
+
+    // رسم بطاقات الخامات (MDF vs Acrylic)
+    modalMaterialOptions.innerHTML = STORE_CONFIG.materials.map(mat => `
+      <div class="material-card-btn ${mat.id === currentMaterial.id ? 'active' : ''}" data-mat-id="${mat.id}">
+        <div class="material-card-title">
+          <span>${mat.name}</span>
+          <span class="material-card-price">${mat.price.toFixed(2)} ${CURRENCY}</span>
+        </div>
+        <div class="material-card-desc">${mat.desc}</div>
+      </div>
+    `).join("");
+
+    modalMaterialOptions.querySelectorAll(".material-card-btn").forEach(card => {
+      card.addEventListener("click", () => {
+        const matId = card.getAttribute("data-mat-id");
+        currentMaterial = STORE_CONFIG.materials.find(m => m.id === matId) || STORE_CONFIG.materials[0];
+        currentColor = currentMaterial.colors[0]; // ضبط اللون الأول افتراضياً
+
+        // تحديث السعر والوصف
+        modalPrice.textContent = `${currentMaterial.price.toFixed(2)} ${CURRENCY}`;
+        modalWood.textContent = currentMaterial.name;
+
+        renderOptionsUI();
+      });
+    });
+
+    // رسم عينات الألوان للخامة النشطة
+    if (selectedColorLabel) selectedColorLabel.textContent = currentColor.name;
+
+    modalColorOptions.innerHTML = currentMaterial.colors.map(col => `
+      <button type="button" class="color-swatch-btn ${col.id === currentColor.id ? 'active' : ''}" data-col-id="${col.id}">
+        <span class="color-dot" style="background: ${col.hex}; ${col.border ? `border: 1px solid ${col.border};` : ''}"></span>
+        <span>${col.name}</span>
+      </button>
+    `).join("");
+
+    modalColorOptions.querySelectorAll(".color-swatch-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const colId = btn.getAttribute("data-col-id");
+        currentColor = currentMaterial.colors.find(c => c.id === colId) || currentMaterial.colors[0];
+        if (selectedColorLabel) selectedColorLabel.textContent = currentColor.name;
+
+        modalColorOptions.querySelectorAll(".color-swatch-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
       });
     });
   }
@@ -174,14 +228,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!item) return;
 
     selectedProduct = item;
+    currentMaterial = STORE_CONFIG.materials[0]; // إعادة تعيين لخشب MDF
+    currentColor = currentMaterial.colors[0];   // خشب فاتح
+
     modalImg.src = item.image;
     modalImg.alt = item.title;
     modalBadge.textContent = item.badge || item.category;
     modalTitle.textContent = item.title;
-    modalWood.textContent = item.material || "خشب MDF صلب سماكة 5 ملم (مقاوم للكسر والتمزق)";
-    modalDimensions.textContent = item.dimensions || "الطول/العرض 40 سم حسب الشكل";
+    modalWood.textContent = currentMaterial.name;
+    modalDimensions.textContent = item.dimensions || "المقاس 40 سم";
     modalDesc.textContent = item.description;
-    modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
+    modalPrice.textContent = `${currentMaterial.price.toFixed(2)} ${CURRENCY}`;
+
+    renderOptionsUI();
 
     const thumbsContainer = document.getElementById("modalGalleryThumbnails");
     if (thumbsContainer) {
@@ -216,42 +275,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
   modalAddToCartBtn.addEventListener("click", () => {
     if (selectedProduct) {
-      addToCart(selectedProduct.id);
+      addToCartWithOptions(selectedProduct, currentMaterial, currentColor);
       productModal.classList.remove("active");
     }
   });
 
-  // إدارة عناصر السلة
-  function addToCart(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    if (!product) return;
+  // إضافة عنصر إلى السلة مع الخامة واللون المحدد
+  function addToCartWithOptions(product, material, color) {
+    const cartItemId = `${product.id}_${material.id}_${color.id}`;
+    const existing = cart.find(c => c.cartItemId === cartItemId);
 
-    const existing = cart.find(c => c.id === id);
     if (existing) {
       existing.qty += 1;
     } else {
-      cart.push({ id: product.id, title: product.title, price: product.price, image: product.image, qty: 1 });
+      cart.push({
+        cartItemId,
+        productId: product.id,
+        title: product.title,
+        materialName: material.name,
+        colorName: color.name,
+        price: material.price, // 7 د.أ أو 10 د.أ
+        image: product.image,
+        qty: 1
+      });
     }
 
     saveCart();
     renderCart();
-    showToast(`تمت إضافة "${product.title}" إلى السلة 🧩`);
+    showToast(`تمت إضافة "${product.title} (${color.name})" إلى السلة 🧩`);
   }
 
-  function updateQty(id, delta) {
-    const item = cart.find(c => c.id === id);
+  function updateQty(cartItemId, delta) {
+    const item = cart.find(c => c.cartItemId === cartItemId);
     if (!item) return;
 
     item.qty += delta;
     if (item.qty <= 0) {
-      cart = cart.filter(c => c.id !== id);
+      cart = cart.filter(c => c.cartItemId !== cartItemId);
     }
     saveCart();
     renderCart();
   }
 
-  function removeFromCart(id) {
-    cart = cart.filter(c => c.id !== id);
+  function removeFromCart(cartItemId) {
+    cart = cart.filter(c => c.cartItemId !== cartItemId);
     saveCart();
     renderCart();
   }
@@ -269,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div style="text-align: center; padding: 3rem 1rem; color: #888;">
           <p style="font-size: 3rem; margin-bottom: 0.5rem;">🧩</p>
           <p style="font-weight: 700; color: #444; font-size: 1.1rem;">السلة فارغة حالياً</p>
-          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر بازل 40 سم من خشب MDF الصلب واستمتع بالتحدي!</p>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر بازل 40 سم بخامتي خشب MDF (7 د.أ) أو أكريليك (10 د.أ)!</p>
         </div>
       `;
       cartSubtotal.textContent = `0.00 ${CURRENCY}`;
@@ -291,17 +358,20 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal += lineTotal;
       return `
         <div class="cart-item">
-          <img src="${item.image}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=800&q=80'">
+          <img src="${item.image}" alt="${item.title}">
           <div class="cart-item-info">
             <div class="cart-item-title">${item.title}</div>
-            <div class="cart-item-price">${item.price.toFixed(2)} ${CURRENCY}</div>
+            <div class="cart-item-variant">
+              <span>${item.materialName}</span> • <strong>${item.colorName}</strong>
+            </div>
+            <div class="cart-item-price" style="margin-top:0.25rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
             <div class="cart-qty-ctrl">
-              <button class="qty-btn" onclick="window.puzzleUpdateQty(${item.id}, -1)">-</button>
+              <button class="qty-btn" onclick="window.puzzleUpdateQty('${item.cartItemId}', -1)">-</button>
               <span class="qty-num">${item.qty}</span>
-              <button class="qty-btn" onclick="window.puzzleUpdateQty(${item.id}, 1)">+</button>
+              <button class="qty-btn" onclick="window.puzzleUpdateQty('${item.cartItemId}', 1)">+</button>
             </div>
           </div>
-          <button class="cart-item-remove" onclick="window.puzzleRemoveItem(${item.id})" title="حذف">&times;</button>
+          <button class="cart-item-remove" onclick="window.puzzleRemoveItem('${item.cartItemId}')" title="حذف">&times;</button>
         </div>
       `;
     }).join("");
@@ -380,8 +450,11 @@ document.addEventListener("DOMContentLoaded", () => {
     existingOrders.push(orderData);
     localStorage.setItem("puzzleme_orders", JSON.stringify(existingOrders));
 
-    // صياغة رسالة الواتساب العربية
-    let itemsText = cart.map(i => `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}`).join("\n");
+    // صياغة رسالة الواتساب العربية مع تفاصيل الخامة واللون
+    let itemsText = cart.map(i => 
+      `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
+      `  └ الخامة: ${i.materialName} | اللون: ${i.colorName}`
+    ).join("\n\n");
 
     const deliveryNote = deliveryFee === 1.0 ? "1.00 د.أ (داخل عمان)" : "2.00 د.أ (خارج عمان / المحافظات)";
 
@@ -391,8 +464,8 @@ document.addEventListener("DOMContentLoaded", () => {
       `📞 *رقم الهاتف:* ${phone}\n` +
       `📍 *المنطقة:* ${city}\n` +
       `🏠 *العنوان:* ${address}\n` +
-      (notes ? `📝 *ملاحظات وتفاصيل:* ${notes}\n` : "") +
-      `\n*القطع المطلوبة (خشب MDF صلب 5 ملم - 40 سم):*\n${itemsText}\n\n` +
+      (notes ? `📝 *ملاحظات خاصة:* ${notes}\n` : "") +
+      `\n*القطع والخيارات المطلوبة (مقاس 40 سم):*\n${itemsText}\n\n` +
       `💵 مجموع البازل: ${subtotal.toFixed(2)} ${CURRENCY}\n` +
       `🚚 أجرة التوصيل: ${deliveryNote}\n` +
       `💰 *المجموع الكلي المطلوب كاش عند الاستلام: ${grandTotal.toFixed(2)} ${CURRENCY}*`;
