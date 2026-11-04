@@ -54,7 +54,7 @@ const BASE_PRODUCTS = [
   {
     id: 1,
     title: "بازل خريطة الأردن الملكية",
-    category: "خرائط جغرافية",
+    category: "خرائط 🗺️",
     price: 7,
     priceAcrylic: 10,
     dimensions: "المقاس 40 سم",
@@ -72,7 +72,7 @@ const BASE_PRODUCTS = [
   {
     id: 2,
     title: "بازل خريطة فلسطين التاريخية",
-    category: "خرائط جغرافية",
+    category: "خرائط 🗺️",
     price: 7,
     priceAcrylic: 10,
     dimensions: "المقاس 40 سم",
@@ -90,7 +90,7 @@ const BASE_PRODUCTS = [
   {
     id: 3,
     title: "بازل شكل القلب الفني",
-    category: "أشكال وتصاميم فنية",
+    category: "أشكال ⭐",
     price: 7,
     priceAcrylic: 10,
     dimensions: "المقاس 40 سم",
@@ -108,7 +108,7 @@ const BASE_PRODUCTS = [
   {
     id: 4,
     title: "بازل النجمة الهندسية",
-    category: "أشكال وتصاميم فنية",
+    category: "أشكال ⭐",
     price: 7,
     priceAcrylic: 10,
     dimensions: "المقاس 40 سم",
@@ -131,7 +131,7 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const LETTER_PRODUCTS = ALPHABET.map((char, index) => ({
   id: 5 + index,
   title: `بازل الحروف — حرف ${char}`,
-  category: "حروف بالاسم",
+  category: "حروف 🔤",
   price: 7,
   priceAcrylic: 10,
   dimensions: "المقاس 40 سم",

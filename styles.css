@@ -221,6 +221,12 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: var(--page-bg, #f9f5f0);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 .search-box {
   position: relative;
@@ -254,20 +260,26 @@ body {
 
 .category-pills {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.category-pills::-webkit-scrollbar { display: none; }
 .cat-pill {
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--border-subtle);
   background: var(--card-bg);
   color: var(--text-secondary);
-  padding: 0.5rem 1.15rem;
+  padding: 0.55rem 1.3rem;
   border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .cat-pill:hover {
   border-color: var(--brand-primary);
