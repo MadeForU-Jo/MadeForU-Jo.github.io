@@ -154,8 +154,8 @@ body {
 
 /* HERO SECTION */
 .hero {
-  background: linear-gradient(rgba(43, 29, 20, 0.78), rgba(43, 29, 20, 0.85)),
-              url('https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  background: linear-gradient(rgba(43, 29, 20, 0.72), rgba(43, 29, 20, 0.80)),
+              url('og-image.png') center/cover no-repeat;
   color: #fff;
   text-align: center;
   padding: 4.5rem 1.5rem 3.5rem;
