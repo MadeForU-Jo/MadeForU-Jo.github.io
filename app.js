@@ -1,6 +1,6 @@
 // ==========================================
 // PUZZLEME JO - وظائف المتجر وسلة الشراء
-// دعم خيارات الخامات، الألوان، وخدمة الحفر المخصص (5 د.أ عبر CliQ)
+// دعم خيارات الخامات، الألوان، وخدمة الحفر المخصص (3 د.أ عبر CliQ)
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (engravingInputWrap) engravingInputWrap.style.display = isEngraved ? "block" : "none";
       if (engravingBox) engravingBox.classList.toggle("active", isEngraved);
       
-      const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 5.0) : 0;
+      const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 3.0) : 0;
       modalPrice.textContent = `${(currentMaterial.price + extraFee).toFixed(2)} ${CURRENCY}`;
     });
   }
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentColor = currentMaterial.colors[0];
 
         const isEngraved = modalEngravingToggle && modalEngravingToggle.checked;
-        const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 5.0) : 0;
+        const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 3.0) : 0;
         modalPrice.textContent = `${(currentMaterial.price + extraFee).toFixed(2)} ${CURRENCY}`;
         modalWood.textContent = currentMaterial.name;
 
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function addToCartWithOptions(product, material, color) {
     const hasEngraving = modalEngravingToggle ? modalEngravingToggle.checked : false;
     const engravingText = hasEngraving ? (modalEngravingText.value.trim() || "نص/شعار مخصص عبر الواتساب") : "";
-    const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 5.0) : 0;
+    const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
     const finalPrice = material.price + engravingFee;
     const cartItemId = `${product.id}_${material.id}_${color.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
 
@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             ${item.hasEngraving ? `
               <div style="font-size:0.75rem; color:#b45309; font-weight:700; margin-top:3px; background:#fef3c7; padding:2px 6px; border-radius:4px; display:inline-block;">
-                ✨ حفر مخصص (+5 د.أ): "${item.engravingText}"
+                ✨ حفر مخصص (+${(item.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${item.engravingText}"
               </div>
             ` : ''}
             <div class="cart-item-price" style="margin-top:0.25rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName} | اللون: ${i.colorName}`;
       if (i.hasEngraving) {
-        line += `\n  └ ✨ حفر ليزر مخصص (+5 د.أ): "${i.engravingText}"`;
+        line += `\n  └ ✨ حفر ليزر مخصص (+${(i.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${i.engravingText}"`;
       }
       return line;
     }).join("\n\n");
