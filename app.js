@@ -1,6 +1,7 @@
 // ==========================================
 // MADEFORU JO - وظائف المتجر وسلة الشراء
-// دعم خيارات الخامات، الألوان، وخدمة الحفر المخصص (3 د.أ عبر CliQ)
+// مشغل نجارة حرفية وهدايا مخصصة (أسلحة خشبية، ريزن، هدايا مواليد، أنتيكات، بازل)
+// حفر ليزر CO2 مخصص للأسماء، الرتب، التواريخ، والشعارات
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,10 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedProduct = null;
 
   // الخيارات النشطة في نافذة المنتج
-  let currentMaterial = STORE_CONFIG.materials[0]; // افتراضي: MDF
+  let currentMaterial = STORE_CONFIG.materials[0]; // افتراضي: خشب طبيعي / صلب
   let currentColor = currentMaterial.colors[0];   // افتراضي: أول لون
 
   const CURRENCY = STORE_CONFIG.currency || "د.أ";
+
+  // حساب سعر المنتج بحسب الخامة المختارة
+  function getProductCalculatedPrice(product, material) {
+    if (!product) return 7.0;
+    const base = product.price || 7.0;
+    const offset = material && material.priceOffset ? material.priceOffset : 0;
+    return base + offset;
+  }
 
   // عناصر الصفحة
   const productsGrid = document.getElementById("productsGrid");
@@ -93,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (engravingBox) engravingBox.classList.toggle("active", isEngraved);
       
       const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 3.0) : 0;
-      modalPrice.textContent = `${(currentMaterial.price + extraFee).toFixed(2)} ${CURRENCY}`;
+      const basePrice = getProductCalculatedPrice(selectedProduct, currentMaterial);
+      modalPrice.textContent = `${(basePrice + extraFee).toFixed(2)} ${CURRENCY}`;
     });
   }
 
@@ -111,9 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const grandTotal = totalOrder + fee;
 
     const totalEngraving = cart.reduce((acc, item) => acc + (item.hasEngraving ? item.engravingFee * item.qty : 0), 0);
-    const basePuzzlesTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
+    const baseProductsTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
 
-    if (checkoutSubtotal) checkoutSubtotal.textContent = `${basePuzzlesTotal.toFixed(2)} ${CURRENCY}`;
+    if (checkoutSubtotal) checkoutSubtotal.textContent = `${baseProductsTotal.toFixed(2)} ${CURRENCY}`;
     if (checkoutDeliveryFee) checkoutDeliveryFee.textContent = `${fee.toFixed(2)} ${CURRENCY}`;
     if (checkoutDeliveryLabel) {
       checkoutDeliveryLabel.textContent = fee === 1.0 ? "أجرة التوصيل (داخل عمان):" : "أجرة التوصيل (خارج عمان):";
@@ -130,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (checkoutPaymentSplitRow) {
         checkoutPaymentSplitRow.style.display = "block";
         if (checkoutUpfrontAmount) checkoutUpfrontAmount.textContent = `${totalEngraving.toFixed(2)} ${CURRENCY}`;
-        if (checkoutCodAmount) checkoutCodAmount.textContent = `${(basePuzzlesTotal + fee).toFixed(2)} ${CURRENCY}`;
+        if (checkoutCodAmount) checkoutCodAmount.textContent = `${(baseProductsTotal + fee).toFixed(2)} ${CURRENCY}`;
       }
     } else {
       if (checkoutCliqNoticeContainer) checkoutCliqNoticeContainer.style.display = "none";
@@ -169,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchesCat = activeCategory === "الكل" || item.category === activeCategory;
       const matchesQuery = !q ||
         item.title.toLowerCase().includes(q) ||
-        (item.material && item.material.toLowerCase().includes(q)) ||
         (item.dimensions && item.dimensions.toLowerCase().includes(q)) ||
         item.category.toLowerCase().includes(q) ||
         item.shortDesc.toLowerCase().includes(q);
@@ -180,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       productsGrid.innerHTML = `
         <div class="empty-state">
           <h3>لا توجد نتائج مطابقة لبحثك</h3>
-          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع المنتجات.</p>
+          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع منتجات المشغل.</p>
         </div>
       `;
       return;
@@ -190,19 +199,19 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="product-card" data-id="${item.id}">
         <div class="product-img-wrap">
           ${item.badge ? `<span class="card-badge">${item.badge}</span>` : ""}
-          <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/Shapes/heart0005.png'">
+          <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/MadeForU Logo Trans.png'">
         </div>
         <div class="product-body">
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 40 سم</span> • <span>✨ خامات صلبة فاخرة</span>
+            <span>📏 ${item.dimensions || "يدوي الصنع"}</span> • <span>✨ حفر ليزر CO2 مخصص</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">
             <div>
               <span class="product-price">${item.price.toFixed(2)} ${CURRENCY}</span>
-              <span style="font-size:0.75rem; color:#888; display:block;">(خشب 7 د.أ / أكريليك 10 د.أ)</span>
+              <span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر ليزر مخصص للإهداء</span>
             </div>
             <button class="add-btn add-to-cart-quick" data-id="${item.id}">
               خيارات المنتج والحفر
@@ -222,17 +231,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // توليد خيارات الخامة والألوان داخل المودال
   function renderOptionsUI() {
-    if (!modalMaterialOptions || !modalColorOptions) return;
+    if (!modalMaterialOptions || !modalColorOptions || !selectedProduct) return;
 
-    modalMaterialOptions.innerHTML = STORE_CONFIG.materials.map(mat => `
-      <div class="material-card-btn ${mat.id === currentMaterial.id ? 'active' : ''}" data-mat-id="${mat.id}">
-        <div class="material-card-title">
-          <span>${mat.name}</span>
-          <span class="material-card-price">${mat.price.toFixed(2)} ${CURRENCY}</span>
+    modalMaterialOptions.innerHTML = STORE_CONFIG.materials.map(mat => {
+      const calcPrice = getProductCalculatedPrice(selectedProduct, mat);
+      return `
+        <div class="material-card-btn ${mat.id === currentMaterial.id ? 'active' : ''}" data-mat-id="${mat.id}">
+          <div class="material-card-title">
+            <span>${mat.name}</span>
+            <span class="material-card-price">${calcPrice.toFixed(2)} ${CURRENCY}</span>
+          </div>
+          <div class="material-card-desc">${mat.desc}</div>
         </div>
-        <div class="material-card-desc">${mat.desc}</div>
-      </div>
-    `).join("");
+      `;
+    }).join("");
 
     modalMaterialOptions.querySelectorAll(".material-card-btn").forEach(card => {
       card.addEventListener("click", () => {
@@ -242,7 +254,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const isEngraved = modalEngravingToggle && modalEngravingToggle.checked;
         const extraFee = isEngraved ? (STORE_CONFIG.engravingFee || 3.0) : 0;
-        modalPrice.textContent = `${(currentMaterial.price + extraFee).toFixed(2)} ${CURRENCY}`;
+        const basePrice = getProductCalculatedPrice(selectedProduct, currentMaterial);
+        modalPrice.textContent = `${(basePrice + extraFee).toFixed(2)} ${CURRENCY}`;
         modalWood.textContent = currentMaterial.name;
 
         renderOptionsUI();
@@ -276,8 +289,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!item) return;
 
     selectedProduct = item;
-    currentMaterial = STORE_CONFIG.materials[0]; // خشب MDF
-    currentColor = currentMaterial.colors[0];   // خشب فاتح
+    currentMaterial = STORE_CONFIG.materials[0]; // خشب طبيعي
+    currentColor = currentMaterial.colors[0];
 
     // تصفير خيار الحفر
     if (modalEngravingToggle) {
@@ -292,9 +305,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modalBadge.textContent = item.badge || item.category;
     modalTitle.textContent = item.title;
     modalWood.textContent = currentMaterial.name;
-    modalDimensions.textContent = item.dimensions || "المقاس 40 سم";
+    modalDimensions.textContent = item.dimensions || "مشغول يدوياً";
     modalDesc.textContent = item.description;
-    modalPrice.textContent = `${currentMaterial.price.toFixed(2)} ${CURRENCY}`;
+
+    const basePrice = getProductCalculatedPrice(item, currentMaterial);
+    modalPrice.textContent = `${basePrice.toFixed(2)} ${CURRENCY}`;
 
     renderOptionsUI();
 
@@ -339,9 +354,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // إضافة عنصر إلى السلة مع خيارات الخامة، اللون، والحفر المخصص
   function addToCartWithOptions(product, material, color) {
     const hasEngraving = modalEngravingToggle ? modalEngravingToggle.checked : false;
-    const engravingText = hasEngraving ? (modalEngravingText.value.trim() || "نص/شعار مخصص عبر الواتساب") : "";
+    const engravingText = hasEngraving ? (modalEngravingText.value.trim() || "حفر اسم / رتبة / شعار مخصص عبر الواتساب") : "";
     const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
-    const finalPrice = material.price + engravingFee;
+    const basePrice = getProductCalculatedPrice(product, material);
+    const finalPrice = basePrice + engravingFee;
     const cartItemId = `${product.id}_${material.id}_${color.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
 
     const existing = cart.find(c => c.cartItemId === cartItemId);
@@ -357,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hasEngraving,
         engravingText,
         engravingFee,
-        basePrice: material.price,
+        basePrice,
         price: finalPrice,
         image: product.image,
         qty: 1
@@ -389,7 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function saveCart() {
     localStorage.setItem("madeforu_cart", JSON.stringify(cart));
-    // مزامنة احتياطية
     localStorage.setItem("puzzleme_cart", JSON.stringify(cart));
   }
 
@@ -402,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div style="text-align: center; padding: 3rem 1rem; color: #888;">
           <p style="font-size: 3rem; margin-bottom: 0.5rem;">🎁</p>
           <p style="font-weight: 700; color: #444; font-size: 1.1rem;">السلة فارغة حالياً</p>
-          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر من منتجات MadeForU المصنوعة خصيصاً لك مقاس 40 سم مع إمكانية إضافة حفر ليزر مخصص!</p>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر من منتجات مشغل MadeForU الحرفية مع إمكانية حفر اسم أو إهداء بالليزر!</p>
         </div>
       `;
       cartSubtotal.textContent = `0.00 ${CURRENCY}`;
@@ -424,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal += lineTotal;
       return `
         <div class="cart-item">
-          <img src="${item.image}" alt="${item.title}">
+          <img src="${item.image}" alt="${item.title}" onerror="this.src='images/MadeForU Logo Trans.png'">
           <div class="cart-item-info">
             <div class="cart-item-title">${item.title}</div>
             <div class="cart-item-variant">
@@ -432,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             ${item.hasEngraving ? `
               <div style="font-size:0.75rem; color:#8F415C; font-weight:700; margin-top:3px; background:#FDF1F4; padding:2px 6px; border-radius:4px; display:inline-block;">
-                ✨ حفر مخصص (+${(item.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${item.engravingText}"
+                ✨ حفر ليزر مخصص (+${(item.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${item.engravingText}"
               </div>
             ` : ''}
             <div class="cart-item-price" style="margin-top:0.25rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
@@ -452,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartTotal.textContent = `${(subtotal + 1.0).toFixed(2)} ${CURRENCY}*`;
   }
 
-  // ربط الدوال مع النطاق العام للعمل داخل أزرار HTML المباشرة
+  // ربط الدوال مع النطاق العام
   window.madeforuUpdateQty = updateQty;
   window.madeforuRemoveItem = removeFromCart;
   window.puzzleUpdateQty = updateQty;
@@ -508,8 +523,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const grandTotal = subtotal + deliveryFee;
 
     const totalEngraving = cart.reduce((acc, item) => acc + (item.hasEngraving ? item.engravingFee * item.qty : 0), 0);
-    const basePuzzlesTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
-    const remainingCod = basePuzzlesTotal + deliveryFee;
+    const baseProductsTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
+    const remainingCod = baseProductsTotal + deliveryFee;
 
     // حفظ نسخة محلية احتياطية
     const orderData = {
@@ -538,7 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName} | اللون: ${i.colorName}`;
       if (i.hasEngraving) {
-        line += `\n  └ ✨ حفر ليزر مخصص (+${(i.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${i.engravingText}"`;
+        line += `\n  └ ✨ حفر ليزر CO2 مخصص (+${(i.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${i.engravingText}"`;
       }
       return line;
     }).join("\n\n");
@@ -548,23 +563,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let paymentSplitMessage = "";
     if (totalEngraving > 0) {
       paymentSplitMessage = `\n━━━━━━━━━━━━━━━━━━━━\n` +
-        `⚠️ *سياسة دفع الحفر المخصص:*\n` +
+        `⚠️ *سياسة دفع الحفر المخصص بالليزر:*\n` +
         `💳 *عربون الحفر المطلوب تحويله مسبقاً:* ${totalEngraving.toFixed(2)} ${CURRENCY}\n` +
         `   • (سيتم تزويدك ببيانات التحويل عبر CliQ / المحفظة هنا في المحادثة مباشرة)\n` +
         `💵 *المتبقي كاش عند الاستلام:* ${remainingCod.toFixed(2)} ${CURRENCY}\n` +
         `━━━━━━━━━━━━━━━━━━━━\n`;
     }
 
-    const message = `*طلب جديد — متجر MadeForU*\n\n` +
+    const message = `*طلب جديد — مشغل MadeForU للهدايا والمصنوعات المخصصة*\n\n` +
       `🔢 *رقم الطلب:* #${orderNumber}\n` +
       `👤 *الاسم:* ${name}\n` +
       `📞 *رقم الهاتف:* ${phone}\n` +
       `📍 *المنطقة:* ${city}\n` +
       `🏠 *العنوان:* ${address}\n` +
       (notes ? `📝 *ملاحظات:* ${notes}\n` : "") +
-      `\n*القطع والمواصفات المطلوبة (مقاس 40 سم):*\n${itemsText}\n\n` +
-      `💵 مجموع المنتجات: ${basePuzzlesTotal.toFixed(2)} ${CURRENCY}\n` +
-      (totalEngraving > 0 ? `✨ خدمة الحفر المخصص: ${totalEngraving.toFixed(2)} ${CURRENCY}\n` : "") +
+      `\n*المنتجات والمواصفات المطلوبة:*\n${itemsText}\n\n` +
+      `💵 مجموع المنتجات: ${baseProductsTotal.toFixed(2)} ${CURRENCY}\n` +
+      (totalEngraving > 0 ? `✨ خدمة الحفر المخصص بالليزر: ${totalEngraving.toFixed(2)} ${CURRENCY}\n` : "") +
       `🚚 أجرة التوصيل: ${deliveryNote}\n` +
       `💰 *المجموع الكلي للطلب: ${grandTotal.toFixed(2)} ${CURRENCY}*\n` +
       paymentSplitMessage;

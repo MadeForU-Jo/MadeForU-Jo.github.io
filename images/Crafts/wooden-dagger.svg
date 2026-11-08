@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#EFE2D4"/>
+    </linearGradient>
+    <linearGradient id="sheathWood" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#552B14"/>
+      <stop offset="50%" stop-color="#733C1E"/>
+      <stop offset="100%" stop-color="#3D1D0D"/>
+    </linearGradient>
+    <linearGradient id="goldFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="50%" stop-color="#C2861F"/>
+      <stop offset="100%" stop-color="#805008"/>
+    </linearGradient>
+    <filter id="daggerShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#2D1A10" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="400" cy="400" r="330" fill="none" stroke="#E3D1BF" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <g filter="url(#daggerShadow)" transform="rotate(18, 400, 380)">
+    <!-- Stand Base -->
+    <rect x="220" y="520" width="360" height="30" rx="8" fill="#3D1E0E"/>
+    <rect x="280" y="470" width="24" height="60" rx="4" fill="#552B14"/>
+    <rect x="496" y="470" width="24" height="60" rx="4" fill="#552B14"/>
+
+    <!-- Dagger Hilt (Handle) -->
+    <path d="M 330 200 L 470 200 L 440 240 L 425 310 L 375 310 L 360 240 Z" fill="url(#sheathWood)"/>
+    <circle cx="400" cy="225" r="12" fill="url(#goldFiligree)"/>
+    <rect x="360" y="300" width="80" height="18" rx="4" fill="url(#goldFiligree)"/>
+
+    <!-- Curved Sheath / Scabbard (Traditional Jordan / Arabian Dagger) -->
+    <path d="M 365 318 C 375 420 395 500 520 545 C 500 530 450 490 435 318 Z" fill="url(#sheathWood)"/>
+
+    <!-- Laser Engraved Arabesque Filigree on Sheath -->
+    <g stroke="url(#goldFiligree)" stroke-width="2" fill="none">
+      <path d="M 380 340 Q 400 370 420 340"/>
+      <path d="M 385 380 Q 405 410 425 380"/>
+      <path d="M 395 430 Q 425 450 455 420"/>
+    </g>
+
+    <!-- Custom Laser Engraving Plaque on Blade/Sheath -->
+    <rect x="382" y="385" width="46" height="60" rx="4" fill="#2D1409" opacity="0.6"/>
+    <text x="405" y="420" font-family="'Cairo', sans-serif" font-size="9" font-weight="700" fill="#E8B48B" text-anchor="middle" transform="rotate(80, 405, 420)">✨ إهداء خاص</text>
+
+    <!-- Sheath Tip in Gold -->
+    <path d="M 490 535 Q 525 550 535 540 Q 520 520 480 515 Z" fill="url(#goldFiligree)"/>
+  </g>
+
+  <!-- Product Caption Tag -->
+  <g transform="translate(400, 680)">
+    <rect x="-180" y="-24" width="360" height="48" rx="24" fill="#8F415C"/>
+    <text x="0" y="6" font-family="'Cairo', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">⚔️ خنجر وسيف تراثي — خشب طبيعي وحفر ليزر</text>
+  </g>
+  <text x="400" y="745" font-family="'Cairo', sans-serif" font-size="13" font-weight="600" fill="#8C7A70" text-anchor="middle">مجسم تذكاري فاخر مع قاعدة خشبية وحفر الاسم والبيت الشعري</text>
+</svg>

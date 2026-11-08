@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCF8F5"/>
+      <stop offset="100%" stop-color="#F3EAE4"/>
+    </linearGradient>
+    <linearGradient id="birchPlaque" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D8B8"/>
+      <stop offset="50%" stop-color="#E5C49E"/>
+      <stop offset="100%" stop-color="#D4AB82"/>
+    </linearGradient>
+    <linearGradient id="roseAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8F415C"/>
+      <stop offset="100%" stop-color="#6F2E43"/>
+    </linearGradient>
+    <filter id="plaqueShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#3D291D" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="400" cy="400" r="330" fill="none" stroke="#E6D3C3" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <!-- Wooden Round Plaque -->
+  <g filter="url(#plaqueShadow)">
+    <!-- Base Wood Circle (40cm proportion) -->
+    <circle cx="400" cy="380" r="230" fill="url(#birchPlaque)"/>
+    <circle cx="400" cy="380" r="222" fill="none" stroke="#B88A58" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+
+    <!-- Subtle wood rings -->
+    <path d="M 230 380 A 170 170 0 0 1 570 380" fill="none" stroke="#C99E73" stroke-width="1.5" opacity="0.4"/>
+    <path d="M 280 440 A 140 140 0 0 0 520 440" fill="none" stroke="#C99E73" stroke-width="1.2" opacity="0.3"/>
+
+    <!-- 3D Layered Acrylic / Laser Cut Wooden Crown & Leaves -->
+    <path d="M 370 215 Q 400 190 430 215 Q 400 210 370 215 Z" fill="url(#roseAccent)"/>
+    <circle cx="400" cy="205" r="5" fill="#B88A2B"/>
+    <path d="M 320 230 Q 400 240 480 230" stroke="#8E542E" stroke-width="2" fill="none"/>
+
+    <!-- Welcome Text & Baby Name -->
+    <text x="400" y="270" font-family="'Cairo', sans-serif" font-size="16" font-weight="600" fill="#754425" text-anchor="middle">أهلاً بك في عالمنا الصغير</text>
+    
+    <!-- Big 3D Laser Cut Baby Name -->
+    <text x="400" y="340" font-family="'Cairo', sans-serif" font-size="44" font-weight="900" fill="#8F415C" text-anchor="middle">سند • Sanad</text>
+
+    <!-- Decorative divider line -->
+    <line x1="280" y1="365" x2="520" y2="365" stroke="#B88A58" stroke-width="2"/>
+    <circle cx="400" cy="365" r="4" fill="#8F415C"/>
+
+    <!-- Laser Engraved Birth Details Icons Grid -->
+    <!-- Date -->
+    <g transform="translate(260, 395)">
+      <circle cx="20" cy="20" r="16" fill="#DEABB8" opacity="0.4"/>
+      <text x="20" y="25" font-family="'Cairo', sans-serif" font-size="14" text-anchor="middle">📅</text>
+      <text x="45" y="24" font-family="'Cairo', sans-serif" font-size="12" font-weight="700" fill="#5A351D">2026/05/18</text>
+    </g>
+    <!-- Time -->
+    <g transform="translate(420, 395)">
+      <circle cx="20" cy="20" r="16" fill="#DEABB8" opacity="0.4"/>
+      <text x="20" y="25" font-family="'Cairo', sans-serif" font-size="14" text-anchor="middle">⏰</text>
+      <text x="45" y="24" font-family="'Cairo', sans-serif" font-size="12" font-weight="700" fill="#5A351D">08:45 AM</text>
+    </g>
+    <!-- Weight -->
+    <g transform="translate(260, 445)">
+      <circle cx="20" cy="20" r="16" fill="#DEABB8" opacity="0.4"/>
+      <text x="20" y="25" font-family="'Cairo', sans-serif" font-size="14" text-anchor="middle">⚖️</text>
+      <text x="45" y="24" font-family="'Cairo', sans-serif" font-size="12" font-weight="700" fill="#5A351D">3.400 كغم</text>
+    </g>
+    <!-- Height -->
+    <g transform="translate(420, 445)">
+      <circle cx="20" cy="20" r="16" fill="#DEABB8" opacity="0.4"/>
+      <text x="20" y="25" font-family="'Cairo', sans-serif" font-size="14" text-anchor="middle">📏</text>
+      <text x="45" y="24" font-family="'Cairo', sans-serif" font-size="12" font-weight="700" fill="#5A351D">51 سم</text>
+    </g>
+
+    <!-- Personalized Engraved Love Quote at Bottom -->
+    <rect x="250" y="500" width="300" height="34" rx="8" fill="#DDB284" opacity="0.5"/>
+    <text x="400" y="522" font-family="'Cairo', sans-serif" font-size="11" font-weight="700" fill="#5A351D" text-anchor="middle">✨ حفظك الله ورعاك وأنبتك نباتاً حسناً</text>
+  </g>
+
+  <!-- Product Caption Tag -->
+  <g transform="translate(400, 680)">
+    <rect x="-180" y="-24" width="360" height="48" rx="24" fill="#8F415C"/>
+    <text x="0" y="6" font-family="'Cairo', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">👶 لوحة تذكار المولود — خشب صلب وحفر ليزر</text>
+  </g>
+  <text x="400" y="745" font-family="'Cairo', sans-serif" font-size="13" font-weight="600" fill="#8C7A70" text-anchor="middle">حفر اسم وتاريخ وساعة والوزن والطول مع عبارة إهداء خاصة</text>
+</svg>

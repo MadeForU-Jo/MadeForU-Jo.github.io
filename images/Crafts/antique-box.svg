@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF5EE"/>
+      <stop offset="100%" stop-color="#ECE1D0"/>
+    </linearGradient>
+    <linearGradient id="antiqueWood" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E2713"/>
+      <stop offset="40%" stop-color="#6E3B1E"/>
+      <stop offset="80%" stop-color="#3A1C0C"/>
+      <stop offset="100%" stop-color="#241006"/>
+    </linearGradient>
+    <linearGradient id="goldHasp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="50%" stop-color="#B45309"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <filter id="boxShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#241107" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="400" cy="400" r="330" fill="none" stroke="#E3D1BF" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <g filter="url(#boxShadow)">
+    <!-- Box Base -->
+    <path d="M 200 370 L 600 370 L 570 540 L 230 540 Z" fill="url(#antiqueWood)"/>
+    <path d="M 230 540 L 570 540 L 560 560 L 240 560 Z" fill="#241006"/>
+
+    <!-- Box Lid (Arched Antique Trunk Lid) -->
+    <path d="M 180 370 C 180 250 620 250 620 370 Z" fill="url(#antiqueWood)"/>
+
+    <!-- Laser Engraved Arabesque / Filigree Lattice on Lid -->
+    <g stroke="#E8B48B" stroke-width="2" fill="none" opacity="0.6">
+      <ellipse cx="400" cy="310" rx="120" ry="40"/>
+      <ellipse cx="400" cy="310" rx="80" ry="25"/>
+      <circle cx="400" cy="310" r="14"/>
+      <path d="M 280 310 Q 340 280 400 310 T 520 310"/>
+      <path d="M 320 280 Q 400 340 480 280"/>
+    </g>
+
+    <!-- Center Engraving Plate -->
+    <rect x="330" y="325" width="140" height="30" rx="4" fill="#1C0C04" opacity="0.8"/>
+    <text x="400" y="345" font-family="'Cairo', sans-serif" font-size="11" font-weight="700" fill="#E8B48B" text-anchor="middle">✨ تذكار خاص — إهداء</text>
+
+    <!-- Ornate Brass Corner Brackets -->
+    <path d="M 180 370 L 220 370 L 220 350 Q 180 350 180 370 Z" fill="url(#goldHasp)"/>
+    <path d="M 620 370 L 580 370 L 580 350 Q 620 350 620 370 Z" fill="url(#goldHasp)"/>
+    <path d="M 230 540 L 260 540 L 260 510 L 230 510 Z" fill="url(#goldHasp)"/>
+    <path d="M 570 540 L 540 540 L 540 510 L 570 510 Z" fill="url(#goldHasp)"/>
+
+    <!-- Front Brass Antique Lock Hasp -->
+    <rect x="385" y="360" width="30" height="50" rx="6" fill="url(#goldHasp)"/>
+    <circle cx="400" cy="375" r="4" fill="#3D1D0B"/>
+    <path d="M 395 390 L 405 390 L 402 402 L 398 402 Z" fill="#241006"/>
+  </g>
+
+  <!-- Product Caption Tag -->
+  <g transform="translate(400, 680)">
+    <rect x="-180" y="-24" width="360" height="48" rx="24" fill="#8F415C"/>
+    <text x="0" y="6" font-family="'Cairo', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">🏺 صندوق أنتيك فاخر — خشب معتق ونقش ليزر</text>
+  </g>
+  <text x="400" y="745" font-family="'Cairo', sans-serif" font-size="13" font-weight="600" fill="#8C7A70" text-anchor="middle">صندوق هدايا ومجوهرات معتق بنقوش إسلامية وزخارف مخصصة</text>
+</svg>

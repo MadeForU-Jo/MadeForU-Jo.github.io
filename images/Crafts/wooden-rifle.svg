@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF4ED"/>
+      <stop offset="100%" stop-color="#EFE2D3"/>
+    </linearGradient>
+    <linearGradient id="wood1" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#6F3F23"/>
+      <stop offset="50%" stop-color="#8E542E"/>
+      <stop offset="100%" stop-color="#552E16"/>
+    </linearGradient>
+    <linearGradient id="woodStock" x1="0%" y1="30%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#804724"/>
+      <stop offset="30%" stop-color="#A25D34"/>
+      <stop offset="70%" stop-color="#733B1D"/>
+      <stop offset="100%" stop-color="#4E2612"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#40454E"/>
+      <stop offset="40%" stop-color="#2A2E35"/>
+      <stop offset="70%" stop-color="#1B1E22"/>
+      <stop offset="100%" stop-color="#2D3137"/>
+    </linearGradient>
+    <linearGradient id="brass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C158"/>
+      <stop offset="50%" stop-color="#B88A2B"/>
+      <stop offset="100%" stop-color="#866014"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#2B1D14" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="400" cy="400" r="330" fill="none" stroke="#E3D1BF" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="400" cy="400" r="290" fill="#FAF6F2" opacity="0.6"/>
+
+  <!-- Stand Base -->
+  <g filter="url(#shadow)">
+    <!-- Wooden display stand pillars -->
+    <rect x="230" y="470" width="34" height="110" rx="6" fill="url(#wood1)"/>
+    <rect x="536" y="470" width="34" height="110" rx="6" fill="url(#wood1)"/>
+    <path d="M 226 470 Q 247 495 268 470 Z" fill="#3D1D0B"/>
+    <path d="M 532 470 Q 553 495 574 470 Z" fill="#3D1D0B"/>
+    <!-- Base Board -->
+    <rect x="170" y="565" width="460" height="34" rx="8" fill="url(#woodStock)"/>
+    <!-- Brass engraving plaque on stand -->
+    <rect x="310" y="572" width="180" height="20" rx="3" fill="url(#brass)"/>
+    <text x="400" y="586" font-family="'Cairo', sans-serif" font-size="11" font-weight="700" fill="#2A1B05" text-anchor="middle">✨ حفر ليزر مخصص: الاسم والإهداء</text>
+  </g>
+
+  <!-- Wooden Rifle Prop Model -->
+  <g filter="url(#shadow)">
+    <!-- Barrel & Gas Tube (Dark Burnished Timber / Steel Style) -->
+    <rect x="140" y="380" width="380" height="16" rx="3" fill="url(#steel)"/>
+    <rect x="110" y="383" width="45" height="10" rx="2" fill="url(#steel)"/>
+    <!-- Muzzle / Sight -->
+    <path d="M 115 383 L 115 365 L 126 370 L 126 383 Z" fill="url(#steel)"/>
+    <rect x="360" y="372" width="14" height="10" fill="url(#steel)"/>
+
+    <!-- Handguard (Wood) -->
+    <rect x="250" y="375" width="160" height="26" rx="5" fill="url(#woodStock)"/>
+    <!-- Wood grain details -->
+    <path d="M 260 388 Q 330 384 400 388" stroke="#5C2E13" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <path d="M 270 395 Q 340 391 390 395" stroke="#5C2E13" stroke-width="1.2" fill="none" opacity="0.5"/>
+
+    <!-- Receiver (Mid Body) -->
+    <rect x="400" y="370" width="140" height="48" rx="4" fill="url(#wood1)"/>
+    <!-- Receiver Engraving Area -->
+    <rect x="420" y="378" width="100" height="30" rx="3" fill="#4B2712" opacity="0.6"/>
+    <text x="470" y="397" font-family="'Cairo', sans-serif" font-size="10" font-weight="800" fill="#E8B48B" text-anchor="middle">MADE FOR U</text>
+
+    <!-- Magazine (Banana Mag) -->
+    <path d="M 425 418 C 420 480 385 520 340 545 L 368 555 C 418 525 455 480 460 418 Z" fill="url(#woodStock)"/>
+    <path d="M 425 440 C 420 475 400 500 375 520" stroke="#48220B" stroke-width="2" fill="none"/>
+
+    <!-- Trigger & Guard -->
+    <path d="M 480 418 Q 480 445 505 445 L 515 418 Z" fill="none" stroke="url(#steel)" stroke-width="4"/>
+    <path d="M 495 422 Q 492 435 488 438" stroke="url(#steel)" stroke-width="3" fill="none"/>
+
+    <!-- Pistol Grip (Wood) -->
+    <path d="M 525 418 L 560 495 L 525 505 L 500 422 Z" fill="url(#woodStock)" rx="5"/>
+    <circle cx="530" cy="460" r="4" fill="#3D1D0B"/>
+
+    <!-- Buttstock (Solid Carved Timber) -->
+    <path d="M 540 385 C 570 385 640 400 680 415 C 695 422 705 445 700 475 C 695 492 680 495 660 490 C 610 470 565 440 540 415 Z" fill="url(#woodStock)"/>
+    <path d="M 560 398 Q 630 420 670 440" stroke="#48220B" stroke-width="2" fill="none" opacity="0.7"/>
+    <path d="M 570 412 Q 625 435 665 465" stroke="#48220B" stroke-width="1.5" fill="none" opacity="0.6"/>
+  </g>
+
+  <!-- Studio Craft Badge -->
+  <g transform="translate(400, 680)">
+    <rect x="-170" y="-24" width="340" height="48" rx="24" fill="#8F415C"/>
+    <text x="0" y="6" font-family="'Cairo', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">⚔️ مجسم بندقية خشبية فاخرة — حفر مخصص</text>
+  </g>
+  <text x="400" y="745" font-family="'Cairo', sans-serif" font-size="13" font-weight="600" fill="#8C7A70" text-anchor="middle">خشب زان / سويد صلب • قص وحفر ليزر CO2 فائق الدقة</text>
+</svg>

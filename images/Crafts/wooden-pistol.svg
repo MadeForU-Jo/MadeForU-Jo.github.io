@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF4ED"/>
+      <stop offset="100%" stop-color="#EFE0D0"/>
+    </linearGradient>
+    <linearGradient id="darkOak" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5A2E16"/>
+      <stop offset="50%" stop-color="#7B4223"/>
+      <stop offset="100%" stop-color="#411E0C"/>
+    </linearGradient>
+    <linearGradient id="burnished" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4B5563"/>
+      <stop offset="50%" stop-color="#1F2937"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="pShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#2D1A10" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="400" cy="400" r="330" fill="none" stroke="#E3D1BF" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <g filter="url(#pShadow)" transform="rotate(-8, 400, 390)">
+    <!-- Stand Base -->
+    <rect x="220" y="510" width="360" height="30" rx="8" fill="url(#darkOak)"/>
+    <rect x="280" y="450" width="26" height="70" rx="5" fill="#3D1C0B"/>
+    <rect x="490" y="450" width="26" height="70" rx="5" fill="#3D1C0B"/>
+    <!-- Engraving brass plate on stand -->
+    <rect x="300" y="516" width="200" height="18" rx="4" fill="#D97706"/>
+    <text x="400" y="529" font-family="'Cairo', sans-serif" font-size="10" font-weight="700" fill="#2A1B05" text-anchor="middle">✨ حفر ليزر: الاسم، الرتبة، والشعار</text>
+
+    <!-- Wooden Pistol Prop Body -->
+    <!-- Slide / Barrel (Top) -->
+    <rect x="230" y="320" width="310" height="52" rx="6" fill="url(#burnished)"/>
+    <!-- Front sight -->
+    <rect x="240" y="312" width="12" height="9" fill="url(#burnished)"/>
+    <!-- Rear sight -->
+    <rect x="520" y="310" width="14" height="11" fill="url(#burnished)"/>
+    <!-- Slide serrations -->
+    <g fill="#374151">
+      <rect x="470" y="325" width="4" height="25"/>
+      <rect x="480" y="325" width="4" height="25"/>
+      <rect x="490" y="325" width="4" height="25"/>
+      <rect x="500" y="325" width="4" height="25"/>
+    </g>
+
+    <!-- Custom Laser Engraving on Slide -->
+    <rect x="270" y="332" width="170" height="26" rx="4" fill="#111827" opacity="0.6"/>
+    <text x="355" y="350" font-family="'Cairo', sans-serif" font-size="11" font-weight="800" fill="#E8B48B" text-anchor="middle">MADEFORU • CUSTOM PROP</text>
+
+    <!-- Lower Frame & Trigger Guard -->
+    <path d="M 270 372 L 480 372 L 470 415 L 430 415 L 410 405 L 350 405 L 340 372 Z" fill="url(#darkOak)"/>
+    <!-- Trigger & Guard -->
+    <path d="M 390 372 Q 380 415 425 415 L 425 372" fill="none" stroke="url(#burnished)" stroke-width="4"/>
+    <path d="M 412 376 Q 408 395 402 398" stroke="url(#burnished)" stroke-width="3" fill="none"/>
+
+    <!-- Handle / Grip (Carved Wood Texture) -->
+    <path d="M 460 372 L 530 500 L 470 515 L 410 395 Z" fill="url(#darkOak)"/>
+    <!-- Grip Wood Inlay with Laser Emblem -->
+    <polygon points="465,395 505,470 475,485 435,410" fill="#3D1D0C" opacity="0.7"/>
+    <circle cx="470" cy="440" r="10" fill="#C2861F"/>
+  </g>
+
+  <!-- Product Caption Tag -->
+  <g transform="translate(400, 680)">
+    <rect x="-180" y="-24" width="360" height="48" rx="24" fill="#8F415C"/>
+    <text x="0" y="6" font-family="'Cairo', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">⚔️ مجسم مسدس كلاسيكي خشبي — حفر مخصص</text>
+  </g>
+  <text x="400" y="745" font-family="'Cairo', sans-serif" font-size="13" font-weight="600" fill="#8C7A70" text-anchor="middle">مجسم تذكاري يدوي مع قاعدة عرض خشبية وإمكانية حفر الاسم والرتبة</text>
+</svg>
