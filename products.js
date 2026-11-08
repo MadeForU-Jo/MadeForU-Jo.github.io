@@ -14,7 +14,7 @@ const STORE_CONFIG = {
   logo: "images/MadeForU Logo Trans.png",
   favicon: "images/MadeForU Logo.png",
   instagramUrl: "https://www.instagram.com/madeforu.jo/",
-  facebookUrl: "https://www.facebook.com/madeforu.jo",
+  facebookUrl: "https://www.facebook.com/madeforu.jo1",
 
   // خدمة الحفر المخصص بماكينة ليزر CO2 فائقة الدقة
   engravingFee: 3.0,       // رسم الحفر: 3 دنانير (يتم تحويله مسبقاً بالتنسيق عبر الواتساب)
