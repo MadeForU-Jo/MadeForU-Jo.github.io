@@ -1,5 +1,5 @@
 // ==========================================
-// PUZZLEME JO - وظائف المتجر وسلة الشراء
+// MADEFORU JO - وظائف المتجر وسلة الشراء
 // دعم خيارات الخامات، الألوان، وخدمة الحفر المخصص (3 د.أ عبر CliQ)
 // ==========================================
 
@@ -8,8 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("yearSpan");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // الحالة العامة
-  let cart = JSON.parse(localStorage.getItem("puzzleme_cart") || "[]");
+  // الحالة العامة مع التوافق التراجعي لبيانات السلة والطلبات
+  let cart = JSON.parse(
+    localStorage.getItem("madeforu_cart") ||
+    localStorage.getItem("puzzleme_cart") ||
+    "[]"
+  );
   let activeCategory = "الكل";
   let searchQuery = "";
   let selectedProduct = null;
@@ -139,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     custCitySelect.addEventListener("change", updateCheckoutTotals);
   }
 
-  // تهيئة الفئات وتصنيفات البازل
+  // تهيئة الفئات وتصنيفات المنتجات
   function initCategories() {
     const categories = ["الكل", ...new Set(PRODUCTS.map(p => p.category))];
     categoryContainer.innerHTML = categories.map(cat => `
@@ -176,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
       productsGrid.innerHTML = `
         <div class="empty-state">
           <h3>لا توجد نتائج مطابقة لبحثك</h3>
-          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع البازل.</p>
+          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع المنتجات.</p>
         </div>
       `;
       return;
@@ -192,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 40 سم</span> • <span>🌀 توليد رياضي (Fractals) صلب</span>
+            <span>📏 40 سم</span> • <span>✨ خامات صلبة فاخرة</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">
@@ -201,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span style="font-size:0.75rem; color:#888; display:block;">(خشب 7 د.أ / أكريليك 10 د.أ)</span>
             </div>
             <button class="add-btn add-to-cart-quick" data-id="${item.id}">
-              خيارات البازل والحفر
+              خيارات المنتج والحفر
             </button>
           </div>
         </div>
@@ -362,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveCart();
     renderCart();
-    showToast(`تمت إضافة "${product.title}" إلى السلة 🧩`);
+    showToast(`تمت إضافة "${product.title}" إلى السلة 🎁`);
   }
 
   function updateQty(cartItemId, delta) {
@@ -384,6 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveCart() {
+    localStorage.setItem("madeforu_cart", JSON.stringify(cart));
+    // مزامنة احتياطية
     localStorage.setItem("puzzleme_cart", JSON.stringify(cart));
   }
 
@@ -394,9 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cart.length === 0) {
       cartItemsList.innerHTML = `
         <div style="text-align: center; padding: 3rem 1rem; color: #888;">
-          <p style="font-size: 3rem; margin-bottom: 0.5rem;">🧩</p>
+          <p style="font-size: 3rem; margin-bottom: 0.5rem;">🎁</p>
           <p style="font-weight: 700; color: #444; font-size: 1.1rem;">السلة فارغة حالياً</p>
-          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر بازل بنمط الـ Fractals مقاس 40 سم مع إمكانية إضافة حفر ليزر مخصص!</p>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر من منتجات MadeForU المصنوعة خصيصاً لك مقاس 40 سم مع إمكانية إضافة حفر ليزر مخصص!</p>
         </div>
       `;
       cartSubtotal.textContent = `0.00 ${CURRENCY}`;
@@ -425,18 +431,18 @@ document.addEventListener("DOMContentLoaded", () => {
               <span>${item.materialName}</span> • <strong>${item.colorName}</strong>
             </div>
             ${item.hasEngraving ? `
-              <div style="font-size:0.75rem; color:#b45309; font-weight:700; margin-top:3px; background:#fef3c7; padding:2px 6px; border-radius:4px; display:inline-block;">
+              <div style="font-size:0.75rem; color:#8F415C; font-weight:700; margin-top:3px; background:#FDF1F4; padding:2px 6px; border-radius:4px; display:inline-block;">
                 ✨ حفر مخصص (+${(item.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${item.engravingText}"
               </div>
             ` : ''}
             <div class="cart-item-price" style="margin-top:0.25rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
             <div class="cart-qty-ctrl">
-              <button class="qty-btn" onclick="window.puzzleUpdateQty('${item.cartItemId}', -1)">-</button>
+              <button class="qty-btn" onclick="window.madeforuUpdateQty('${item.cartItemId}', -1)">-</button>
               <span class="qty-num">${item.qty}</span>
-              <button class="qty-btn" onclick="window.puzzleUpdateQty('${item.cartItemId}', 1)">+</button>
+              <button class="qty-btn" onclick="window.madeforuUpdateQty('${item.cartItemId}', 1)">+</button>
             </div>
           </div>
-          <button class="cart-item-remove" onclick="window.puzzleRemoveItem('${item.cartItemId}')" title="حذف">&times;</button>
+          <button class="cart-item-remove" onclick="window.madeforuRemoveItem('${item.cartItemId}')" title="حذف">&times;</button>
         </div>
       `;
     }).join("");
@@ -447,6 +453,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ربط الدوال مع النطاق العام للعمل داخل أزرار HTML المباشرة
+  window.madeforuUpdateQty = updateQty;
+  window.madeforuRemoveItem = removeFromCart;
   window.puzzleUpdateQty = updateQty;
   window.puzzleRemoveItem = removeFromCart;
 
@@ -495,7 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const orderNumber = "PZ-" + Math.floor(1000 + Math.random() * 9000);
+    const orderNumber = "MFU-" + Math.floor(1000 + Math.random() * 9000);
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const grandTotal = subtotal + deliveryFee;
 
@@ -516,8 +524,13 @@ document.addEventListener("DOMContentLoaded", () => {
       date: new Date().toISOString()
     };
 
-    const existingOrders = JSON.parse(localStorage.getItem("puzzleme_orders") || "[]");
+    const existingOrders = JSON.parse(
+      localStorage.getItem("madeforu_orders") ||
+      localStorage.getItem("puzzleme_orders") ||
+      "[]"
+    );
     existingOrders.push(orderData);
+    localStorage.setItem("madeforu_orders", JSON.stringify(existingOrders));
     localStorage.setItem("puzzleme_orders", JSON.stringify(existingOrders));
 
     // صياغة رسالة الواتساب العربية مع تفاصيل الحفر
@@ -542,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `━━━━━━━━━━━━━━━━━━━━\n`;
     }
 
-    const message = `*طلب بازل جديد — PuzzleMe JO*\n\n` +
+    const message = `*طلب جديد — متجر MadeForU*\n\n` +
       `🔢 *رقم الطلب:* #${orderNumber}\n` +
       `👤 *الاسم:* ${name}\n` +
       `📞 *رقم الهاتف:* ${phone}\n` +
@@ -550,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `🏠 *العنوان:* ${address}\n` +
       (notes ? `📝 *ملاحظات:* ${notes}\n` : "") +
       `\n*القطع والمواصفات المطلوبة (مقاس 40 سم):*\n${itemsText}\n\n` +
-      `💵 مجموع البازل: ${basePuzzlesTotal.toFixed(2)} ${CURRENCY}\n` +
+      `💵 مجموع المنتجات: ${basePuzzlesTotal.toFixed(2)} ${CURRENCY}\n` +
       (totalEngraving > 0 ? `✨ خدمة الحفر المخصص: ${totalEngraving.toFixed(2)} ${CURRENCY}\n` : "") +
       `🚚 أجرة التوصيل: ${deliveryNote}\n` +
       `💰 *المجموع الكلي للطلب: ${grandTotal.toFixed(2)} ${CURRENCY}*\n` +

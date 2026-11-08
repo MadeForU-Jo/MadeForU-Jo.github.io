@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة متابعة الطلبات | PuzzleMe JO</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>لوحة متابعة الطلبات | MadeForU</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="stylesheet" href="styles.css?v=21">
   <style>
     .admin-container {
       max-width: 1000px;
@@ -48,8 +50,9 @@
   <div class="header">
     <div class="header-container">
       <a href="index.html" class="brand">
-        <div class="brand-icon">🧩</div>
-        <div class="brand-title">PuzzleMe JO — سجل الطلبات</div>
+        <img src="images/MadeForU Logo Trans.png" alt="MadeForU Logo" class="brand-logo" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='flex';" style="height: 48px; width: 48px; object-fit: contain;">
+        <div class="brand-icon" id="fallbackIcon" style="display: none;">🎁</div>
+        <div class="brand-title">MadeForU — سجل الطلبات</div>
       </a>
       <a href="index.html" class="cart-btn" style="text-decoration: none;">&rarr; العودة للمتجر</a>
     </div>
@@ -59,7 +62,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
       <div>
         <h1 style="font-size: 1.75rem; font-weight: 800;">طلبات الدفع عند الاستلام (كاش)</h1>
-        <p style="color: var(--text-secondary); font-size: 0.95rem;">قائمة الطلبات المسجلة من خلال الموقع على هذا الجهاز.</p>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">قائمة الطلبات المسجلة من خلال المتجر على هذا المتصفح.</p>
       </div>
       <button id="clearOrdersBtn" style="background:#fee2e2; color:#991b1b; border:none; padding:0.5rem 1.15rem; border-radius:6px; cursor:pointer; font-weight:700; font-family:inherit;">
         مسح سجل الطلبات
@@ -71,20 +74,24 @@
     </div>
   </div>
 
-  <script src="products.js"></script>
+  <script src="products.js?v=21"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const ordersList = document.getElementById("ordersList");
       const clearBtn = document.getElementById("clearOrdersBtn");
-      const orders = JSON.parse(localStorage.getItem("puzzleme_orders") || "[]");
+      const orders = JSON.parse(
+        localStorage.getItem("madeforu_orders") ||
+        localStorage.getItem("puzzleme_orders") ||
+        "[]"
+      );
 
       function renderOrders() {
         if (orders.length === 0) {
           ordersList.innerHTML = `
             <div style="background:#fff; border-radius:12px; padding:3.5rem; text-align:center; border:1px solid #e8e2d9;">
-              <p style="font-size: 3rem; margin-bottom: 0.5rem;">📦</p>
+              <p style="font-size: 3rem; margin-bottom: 0.5rem;">🎁</p>
               <h3 style="font-size: 1.3rem;">لا توجد طلبات جديدة حتى الآن</h3>
-              <p style="color:#666; margin-top: 0.35rem;">عند قيام أي زبون بطلب بازل عبر نموذج الموقع ستظهر بياناته هنا فوراً.</p>
+              <p style="color:#666; margin-top: 0.35rem;">عند قيام أي زبون بتأكيد طلبه عبر نموذج المتجر ستظهر بياناته هنا فوراً.</p>
             </div>
           `;
           return;
@@ -113,10 +120,11 @@
               <div>
                 <h4 style="margin-bottom:0.4rem; color:var(--brand-primary);">المنتجات المطلوبة:</h4>
                 <ul style="padding-right: 1.2rem; color: #444; margin-bottom: 0.75rem;">
-                  ${o.items.map(i => `<li><strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} | لون: ${i.colorName}</small>` : ''}${i.hasEngraving ? `<br><small style="color:#b45309; font-weight:bold;">✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"</small>` : ''}</li>`).join("")}
+                  ${o.items.map(i => `<li><strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} | لون: ${i.colorName}</small>` : ''}${i.hasEngraving ? `<br><small style="color:#8F415C; font-weight:bold;">✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"</small>` : ''}</li>`).join("")}
                 </ul>
                 <div style="border-top:1px dashed #eee; padding-top:0.5rem; font-size:0.9rem; color:#555;">
-                  <div>سعر البازل: ${(o.subtotal || 0).toFixed(2)} د.أ</div>
+                  <div>سعر المنتجات: ${(o.subtotal || 0).toFixed(2)} د.أ</div>
+                  ${o.totalEngraving ? `<div>رسوم الحفر المخصص: ${o.totalEngraving.toFixed(2)} د.أ</div>` : ''}
                   <div>أجرة التوصيل: ${(o.deliveryFee || 1).toFixed(2)} د.أ</div>
                 </div>
                 <div style="margin-top:0.5rem; font-size:1.2rem; font-weight:800; color:var(--wood-dark);">
@@ -130,6 +138,7 @@
 
       clearBtn.addEventListener("click", () => {
         if (confirm("هل أنت متأكد من رغبتك في مسح سجل الطلبات؟")) {
+          localStorage.removeItem("madeforu_orders");
           localStorage.removeItem("puzzleme_orders");
           location.reload();
         }
