@@ -176,14 +176,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // البحث عن المنتج بالمعرف النصي الدائم (Slug) أو بالاسم أو الرقم للتوافق الكامل
+  // البحث عن المنتج بالمعرف النصي الدائم (Slug) أو برمز المنتج (SKU / Code) أو الاسم للتوافق المستقبلي الكامل
   function findProduct(key) {
     if (!key) return null;
     const str = String(key).trim().toLowerCase();
+    // إزالة علامة الهاش أو البادئات إذا وجدت
+    const cleanStr = str.replace(/^[#?]/, "").trim();
+    
     return PRODUCTS.find(p => 
-      (p.slug && p.slug.toLowerCase() === str) ||
-      (p.id && String(p.id).toLowerCase() === str) ||
-      (Array.isArray(p.aliases) && p.aliases.some(a => String(a).toLowerCase() === str))
+      (p.sku && p.sku.toLowerCase() === cleanStr) ||
+      (p.code && String(p.code).toLowerCase() === cleanStr) ||
+      (p.slug && p.slug.toLowerCase() === cleanStr) ||
+      (p.id && String(p.id).toLowerCase() === cleanStr) ||
+      (Array.isArray(p.aliases) && p.aliases.some(a => String(a).toLowerCase() === cleanStr)) ||
+      (p.code && cleanStr.split(/[-_]/).includes(String(p.code)))
     ) || null;
   }
 
@@ -194,6 +200,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchesCat = activeCategory === "الكل" || item.category === activeCategory;
       const matchesQuery = !q ||
         item.title.toLowerCase().includes(q) ||
+        (item.sku && item.sku.toLowerCase().includes(q)) ||
+        (item.code && String(item.code).includes(q)) ||
         (item.dimensions && item.dimensions.toLowerCase().includes(q)) ||
         item.category.toLowerCase().includes(q) ||
         item.shortDesc.toLowerCase().includes(q);
@@ -217,7 +225,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/MadeForU Logo Trans.png'">
         </div>
         <div class="product-body">
-          <div class="product-category">${item.category}</div>
+          <div class="product-category" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>${item.category}</span>
+            <span style="font-family:monospace; background:rgba(143,65,92,0.08); color:var(--brand-primary); font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid rgba(143,65,92,0.18);">كود: ${item.sku}</span>
+          </div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
             <span>📏 ${item.dimensions || "يدوي الصنع"}</span> • <span>✨ حفر ليزر مخصص</span>
@@ -325,6 +336,8 @@ document.addEventListener("DOMContentLoaded", () => {
     modalImg.src = item.image;
     modalImg.alt = item.title;
     modalBadge.textContent = item.badge || item.category;
+    const modalSkuTag = document.getElementById("modalSkuTag");
+    if (modalSkuTag) modalSkuTag.textContent = `كود المنتج: ${item.sku}`;
     modalTitle.textContent = item.title;
     modalDimensions.textContent = item.dimensions || "40 × 10 سم تقريباً";
     modalDesc.textContent = item.description;
@@ -462,6 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartItemId,
         productId: prodSlug,
         productSlug: prodSlug,
+        sku: product.sku || product.code || "MFU-101",
         isDeskPlate: true,
         title: product.title,
         materialName: "خشب زان طبيعي صلب (40×10 سم)",
@@ -493,6 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
           cartItemId,
           productId: prodSlug,
           productSlug: prodSlug,
+          sku: product.sku || product.code || "MFU-200",
           isDeskPlate: false,
           title: product.title,
           materialName: currentMaterial.name,
@@ -700,7 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // صياغة رسالة الواتساب بدقة واحترافية
     let itemsText = cart.map(i => {
-      let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
+      let line = `• [كود: ${i.sku || 'MFU'}] ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName}`;
       if (i.isDeskPlate) {
         line += `\n  └ 👤 الاسم المطلوب: ${i.engravedName}`;
@@ -771,11 +786,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads using permanent slugs)
+  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads using permanent slugs & SKU numbers)
   function checkUrlProductLink() {
     try {
       const params = new URLSearchParams(window.location.search);
-      const prodParam = (params.get("product") || params.get("p") || params.get("item") || params.get("id") || "").trim().toLowerCase();
+      const prodParam = (params.get("product") || params.get("p") || params.get("item") || params.get("id") || params.get("sku") || params.get("code") || "").trim().toLowerCase();
       const hash = window.location.hash ? window.location.hash.replace("#", "").trim().toLowerCase() : "";
 
       const queryKey = prodParam || hash;

@@ -21,24 +21,25 @@ const STORE_CONFIG = {
   // رسم حفر الليزر العادي للبازل
   engravingFee: 3.0,
 
-  // خيارات المواد الأساسية
+  // خيارات المواد الأساسية للبازل (خشب MDF صلب أو أكريليك)
   materials: [
     {
-      id: "beech-wood",
-      name: "خشب زان طبيعي صلب",
+      id: "mdf",
+      name: "خشب MDF صلب",
       priceOffset: 0,
-      badge: "خشب زان طبيعي 100% 🪵",
-      desc: "خشب زان طبيعي صلب وسميك، مشغول يدوياً بمتانة عالية وتشطيب ناعم وأنيق.",
+      badge: "خشب MDF متين 🪵",
+      desc: "خشب MDF صلب عالي الكثافة ومقاوم للكسر والتمزق، بلمسة ناعمة وأنيقة.",
       colors: [
-        { id: "natural-beech", name: "زان طبيعي أصيل", hex: "#d8a878" }
+        { id: "light-wood", name: "خشبي فاتح", hex: "#c89d7c" },
+        { id: "dark-wood", name: "خشبي داكن", hex: "#5a3825" }
       ]
     },
     {
       id: "acrylic",
       name: "أكريليك عصري صلب",
       priceOffset: 3,
-      badge: "عصري 💎",
-      desc: "أكريليك صلب متين بمظهر زجاجي أنيق (متوفر للبازل).",
+      badge: "أكريليك عصري 💎",
+      desc: "أكريليك صلب متين بمظهر زجاجي لامع وأنيق.",
       colors: [
         { id: "clear-glass", name: "شفاف كريستالي", hex: "linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #bae6fd 100%)", border: "#93c5fd" },
         { id: "gloss-black", name: "أسود لامع", hex: "#0a0a0a" },
@@ -53,9 +54,11 @@ const STORE_CONFIG = {
 // ==========================================
 const DESK_PRODUCTS = [
   {
-    id: "desk-plate",
-    slug: "desk-plate",
-    aliases: ["deskplate", "desk-name-plate", "plate", "1"],
+    id: "mfu-101",
+    sku: "MFU-101",
+    code: "101",
+    slug: "mfu-101-desk-plate",
+    aliases: ["101", "mfu-101", "desk-plate", "deskplate", "101-desk-plate", "desk-plate-101", "1"],
     title: "لوحة اسم مكتبية فاخرة — خشب زان طبيعي صلب (حفر ليزر مخصص للوجهين)",
     category: "لوحات مكتبية فاخرة 💼",
     price: 20,
@@ -84,16 +87,18 @@ const DESK_PRODUCTS = [
 // ==========================================
 const PUZZLE_PRODUCTS = [
   {
-    id: "jordan-map",
-    slug: "jordan-map",
-    aliases: ["jordan", "jordan-puzzle", "2"],
+    id: "mfu-201",
+    sku: "MFU-201",
+    code: "201",
+    slug: "mfu-201-jordan-map",
+    aliases: ["201", "mfu-201", "jordan-map", "jordan", "2"],
     title: "بازل خريطة الأردن الملكية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
     dimensions: "المقاس 40 سم",
     badge: "الأكثر طلباً 🇯🇴",
-    shortDesc: "قطعة فنية مميزة مقاس 40 سم من الخشب الصلب أو الأكريليك، تُصنع خصيصاً لك مع إمكانية حفر ليزر مخصص.",
-    description: "خريطة الأردن الملكية بتصميم فني هندسي متقن. كل قطعة تُصنع بعناية وإتقان خصيصاً لك من خامات صلبة فاخرة مقاس 40 سم (خشب صلب متين أو أكريليك عصري)، مع إمكانية إضافة حفر ليزر مخصص لاسمك أو إهدائك الخاص.",
+    shortDesc: "قطعة فنية مميزة مقاس 40 سم من خشب MDF الصلب أو الأكريليك، تُصنع خصيصاً لك مع إمكانية حفر ليزر مخصص.",
+    description: "خريطة الأردن الملكية بتصميم فني هندسي متقن. كل قطعة تُصنع بعناية وإتقان خصيصاً لك من خشب MDF الصلب المتين أو الأكريليك العصري الفاخر (مقاس 40 سم)، مع إمكانية إضافة حفر ليزر مخصص لاسمك أو إهدائك الخاص.",
     image: "images/Jordan Map Puzzle/Jordan Map render s0000.png",
     gallery: [
       "images/Jordan Map Puzzle/Jordan Map render s0000.png",
@@ -103,16 +108,18 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: "palestine-map",
-    slug: "palestine-map",
-    aliases: ["palestine", "palestine-puzzle", "3"],
+    id: "mfu-202",
+    sku: "MFU-202",
+    code: "202",
+    slug: "mfu-202-palestine-map",
+    aliases: ["202", "mfu-202", "palestine-map", "palestine", "3"],
     title: "بازل خريطة فلسطين التاريخية — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
     dimensions: "المقاس 40 سم",
     badge: "مميز 🇵🇸",
-    shortDesc: "قطعة تذكارية أصيلة تجسد خارطة فلسطين التاريخية من خامات صلبة مقاس 40 سم.",
-    description: "قطعة تذكارية أصيلة تجسد خارطة فلسطين التاريخية بجمال وتفاصيل هندسية دقيقة. مصنوعة من خامات صلبة فاخرة غير قابلة للتلف تدوم لسنوات، وتُصنع خصيصاً لك مع إمكانية الحفر المخصص.",
+    shortDesc: "قطعة تذكارية أصيلة تجسد خارطة فلسطين التاريخية من خشب MDF الصلب أو الأكريليك مقاس 40 سم.",
+    description: "قطعة تذكارية أصيلة تجسد خارطة فلسطين التاريخية بجمال وتفاصيل هندسية دقيقة. مصنوعة من خشب MDF الصلب المتين أو الأكريليك العصري غير القابل للتلف (مقاس 40 سم)، وتُصنع خصيصاً لك مع إمكانية الحفر المخصص بالليزر.",
     image: "images/Palestine Map Puzzle/Palestine20003.png",
     gallery: [
       "images/Palestine Map Puzzle/Palestine20003.png",
@@ -122,16 +129,18 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: "heart-puzzle",
-    slug: "heart-puzzle",
-    aliases: ["heart", "4"],
+    id: "mfu-203",
+    sku: "MFU-203",
+    code: "203",
+    slug: "mfu-203-heart-puzzle",
+    aliases: ["203", "mfu-203", "heart-puzzle", "heart", "4"],
     title: "بازل شكل القلب الفني الإهدائي — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
     dimensions: "المقاس 40 سم",
     badge: "هدية فريدة ❤️",
-    shortDesc: "هدية استثنائية لمن تحب بتصميم القلب الفني، خامات صلبة مقاس 40 سم مع إمكانية حفر إهداء خاص.",
-    description: "هدية مثالية مميزة للمناسبات والأحباب. تصميم فني متداخل يجمع بين الأناقة والمتانة، مصنوع من خشب صلب أو أكريليك بمقاس 40 سم يدوم لسنوات، مع إمكانية حفر عبارة إهداء خاصة.",
+    shortDesc: "هدية استثنائية لمن تحب بتصميم القلب الفني، خشب MDF صلب أو أكريليك مقاس 40 سم مع إمكانية حفر إهداء خاص.",
+    description: "هدية مثالية مميزة للمناسبات والأحباب. تصميم فني متداخل يجمع بين الأناقة والمتانة، مصنوع من خشب MDF الصلب أو الأكريليك بمقاس 40 سم يدوم لسنوات، مع إمكانية حفر عبارة إهداء خاصة بالليزر.",
     image: "images/Shapes/heart0005.png",
     gallery: [
       "images/Shapes/heart0005.png",
@@ -141,16 +150,18 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: "star-puzzle",
-    slug: "star-puzzle",
-    aliases: ["star", "5"],
+    id: "mfu-204",
+    sku: "MFU-204",
+    code: "204",
+    slug: "mfu-204-star-puzzle",
+    aliases: ["204", "mfu-204", "star-puzzle", "star", "5"],
     title: "بازل النجمة الهندسية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
     dimensions: "المقاس 40 سم",
     badge: "تصميم هندسي ⭐",
-    shortDesc: "نجمة هندسية متناظرة بتصميم راقٍ، مقطوعة بدقة ليزر متناهية مقاس 40 سم.",
-    description: "تحفة هندسية متناظرة راقية للديكور والإهداء. مقطوعة بدقة متناهية من خامات صلبة متينة مقاس 40 سم، تُصنع وتُجهّز خصيصاً لك من مشغل MadeForU.",
+    shortDesc: "نجمة هندسية متناظرة بتصميم راقٍ من خشب MDF الصلب أو الأكريليك، مقطوعة بدقة ليزر مقاس 40 سم.",
+    description: "تحفة هندسية متناظرة راقية للديكور والإهداء. مقطوعة بدقة متناهية من خشب MDF الصلب المتين أو الأكريليك العصري مقاس 40 سم، تُصنع وتُجهّز خصيصاً لك من مشغل MadeForU.",
     image: "images/Shapes/star0005.png",
     gallery: [
       "images/Shapes/star0005.png",
