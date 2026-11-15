@@ -37,13 +37,13 @@ const STORE_CONFIG = {
     {
       id: "acrylic",
       name: "أكريليك عصري صلب",
-      priceOffset: 3,
+      priceOffset: 4,
       badge: "أكريليك عصري 💎",
-      desc: "أكريليك صلب متين بمظهر زجاجي لامع وأنيق.",
+      desc: "أكريليك صلب متين بمظهر زجاجي أنيق.",
       colors: [
-        { id: "clear-glass", name: "شفاف كريستالي", hex: "linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #bae6fd 100%)", border: "#93c5fd" },
-        { id: "gloss-black", name: "أسود لامع", hex: "#0a0a0a" },
-        { id: "gloss-white", name: "أبيض ناصع", hex: "#ffffff", border: "#bbb" }
+        { id: "clear", name: "شفاف", hex: "linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #bae6fd 100%)", border: "#93c5fd" },
+        { id: "black", name: "أسود", hex: "#0a0a0a" },
+        { id: "white", name: "أبيض", hex: "#ffffff", border: "#bbb" }
       ]
     }
   ]
@@ -94,7 +94,7 @@ const PUZZLE_PRODUCTS = [
     aliases: ["201", "mfu-201", "jordan-map", "jordan", "2"],
     title: "بازل خريطة الأردن الملكية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
-    price: 7,
+    price: 8,
     dimensions: "المقاس 40 سم",
     badge: "الأكثر طلباً 🇯🇴",
     shortDesc: "قطعة فنية مميزة مقاس 40 سم من خشب MDF الصلب أو الأكريليك، تُصنع خصيصاً لك مع إمكانية حفر ليزر مخصص.",
@@ -115,7 +115,7 @@ const PUZZLE_PRODUCTS = [
     aliases: ["202", "mfu-202", "palestine-map", "palestine", "3"],
     title: "بازل خريطة فلسطين التاريخية — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
-    price: 7,
+    price: 8,
     dimensions: "المقاس 40 سم",
     badge: "مميز 🇵🇸",
     shortDesc: "قطعة تذكارية أصيلة تجسد خارطة فلسطين التاريخية من خشب MDF الصلب أو الأكريليك مقاس 40 سم.",
@@ -136,7 +136,7 @@ const PUZZLE_PRODUCTS = [
     aliases: ["203", "mfu-203", "heart-puzzle", "heart", "4"],
     title: "بازل شكل القلب الفني الإهدائي — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
-    price: 7,
+    price: 8,
     dimensions: "المقاس 40 سم",
     badge: "هدية فريدة ❤️",
     shortDesc: "هدية استثنائية لمن تحب بتصميم القلب الفني، خشب MDF صلب أو أكريليك مقاس 40 سم مع إمكانية حفر إهداء خاص.",
@@ -157,7 +157,7 @@ const PUZZLE_PRODUCTS = [
     aliases: ["204", "mfu-204", "star-puzzle", "star", "5"],
     title: "بازل النجمة الهندسية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
-    price: 7,
+    price: 8,
     dimensions: "المقاس 40 سم",
     badge: "تصميم هندسي ⭐",
     shortDesc: "نجمة هندسية متناظرة بتصميم راقٍ من خشب MDF الصلب أو الأكريليك، مقطوعة بدقة ليزر مقاس 40 سم.",

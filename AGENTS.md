@@ -39,7 +39,7 @@ Before adding any new product to `products.js` or creating landing pages:
 * **Puzzles & Geometric Wall Art:**
   * Strictly made from **Solid MDF Wood** (`خشب MDF صلب`) or **Modern Acrylic** (`أكريليك عصري صلب`).
   * **NEVER** list beech wood or natural wood for puzzles.
-  * Base price 7 JD (MDF) / 10 JD (Acrylic), with +3 JD optional laser custom engraving.
+  * Base price 8 JD (MDF) / 12 JD (Acrylic), with +3 JD optional laser custom engraving.
 
 ---
 
