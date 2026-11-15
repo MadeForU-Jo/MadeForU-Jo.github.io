@@ -53,7 +53,9 @@ const STORE_CONFIG = {
 // ==========================================
 const DESK_PRODUCTS = [
   {
-    id: 1,
+    id: "desk-plate",
+    slug: "desk-plate",
+    aliases: ["deskplate", "desk-name-plate", "plate", "1"],
     title: "لوحة اسم مكتبية فاخرة — خشب زان طبيعي صلب (حفر ليزر مخصص للوجهين)",
     category: "لوحات مكتبية فاخرة 💼",
     price: 20,
@@ -82,7 +84,9 @@ const DESK_PRODUCTS = [
 // ==========================================
 const PUZZLE_PRODUCTS = [
   {
-    id: 2,
+    id: "jordan-map",
+    slug: "jordan-map",
+    aliases: ["jordan", "jordan-puzzle", "2"],
     title: "بازل خريطة الأردن الملكية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
@@ -99,7 +103,9 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: 3,
+    id: "palestine-map",
+    slug: "palestine-map",
+    aliases: ["palestine", "palestine-puzzle", "3"],
     title: "بازل خريطة فلسطين التاريخية — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
@@ -116,7 +122,9 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: 4,
+    id: "heart-puzzle",
+    slug: "heart-puzzle",
+    aliases: ["heart", "4"],
     title: "بازل شكل القلب الفني الإهدائي — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,
@@ -133,7 +141,9 @@ const PUZZLE_PRODUCTS = [
     ]
   },
   {
-    id: 5,
+    id: "star-puzzle",
+    slug: "star-puzzle",
+    aliases: ["star", "5"],
     title: "بازل النجمة الهندسية الفاخرة — مقاس 40 سم",
     category: "أحاجي وبازل فنية 🧩",
     price: 7,

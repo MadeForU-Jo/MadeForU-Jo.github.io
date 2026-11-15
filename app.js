@@ -176,6 +176,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // البحث عن المنتج بالمعرف النصي الدائم (Slug) أو بالاسم أو الرقم للتوافق الكامل
+  function findProduct(key) {
+    if (!key) return null;
+    const str = String(key).trim().toLowerCase();
+    return PRODUCTS.find(p => 
+      (p.slug && p.slug.toLowerCase() === str) ||
+      (p.id && String(p.id).toLowerCase() === str) ||
+      (Array.isArray(p.aliases) && p.aliases.some(a => String(a).toLowerCase() === str))
+    ) || null;
+  }
+
   // عرض المنتجات
   function renderProducts() {
     const q = searchQuery.toLowerCase().trim();
@@ -200,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     productsGrid.innerHTML = filtered.map(item => `
-      <div class="product-card" data-id="${item.id}">
+      <div class="product-card" data-slug="${item.slug}">
         <div class="product-img-wrap">
           ${item.badge ? `<span class="card-badge">${item.badge}</span>` : ""}
           <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/MadeForU Logo Trans.png'">
@@ -218,10 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
               ${item.isDeskPlate ? `<span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر الوجهين متاح ✨</span>` : ''}
             </div>
             <div class="card-action-btns">
-              <button class="card-direct-btn card-direct-quick" data-id="${item.id}" type="button">
+              <button class="card-direct-btn card-direct-quick" data-slug="${item.slug}" type="button">
                 ⚡ اطلب الآن
               </button>
-              <button class="add-btn add-to-cart-quick" data-id="${item.id}" type="button">
+              <button class="add-btn add-to-cart-quick" data-slug="${item.slug}" type="button">
                 ${item.isDeskPlate ? 'تخصيص' : 'خيارات'}
               </button>
             </div>
@@ -233,8 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
     productsGrid.querySelectorAll(".card-direct-quick").forEach(btn => {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        const id = parseInt(btn.getAttribute("data-id"));
-        openProductModalView(id);
+        const slug = btn.getAttribute("data-slug");
+        openProductModalView(slug);
         setTimeout(() => {
           if (deskPlateNameInput && deskPlateCustomizationBlock && deskPlateCustomizationBlock.style.display !== "none") {
             deskPlateNameInput.focus();
@@ -245,8 +256,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productsGrid.querySelectorAll(".product-card").forEach(card => {
       card.addEventListener("click", () => {
-        const id = parseInt(card.getAttribute("data-id"));
-        openProductModalView(id);
+        const slug = card.getAttribute("data-slug");
+        openProductModalView(slug);
       });
     });
   }
@@ -305,9 +316,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // فتح نافذة تفاصيل المنتج
-  function openProductModalView(id) {
-    const item = PRODUCTS.find(p => p.id === id);
+  // فتح نافذة تفاصيل المنتج بواسطة المعرف النصي الدائم
+  function openProductModalView(key) {
+    const item = findProduct(key);
     if (!item) return;
 
     selectedProduct = item;
@@ -377,7 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productModal.classList.add("active");
 
     if (window.history && window.history.replaceState) {
-      const slug = item.isDeskPlate ? 'deskplate' : item.id;
+      const slug = item.slug || (item.isDeskPlate ? 'desk-plate' : item.id);
       window.history.replaceState(null, '', `?product=${slug}`);
     }
   }
@@ -444,11 +455,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const boxFee = hasBox ? (product.boxFee || 3.0) : 0;
       const finalPrice = product.price + boxFee;
 
-      const cartItemId = `desk_${product.id}_${encodeURIComponent(engravedName)}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
+      const prodSlug = product.slug || product.id;
+      const cartItemId = `desk_${prodSlug}_${encodeURIComponent(engravedName)}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
 
       cart.push({
         cartItemId,
-        productId: product.id,
+        productId: prodSlug,
+        productSlug: prodSlug,
         isDeskPlate: true,
         title: product.title,
         materialName: "خشب زان طبيعي صلب (40×10 سم)",
@@ -469,7 +482,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
       const basePrice = getProductCalculatedPrice(product, currentMaterial);
       const finalPrice = basePrice + engravingFee;
-      const cartItemId = `puz_${product.id}_${currentMaterial.id}_${currentColor.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
+      const prodSlug = product.slug || product.id;
+      const cartItemId = `puz_${prodSlug}_${currentMaterial.id}_${currentColor.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
 
       const existing = cart.find(c => c.cartItemId === cartItemId);
       if (existing) {
@@ -477,7 +491,8 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         cart.push({
           cartItemId,
-          productId: product.id,
+          productId: prodSlug,
+          productSlug: prodSlug,
           isDeskPlate: false,
           title: product.title,
           materialName: currentMaterial.name,
@@ -756,34 +771,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads)
+  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads using permanent slugs)
   function checkUrlProductLink() {
     try {
       const params = new URLSearchParams(window.location.search);
-      const prodParam = (params.get("product") || params.get("p") || params.get("id") || "").trim().toLowerCase();
+      const prodParam = (params.get("product") || params.get("p") || params.get("item") || params.get("id") || "").trim().toLowerCase();
       const hash = window.location.hash ? window.location.hash.replace("#", "").trim().toLowerCase() : "";
 
-      let targetId = null;
-      if (prodParam) {
-        if (prodParam === "deskplate" || prodParam === "plate" || prodParam === "1" || prodParam.includes("desk")) {
-          targetId = 1;
-        } else {
-          const parsed = parseInt(prodParam);
-          if (!isNaN(parsed)) targetId = parsed;
+      const queryKey = prodParam || hash;
+      if (queryKey) {
+        const match = findProduct(queryKey);
+        if (match) {
+          setTimeout(() => {
+            openProductModalView(match.slug);
+          }, 120);
         }
-      } else if (hash) {
-        if (hash === "deskplate" || hash === "desk-plate" || hash === "plate" || hash === "1") {
-          targetId = 1;
-        } else {
-          const parsed = parseInt(hash);
-          if (!isNaN(parsed)) targetId = parsed;
-        }
-      }
-
-      if (targetId) {
-        setTimeout(() => {
-          openProductModalView(targetId);
-        }, 120);
       }
     } catch (err) {
       console.warn("Could not parse direct product link", err);
