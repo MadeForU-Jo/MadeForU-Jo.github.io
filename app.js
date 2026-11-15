@@ -1,7 +1,7 @@
 // ==========================================
 // MADEFORU JO - وظائف المتجر وسلة الشراء
 // دعم لوحات المكاتب من خشب الزان الطبيعي الصلب + البازل الفنية
-// حفر ليزر CO2 مخصص للوجهين (الاسم، الوظيفة، الشعار، وإهداء الوجه الخلفي) + خيار صندوق الإهداء (3 د.أ)
+// حفر ليزر مخصص للوجهين (الاسم، الوظيفة، الشعار، وإهداء الوجه الخلفي) + خيار صندوق الإهداء (3 د.أ)
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -135,8 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const grandTotal = subtotal + fee;
 
-    // حساب العربون المطلوب: 50% على الأقل لأي عمل مخصص
-    const upfrontDeposit = Math.round((subtotal * 0.5) * 100) / 100;
+    // حساب العربون المطلوب: 10 دنانير على الأقل لأي عمل مخصص
+    const customItemsCount = cart.filter(i => i.isDeskPlate || i.hasEngraving).reduce((sum, i) => sum + i.qty, 0);
+    const minDeposit = customItemsCount > 0 ? Math.max(10.0, 10.0 * customItemsCount) : 0;
+    const upfrontDeposit = Math.min(subtotal, minDeposit);
     const remainingCod = (subtotal - upfrontDeposit) + fee;
 
     if (checkoutSubtotal) checkoutSubtotal.textContent = `${subtotal.toFixed(2)} ${CURRENCY}`;
@@ -590,8 +592,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const grandTotal = subtotal + deliveryFee;
 
-    // حساب العربون (50% على الأقل)
-    const upfrontDeposit = Math.round((subtotal * 0.5) * 100) / 100;
+    // حساب العربون (10 دنانير على الأقل للعمل المخصص)
+    const customItemsCount = cart.filter(i => i.isDeskPlate || i.hasEngraving).reduce((sum, i) => sum + i.qty, 0);
+    const minDeposit = customItemsCount > 0 ? Math.max(10.0, 10.0 * customItemsCount) : 0;
+    const upfrontDeposit = Math.min(subtotal, minDeposit);
     const remainingCod = (subtotal - upfrontDeposit) + deliveryFee;
 
     // حفظ نسخة محلية احتياطية
@@ -604,7 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
       grandTotal,
       upfrontDeposit,
       remainingCod,
-      paymentMethod: "عربون 50% عبر CliQ + متبقي كاش عند الاستلام",
+      paymentMethod: "عربون (10 د.أ على الأقل) عبر CliQ + متبقي كاش عند الاستلام",
       date: new Date().toISOString()
     };
 
@@ -648,7 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `💰 *المجموع الكلي للطلب: ${grandTotal.toFixed(2)} ${CURRENCY}*\n\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
       `⚠️ *سياسة دفع العمل المخصص:*\n` +
-      `💳 *عربون التفصيل المطلوب تحويله مسبقاً (50% عبر CliQ / المحفظة):* ${upfrontDeposit.toFixed(2)} ${CURRENCY}\n` +
+      `💳 *عربون التفصيل المطلوب تحويله مسبقاً (10 دنانير على الأقل عبر CliQ / المحفظة):* ${upfrontDeposit.toFixed(2)} ${CURRENCY}\n` +
       `   • (سيتم تزويدك برقم الـ CliQ فوراً لبدء تفصيل اللوحة بالاسم والشعار)\n` +
       `💵 *المتبقي كاش عند الاستلام:* ${remainingCod.toFixed(2)} ${CURRENCY}\n` +
       `━━━━━━━━━━━━━━━━━━━━`;
