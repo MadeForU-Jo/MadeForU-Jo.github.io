@@ -6,7 +6,7 @@
   <title>لوحة متابعة الطلبات | MadeForU</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=21">
+  <link rel="stylesheet" href="styles.css?v=23">
   <style>
     .admin-container {
       max-width: 1000px;
@@ -120,12 +120,29 @@
               <div>
                 <h4 style="margin-bottom:0.4rem; color:var(--brand-primary);">المنتجات المطلوبة:</h4>
                 <ul style="padding-right: 1.2rem; color: #444; margin-bottom: 0.75rem;">
-                  ${o.items.map(i => `<li><strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} | لون: ${i.colorName}</small>` : ''}${i.hasEngraving ? `<br><small style="color:#8F415C; font-weight:bold;">✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"</small>` : ''}</li>`).join("")}
+                  ${o.items.map(i => `
+                    <li style="margin-bottom: 0.5rem;">
+                      <strong>${i.title}</strong> &times; ${i.qty} (${(i.price * i.qty).toFixed(2)} د.أ)
+                      ${i.isDeskPlate ? `
+                        <div style="font-size:0.82rem; color:#6B2940; background:#FAF4EE; padding:5px 8px; border-radius:6px; margin-top:3px; line-height:1.4;">
+                          <div><strong>الاسم:</strong> ${i.engravedName}</div>
+                          ${i.engravedTitle ? `<div><strong>الوظيفة:</strong> ${i.engravedTitle}</div>` : ''}
+                          ${i.engravedLogo ? `<div><strong>الشعار:</strong> ${i.engravedLogo}</div>` : ''}
+                          ${i.backMessage ? `<div><strong>إهداء الوجه الخلفي:</strong> "${i.backMessage}"</div>` : ''}
+                          <div><strong>صندوق هدايا فاخر:</strong> ${i.hasBox ? 'نعم (مشمول +3 د.أ)' : 'بدون صندوق'}</div>
+                        </div>
+                      ` : `
+                        ${i.materialName ? `<br><small style="color:#666;">• ${i.materialName} ${i.colorName ? `| لون: ${i.colorName}` : ''}</small>` : ''}
+                        ${i.hasEngraving ? `<br><small style="color:#8F415C; font-weight:bold;">✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"</small>` : ''}
+                      `}
+                    </li>
+                  `).join("")}
                 </ul>
                 <div style="border-top:1px dashed #eee; padding-top:0.5rem; font-size:0.9rem; color:#555;">
                   <div>سعر المنتجات: ${(o.subtotal || 0).toFixed(2)} د.أ</div>
-                  ${o.totalEngraving ? `<div>رسوم الحفر المخصص: ${o.totalEngraving.toFixed(2)} د.أ</div>` : ''}
                   <div>أجرة التوصيل: ${(o.deliveryFee || 1).toFixed(2)} د.أ</div>
+                  ${o.upfrontDeposit ? `<div style="color:#92400E; font-weight:bold; margin-top:0.25rem;">💳 عربون مسبق (50% CliQ): ${o.upfrontDeposit.toFixed(2)} د.أ</div>` : ''}
+                  ${o.remainingCod ? `<div style="color:var(--forest-green); font-weight:bold;">💵 المتبقي كاش عند الاستلام: ${o.remainingCod.toFixed(2)} د.أ</div>` : ''}
                 </div>
                 <div style="margin-top:0.5rem; font-size:1.2rem; font-weight:800; color:var(--wood-dark);">
                   المبلغ المطلوب تحصيله: ${(o.grandTotal || o.total).toFixed(2)} د.أ

@@ -1,7 +1,7 @@
 // ==========================================
 // MADEFORU JO - وظائف المتجر وسلة الشراء
-// مشغل نجارة حرفية وهدايا مخصصة (أسلحة خشبية، ريزن، هدايا مواليد، أنتيكات، بازل)
-// حفر ليزر CO2 مخصص للأسماء، الرتب، التواريخ، والشعارات
+// دعم لوحات المكاتب من خشب الزان الطبيعي الصلب + البازل الفنية
+// حفر ليزر CO2 مخصص للوجهين (الاسم، الوظيفة، الشعار، وإهداء الوجه الخلفي) + خيار صندوق الإهداء (3 د.أ)
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,15 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedProduct = null;
 
   // الخيارات النشطة في نافذة المنتج
-  let currentMaterial = STORE_CONFIG.materials[0]; // افتراضي: خشب طبيعي / صلب
-  let currentColor = currentMaterial.colors[0];   // افتراضي: أول لون
+  let currentMaterial = STORE_CONFIG.materials[0]; // افتراضي: خشب زان طبيعي صلب
+  let currentColor = currentMaterial.colors[0];
 
   const CURRENCY = STORE_CONFIG.currency || "د.أ";
 
-  // حساب سعر المنتج بحسب الخامة المختارة
+  // حساب سعر المنتج بحسب الخيارات
   function getProductCalculatedPrice(product, material) {
-    if (!product) return 7.0;
-    const base = product.price || 7.0;
+    if (!product) return 12.0;
+    const base = product.price || 12.0;
     const offset = material && material.priceOffset ? material.priceOffset : 0;
     return base + offset;
   }
@@ -61,11 +61,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDesc = document.getElementById("modalDesc");
   const modalPrice = document.getElementById("modalPrice");
   const modalAddToCartBtn = document.getElementById("modalAddToCartBtn");
+
+  // عناصر خيارات لوحة الاسم المكتبية
+  const deskPlateCustomizationBlock = document.getElementById("deskPlateCustomizationBlock");
+  const deskPlateNameInput = document.getElementById("deskPlateName");
+  const deskPlateTitleInput = document.getElementById("deskPlateTitle");
+  const deskPlateLogoInput = document.getElementById("deskPlateLogo");
+  const deskPlateBackMsgInput = document.getElementById("deskPlateBackMsg");
+  const deskPlateBoxToggle = document.getElementById("deskPlateBoxToggle");
+
+  // عناصر خيارات البازل
+  const puzzleOptionsBlock = document.getElementById("puzzleOptionsBlock");
   const modalMaterialOptions = document.getElementById("modalMaterialOptions");
   const modalColorOptions = document.getElementById("modalColorOptions");
   const selectedColorLabel = document.getElementById("selectedColorLabel");
-
-  // عناصر الحفر المخصص
   const modalEngravingToggle = document.getElementById("modalEngravingToggle");
   const engravingInputWrap = document.getElementById("engravingInputWrap");
   const modalEngravingText = document.getElementById("modalEngravingText");
@@ -80,21 +89,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkoutDeliveryLabel = document.getElementById("checkoutDeliveryLabel");
   const checkoutDeliveryFee = document.getElementById("checkoutDeliveryFee");
   const checkoutOrderTotal = document.getElementById("checkoutOrderTotal");
+  const checkoutAddonsRow = document.getElementById("checkoutAddonsRow");
+  const checkoutAddonsTotal = document.getElementById("checkoutAddonsTotal");
+  const checkoutUpfrontAmount = document.getElementById("checkoutUpfrontAmount");
+  const checkoutCodAmount = document.getElementById("checkoutCodAmount");
   const checkoutFormContainer = document.getElementById("checkoutFormContainer");
   const orderSuccessView = document.getElementById("orderSuccessView");
   const successOrderNumber = document.getElementById("successOrderNumber");
   const doneBtn = document.getElementById("doneBtn");
   const toast = document.getElementById("toast");
 
-  // عناصر الدفع والتنبيه للحفر المخصص
-  const checkoutCliqNoticeContainer = document.getElementById("checkoutCliqNoticeContainer");
-  const checkoutEngravingRow = document.getElementById("checkoutEngravingRow");
-  const checkoutEngravingTotal = document.getElementById("checkoutEngravingTotal");
-  const checkoutPaymentSplitRow = document.getElementById("checkoutPaymentSplitRow");
-  const checkoutUpfrontAmount = document.getElementById("checkoutUpfrontAmount");
-  const checkoutCodAmount = document.getElementById("checkoutCodAmount");
+  // تفاعل صندوق الإهداء للوحة المكتبية (+3 د.أ)
+  if (deskPlateBoxToggle) {
+    deskPlateBoxToggle.addEventListener("change", () => {
+      if (!selectedProduct) return;
+      const hasBox = deskPlateBoxToggle.checked;
+      const boxPrice = hasBox ? (selectedProduct.boxFee || 3.0) : 0;
+      modalPrice.textContent = `${(selectedProduct.price + boxPrice).toFixed(2)} ${CURRENCY}`;
+    });
+  }
 
-  // تفاعل خيار الحفر المخصص في المودال
+  // تفاعل حفر الليزر للبازل
   if (modalEngravingToggle) {
     modalEngravingToggle.addEventListener("change", () => {
       const isEngraved = modalEngravingToggle.checked;
@@ -107,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // حساب أجرة التوصيل ديناميكياً (عمان 1 د.أ / خارج عمان 2 د.أ)
+  // حساب أجرة التوصيل
   function getSelectedDeliveryFee() {
     if (!custCitySelect) return STORE_CONFIG.deliveryAmman || 1.0;
     const opt = custCitySelect.options[custCitySelect.selectedIndex];
@@ -117,36 +132,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateCheckoutTotals() {
     const fee = getSelectedDeliveryFee();
-    const totalOrder = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const grandTotal = totalOrder + fee;
+    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const grandTotal = subtotal + fee;
 
-    const totalEngraving = cart.reduce((acc, item) => acc + (item.hasEngraving ? item.engravingFee * item.qty : 0), 0);
-    const baseProductsTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
+    // حساب العربون المطلوب: 50% على الأقل لأي عمل مخصص
+    const upfrontDeposit = Math.round((subtotal * 0.5) * 100) / 100;
+    const remainingCod = (subtotal - upfrontDeposit) + fee;
 
-    if (checkoutSubtotal) checkoutSubtotal.textContent = `${baseProductsTotal.toFixed(2)} ${CURRENCY}`;
+    if (checkoutSubtotal) checkoutSubtotal.textContent = `${subtotal.toFixed(2)} ${CURRENCY}`;
     if (checkoutDeliveryFee) checkoutDeliveryFee.textContent = `${fee.toFixed(2)} ${CURRENCY}`;
     if (checkoutDeliveryLabel) {
       checkoutDeliveryLabel.textContent = fee === 1.0 ? "أجرة التوصيل (داخل عمان):" : "أجرة التوصيل (خارج عمان):";
     }
     if (checkoutOrderTotal) checkoutOrderTotal.textContent = `${grandTotal.toFixed(2)} ${CURRENCY}`;
 
-    // إظهار تنبيه CliQ وتقسيم الدفع في حال وجود حفر مخصص
-    if (totalEngraving > 0) {
-      if (checkoutCliqNoticeContainer) checkoutCliqNoticeContainer.style.display = "block";
-      if (checkoutEngravingRow) {
-        checkoutEngravingRow.style.display = "flex";
-        if (checkoutEngravingTotal) checkoutEngravingTotal.textContent = `${totalEngraving.toFixed(2)} ${CURRENCY}`;
-      }
-      if (checkoutPaymentSplitRow) {
-        checkoutPaymentSplitRow.style.display = "block";
-        if (checkoutUpfrontAmount) checkoutUpfrontAmount.textContent = `${totalEngraving.toFixed(2)} ${CURRENCY}`;
-        if (checkoutCodAmount) checkoutCodAmount.textContent = `${(baseProductsTotal + fee).toFixed(2)} ${CURRENCY}`;
-      }
-    } else {
-      if (checkoutCliqNoticeContainer) checkoutCliqNoticeContainer.style.display = "none";
-      if (checkoutEngravingRow) checkoutEngravingRow.style.display = "none";
-      if (checkoutPaymentSplitRow) checkoutPaymentSplitRow.style.display = "none";
-    }
+    if (checkoutUpfrontAmount) checkoutUpfrontAmount.textContent = `${upfrontDeposit.toFixed(2)} ${CURRENCY}`;
+    if (checkoutCodAmount) checkoutCodAmount.textContent = `${remainingCod.toFixed(2)} ${CURRENCY}`;
   }
 
   if (custCitySelect) {
@@ -172,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // عرض وفلترة المنتجات
+  // عرض المنتجات
   function renderProducts() {
     const q = searchQuery.toLowerCase().trim();
     const filtered = PRODUCTS.filter(item => {
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       productsGrid.innerHTML = `
         <div class="empty-state">
           <h3>لا توجد نتائج مطابقة لبحثك</h3>
-          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع منتجات المشغل.</p>
+          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع المنتجات.</p>
         </div>
       `;
       return;
@@ -205,16 +206,16 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="product-category">${item.category}</div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
-            <span>📏 ${item.dimensions || "يدوي الصنع"}</span> • <span>✨ حفر ليزر CO2 مخصص</span>
+            <span>📏 ${item.dimensions || "يدوي الصنع"}</span> • <span>✨ حفر ليزر مخصص</span>
           </div>
           <p class="product-desc">${item.shortDesc}</p>
           <div class="product-footer">
             <div>
               <span class="product-price">${item.price.toFixed(2)} ${CURRENCY}</span>
-              <span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر ليزر مخصص للإهداء</span>
+              ${item.isDeskPlate ? `<span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر الوجهين متاح ✨</span>` : ''}
             </div>
             <button class="add-btn add-to-cart-quick" data-id="${item.id}">
-              خيارات المنتج والحفر
+              ${item.isDeskPlate ? 'تخصيص اللوحة والحفر' : 'خيارات البازل والحفر'}
             </button>
           </div>
         </div>
@@ -229,8 +230,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // توليد خيارات الخامة والألوان داخل المودال
-  function renderOptionsUI() {
+  // خيارات البازل
+  function renderPuzzleOptionsUI() {
     if (!modalMaterialOptions || !modalColorOptions || !selectedProduct) return;
 
     modalMaterialOptions.innerHTML = STORE_CONFIG.materials.map(mat => {
@@ -258,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalPrice.textContent = `${(basePrice + extraFee).toFixed(2)} ${CURRENCY}`;
         modalWood.textContent = currentMaterial.name;
 
-        renderOptionsUI();
+        renderPuzzleOptionsUI();
       });
     });
 
@@ -289,36 +290,55 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!item) return;
 
     selectedProduct = item;
-    currentMaterial = STORE_CONFIG.materials[0]; // خشب طبيعي
-    currentColor = currentMaterial.colors[0];
-
-    // تصفير خيار الحفر
-    if (modalEngravingToggle) {
-      modalEngravingToggle.checked = false;
-      if (engravingInputWrap) engravingInputWrap.style.display = "none";
-      if (engravingBox) engravingBox.classList.remove("active");
-      if (modalEngravingText) modalEngravingText.value = "";
-    }
-
     modalImg.src = item.image;
     modalImg.alt = item.title;
     modalBadge.textContent = item.badge || item.category;
     modalTitle.textContent = item.title;
-    modalWood.textContent = currentMaterial.name;
-    modalDimensions.textContent = item.dimensions || "مشغول يدوياً";
+    modalDimensions.textContent = item.dimensions || "40 × 10 سم تقريباً";
     modalDesc.textContent = item.description;
 
-    const basePrice = getProductCalculatedPrice(item, currentMaterial);
-    modalPrice.textContent = `${basePrice.toFixed(2)} ${CURRENCY}`;
+    if (item.isDeskPlate) {
+      // إظهار قسم اللوحة المكتبية وإخفاء البازل
+      if (deskPlateCustomizationBlock) deskPlateCustomizationBlock.style.display = "block";
+      if (puzzleOptionsBlock) puzzleOptionsBlock.style.display = "none";
+      if (modalWood) modalWood.textContent = "خشب زان طبيعي صلب (سماكة عالية)";
 
-    renderOptionsUI();
+      // تصفير حقول اللوحة المكتبية
+      if (deskPlateNameInput) deskPlateNameInput.value = "";
+      if (deskPlateTitleInput) deskPlateTitleInput.value = "";
+      if (deskPlateLogoInput) deskPlateLogoInput.value = "";
+      if (deskPlateBackMsgInput) deskPlateBackMsgInput.value = "";
+      if (deskPlateBoxToggle) deskPlateBoxToggle.checked = false;
 
+      modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
+    } else {
+      // إظهار قسم البازل وإخفاء اللوحة المكتبية
+      if (deskPlateCustomizationBlock) deskPlateCustomizationBlock.style.display = "none";
+      if (puzzleOptionsBlock) puzzleOptionsBlock.style.display = "block";
+
+      currentMaterial = STORE_CONFIG.materials[0];
+      currentColor = currentMaterial.colors[0];
+      if (modalWood) modalWood.textContent = currentMaterial.name;
+
+      // تصفير خيار الحفر
+      if (modalEngravingToggle) {
+        modalEngravingToggle.checked = false;
+        if (engravingInputWrap) engravingInputWrap.style.display = "none";
+        if (engravingBox) engravingBox.classList.remove("active");
+        if (modalEngravingText) modalEngravingText.value = "";
+      }
+
+      modalPrice.textContent = `${getProductCalculatedPrice(item, currentMaterial).toFixed(2)} ${CURRENCY}`;
+      renderPuzzleOptionsUI();
+    }
+
+    // معرض الصور والمخطط التوضيحي
     const thumbsContainer = document.getElementById("modalGalleryThumbnails");
     if (thumbsContainer) {
       if (item.gallery && item.gallery.length > 1) {
         thumbsContainer.style.display = "flex";
         thumbsContainer.innerHTML = item.gallery.map((gImg, idx) => `
-          <img src="${gImg}" alt="زاوية ${idx + 1}" style="width: 58px; height: 58px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid ${idx === 0 ? 'var(--brand-primary)' : 'var(--border-subtle)'};" class="modal-thumb-btn">
+          <img src="${gImg}" alt="صورة ${idx + 1}" style="width: 62px; height: 62px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid ${idx === 0 ? 'var(--brand-primary)' : 'var(--border-subtle)'};" class="modal-thumb-btn">
         `).join("");
         thumbsContainer.querySelectorAll(".modal-thumb-btn").forEach(thumb => {
           thumb.addEventListener("click", () => {
@@ -346,38 +366,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
   modalAddToCartBtn.addEventListener("click", () => {
     if (selectedProduct) {
-      addToCartWithOptions(selectedProduct, currentMaterial, currentColor);
+      addToCartWithOptions(selectedProduct);
       productModal.classList.remove("active");
     }
   });
 
-  // إضافة عنصر إلى السلة مع خيارات الخامة، اللون، والحفر المخصص
-  function addToCartWithOptions(product, material, color) {
-    const hasEngraving = modalEngravingToggle ? modalEngravingToggle.checked : false;
-    const engravingText = hasEngraving ? (modalEngravingText.value.trim() || "حفر اسم / رتبة / شعار مخصص عبر الواتساب") : "";
-    const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
-    const basePrice = getProductCalculatedPrice(product, material);
-    const finalPrice = basePrice + engravingFee;
-    const cartItemId = `${product.id}_${material.id}_${color.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
+  // إضافة عنصر إلى السلة
+  function addToCartWithOptions(product) {
+    if (product.isDeskPlate) {
+      const engravedName = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
+      const engravedTitle = deskPlateTitleInput ? deskPlateTitleInput.value.trim() : "";
+      const engravedLogo = deskPlateLogoInput ? deskPlateLogoInput.value.trim() : "";
+      const backMessage = deskPlateBackMsgInput ? deskPlateBackMsgInput.value.trim() : "";
+      const hasBox = deskPlateBoxToggle ? deskPlateBoxToggle.checked : false;
+      const boxFee = hasBox ? (product.boxFee || 3.0) : 0;
+      const finalPrice = product.price + boxFee;
 
-    const existing = cart.find(c => c.cartItemId === cartItemId);
-    if (existing) {
-      existing.qty += 1;
-    } else {
+      const cartItemId = `desk_${product.id}_${encodeURIComponent(engravedName)}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
+
       cart.push({
         cartItemId,
         productId: product.id,
+        isDeskPlate: true,
         title: product.title,
-        materialName: material.name,
-        colorName: color.name,
-        hasEngraving,
-        engravingText,
-        engravingFee,
-        basePrice,
+        materialName: "خشب زان طبيعي صلب (40×10 سم)",
+        engravedName: engravedName || "حسب التنسيق بالواتساب",
+        engravedTitle,
+        engravedLogo,
+        backMessage,
+        hasBox,
+        boxFee,
         price: finalPrice,
         image: product.image,
         qty: 1
       });
+    } else {
+      // منتج بازل
+      const hasEngraving = modalEngravingToggle ? modalEngravingToggle.checked : false;
+      const engravingText = hasEngraving ? (modalEngravingText.value.trim() || "حفر اسم / إهداء مخصص") : "";
+      const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
+      const basePrice = getProductCalculatedPrice(product, currentMaterial);
+      const finalPrice = basePrice + engravingFee;
+      const cartItemId = `puz_${product.id}_${currentMaterial.id}_${currentColor.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
+
+      const existing = cart.find(c => c.cartItemId === cartItemId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          cartItemId,
+          productId: product.id,
+          isDeskPlate: false,
+          title: product.title,
+          materialName: currentMaterial.name,
+          colorName: currentColor.name,
+          hasEngraving,
+          engravingText,
+          engravingFee,
+          price: finalPrice,
+          image: product.image,
+          qty: 1
+        });
+      }
     }
 
     saveCart();
@@ -415,9 +465,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cart.length === 0) {
       cartItemsList.innerHTML = `
         <div style="text-align: center; padding: 3rem 1rem; color: #888;">
-          <p style="font-size: 3rem; margin-bottom: 0.5rem;">🎁</p>
+          <p style="font-size: 3rem; margin-bottom: 0.5rem;">💼</p>
           <p style="font-weight: 700; color: #444; font-size: 1.1rem;">السلة فارغة حالياً</p>
-          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر من منتجات مشغل MadeForU الحرفية مع إمكانية حفر اسم أو إهداء بالليزر!</p>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر لوحة اسم مكتبية خشب زان أو بازل فنية لبدء طلبك وتخصيص الحفر!</p>
         </div>
       `;
       cartSubtotal.textContent = `0.00 ${CURRENCY}`;
@@ -437,20 +487,38 @@ document.addEventListener("DOMContentLoaded", () => {
     cartItemsList.innerHTML = cart.map(item => {
       const lineTotal = item.price * item.qty;
       subtotal += lineTotal;
+
+      let customDetailsHtml = '';
+      if (item.isDeskPlate) {
+        customDetailsHtml = `
+          <div style="font-size:0.75rem; color:#6B2940; margin-top:3px; background:#FDF4E9; padding:4px 8px; border-radius:6px; line-height:1.4;">
+            <div><strong>👤 الاسم:</strong> ${item.engravedName}</div>
+            ${item.engravedTitle ? `<div><strong>💼 الوظيفة:</strong> ${item.engravedTitle}</div>` : ''}
+            ${item.engravedLogo ? `<div><strong>⚖️ الشعار:</strong> ${item.engravedLogo}</div>` : ''}
+            ${item.backMessage ? `<div><strong>💌 خلفية:</strong> "${item.backMessage}"</div>` : ''}
+            ${item.hasBox ? `<div style="color:#8F415C; font-weight:700;">🎁 مشمول صندوق هدايا فاخر (+3 د.أ)</div>` : '<div style="color:#888;">بدون صندوق هدايا</div>'}
+          </div>
+        `;
+      } else {
+        customDetailsHtml = `
+          <div class="cart-item-variant">
+            <span>${item.materialName}</span> ${item.colorName ? `• <strong>${item.colorName}</strong>` : ''}
+          </div>
+          ${item.hasEngraving ? `
+            <div style="font-size:0.75rem; color:#8F415C; font-weight:700; margin-top:3px; background:#FDF1F4; padding:2px 6px; border-radius:4px; display:inline-block;">
+              ✨ حفر ليزر (+${(item.engravingFee || 3).toFixed(0)} د.أ): "${item.engravingText}"
+            </div>
+          ` : ''}
+        `;
+      }
+
       return `
         <div class="cart-item">
           <img src="${item.image}" alt="${item.title}" onerror="this.src='images/MadeForU Logo Trans.png'">
           <div class="cart-item-info">
             <div class="cart-item-title">${item.title}</div>
-            <div class="cart-item-variant">
-              <span>${item.materialName}</span> • <strong>${item.colorName}</strong>
-            </div>
-            ${item.hasEngraving ? `
-              <div style="font-size:0.75rem; color:#8F415C; font-weight:700; margin-top:3px; background:#FDF1F4; padding:2px 6px; border-radius:4px; display:inline-block;">
-                ✨ حفر ليزر مخصص (+${(item.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${item.engravingText}"
-              </div>
-            ` : ''}
-            <div class="cart-item-price" style="margin-top:0.25rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
+            ${customDetailsHtml}
+            <div class="cart-item-price" style="margin-top:0.35rem;">${item.price.toFixed(2)} ${CURRENCY}</div>
             <div class="cart-qty-ctrl">
               <button class="qty-btn" onclick="window.madeforuUpdateQty('${item.cartItemId}', -1)">-</button>
               <span class="qty-num">${item.qty}</span>
@@ -514,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deliveryFee = getSelectedDeliveryFee();
 
     if (!name || !phone || !address) {
-      alert("يرجى ملء الاسم ورقم الهاتف وعنوان التوصيل أولاً لتجهيز رسالة طلبك بدقة!");
+      alert("يرجى ملء الاسم ورقم الهاتف وعنوان التوصيل أولاً لتجهيز تفاصيل طلبك بدقة!");
       return;
     }
 
@@ -522,9 +590,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const grandTotal = subtotal + deliveryFee;
 
-    const totalEngraving = cart.reduce((acc, item) => acc + (item.hasEngraving ? item.engravingFee * item.qty : 0), 0);
-    const baseProductsTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * item.qty), 0);
-    const remainingCod = baseProductsTotal + deliveryFee;
+    // حساب العربون (50% على الأقل)
+    const upfrontDeposit = Math.round((subtotal * 0.5) * 100) / 100;
+    const remainingCod = (subtotal - upfrontDeposit) + deliveryFee;
 
     // حفظ نسخة محلية احتياطية
     const orderData = {
@@ -532,10 +600,11 @@ document.addEventListener("DOMContentLoaded", () => {
       customer: { name, phone, city, address, notes },
       items: [...cart],
       subtotal,
-      totalEngraving,
       deliveryFee,
       grandTotal,
-      paymentMethod: totalEngraving > 0 ? "عربون حفر مسبق + متبقي كاش عند الاستلام" : "دفع عند الاستلام (كاش)",
+      upfrontDeposit,
+      remainingCod,
+      paymentMethod: "عربون 50% عبر CliQ + متبقي كاش عند الاستلام",
       date: new Date().toISOString()
     };
 
@@ -548,41 +617,41 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("madeforu_orders", JSON.stringify(existingOrders));
     localStorage.setItem("puzzleme_orders", JSON.stringify(existingOrders));
 
-    // صياغة رسالة الواتساب العربية مع تفاصيل الحفر
+    // صياغة رسالة الواتساب بدقة واحترافية
     let itemsText = cart.map(i => {
       let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
-                 `  └ الخامة: ${i.materialName} | اللون: ${i.colorName}`;
-      if (i.hasEngraving) {
-        line += `\n  └ ✨ حفر ليزر CO2 مخصص (+${(i.engravingFee || (typeof STORE_CONFIG !== 'undefined' ? STORE_CONFIG.engravingFee : 3)).toFixed(0)} د.أ): "${i.engravingText}"`;
+                 `  └ الخامة: ${i.materialName}`;
+      if (i.isDeskPlate) {
+        line += `\n  └ 👤 الاسم المطلوب: ${i.engravedName}`;
+        if (i.engravedTitle) line += `\n  └ 💼 الوظيفة/المنصب: ${i.engravedTitle}`;
+        if (i.engravedLogo) line += `\n  └ ⚖️ الشعار/الرمز: ${i.engravedLogo}`;
+        if (i.backMessage) line += `\n  └ 💌 إهداء الوجه الخلفي: "${i.backMessage}"`;
+        line += `\n  └ 🎁 صندوق هدايا فاخر (+3 د.أ): ${i.hasBox ? 'نعم (مشمول)' : 'لا (بدون صندوق)'}`;
+      } else if (i.hasEngraving) {
+        line += `\n  └ ✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"`;
       }
       return line;
     }).join("\n\n");
 
     const deliveryNote = deliveryFee === 1.0 ? "1.00 د.أ (داخل عمان)" : "2.00 د.أ (خارج عمان / المحافظات)";
 
-    let paymentSplitMessage = "";
-    if (totalEngraving > 0) {
-      paymentSplitMessage = `\n━━━━━━━━━━━━━━━━━━━━\n` +
-        `⚠️ *سياسة دفع الحفر المخصص بالليزر:*\n` +
-        `💳 *عربون الحفر المطلوب تحويله مسبقاً:* ${totalEngraving.toFixed(2)} ${CURRENCY}\n` +
-        `   • (سيتم تزويدك ببيانات التحويل عبر CliQ / المحفظة هنا في المحادثة مباشرة)\n` +
-        `💵 *المتبقي كاش عند الاستلام:* ${remainingCod.toFixed(2)} ${CURRENCY}\n` +
-        `━━━━━━━━━━━━━━━━━━━━\n`;
-    }
-
-    const message = `*طلب جديد — مشغل MadeForU للهدايا والمصنوعات المخصصة*\n\n` +
+    const message = `*طلب جديد — مشغل MadeForU للنجارة الحرفية*\n\n` +
       `🔢 *رقم الطلب:* #${orderNumber}\n` +
       `👤 *الاسم:* ${name}\n` +
       `📞 *رقم الهاتف:* ${phone}\n` +
       `📍 *المنطقة:* ${city}\n` +
       `🏠 *العنوان:* ${address}\n` +
-      (notes ? `📝 *ملاحظات:* ${notes}\n` : "") +
-      `\n*المنتجات والمواصفات المطلوبة:*\n${itemsText}\n\n` +
-      `💵 مجموع المنتجات: ${baseProductsTotal.toFixed(2)} ${CURRENCY}\n` +
-      (totalEngraving > 0 ? `✨ خدمة الحفر المخصص بالليزر: ${totalEngraving.toFixed(2)} ${CURRENCY}\n` : "") +
+      (notes ? `📝 *ملاحظات إضافية:* ${notes}\n` : "") +
+      `\n*تفاصيل المنتجات والتخصيص المطلوب:*\n${itemsText}\n\n` +
+      `💵 مجموع المنتجات: ${subtotal.toFixed(2)} ${CURRENCY}\n` +
       `🚚 أجرة التوصيل: ${deliveryNote}\n` +
-      `💰 *المجموع الكلي للطلب: ${grandTotal.toFixed(2)} ${CURRENCY}*\n` +
-      paymentSplitMessage;
+      `💰 *المجموع الكلي للطلب: ${grandTotal.toFixed(2)} ${CURRENCY}*\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `⚠️ *سياسة دفع العمل المخصص:*\n` +
+      `💳 *عربون التفصيل المطلوب تحويله مسبقاً (50% عبر CliQ / المحفظة):* ${upfrontDeposit.toFixed(2)} ${CURRENCY}\n` +
+      `   • (سيتم تزويدك برقم الـ CliQ فوراً لبدء تفصيل اللوحة بالاسم والشعار)\n` +
+      `💵 *المتبقي كاش عند الاستلام:* ${remainingCod.toFixed(2)} ${CURRENCY}\n` +
+      `━━━━━━━━━━━━━━━━━━━━`;
 
     const encoded = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encoded}`;
