@@ -14,7 +14,7 @@
   <meta property="og:image" content="https://madeforu-jo.github.io/images/Wood%20Trays/resin%20Coffee%20Bean%20Wood%20Tray%2018JD/1.jpg">
   
   <link rel="icon" type="image/png" href="images/MadeForU Logo.png">
-  <link rel="stylesheet" href="styles.css?v=35">
+  <link rel="stylesheet" href="styles.css?v=36">
 </head>
 <body data-page-category="trays">
 
@@ -119,7 +119,7 @@
     </div>
   </footer>
 
-  <!-- نافذة تفاصيل المنتج (Modal) -->
+    <!-- نافذة تفاصيل المنتج (Modal) -->
   <div class="modal-overlay" id="productModal">
     <div class="modal-window">
       <button class="modal-close" id="closeProductModal">&times;</button>
@@ -128,25 +128,128 @@
       <div class="modal-detail-content">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
           <span id="modalBadge" class="modal-badge">مميز</span>
-          <span id="modalSkuTag" class="modal-sku-tag" style="background: #F3ECE2; color: #6B2940; font-size: 0.8rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 6px; font-family: monospace; letter-spacing: 0.5px; border: 1px solid #E5D6C5;">كود المنتج: MFU-401</span>
+          <span id="modalSkuTag" class="modal-sku-tag" style="background: #F3ECE2; color: #6B2940; font-size: 0.8rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 6px; font-family: monospace; letter-spacing: 0.5px; border: 1px solid #E5D6C5;">كود المنتج: MFU-101</span>
         </div>
         <h2 id="modalTitle" class="modal-title">اسم المنتج</h2>
         <div class="modal-meta-grid">
           <div class="modal-meta-item">
             <strong>نوع الخامة</strong>
-            <span id="modalWood">خشب طبيعي وريزن إيبوكسي صلب</span>
+            <span id="modalWood">خشب زان طبيعي صلب</span>
           </div>
           <div class="modal-meta-item">
-            <strong>المقاس والمواصفات</strong>
-            <span id="modalDimensions">صناعة يدوية متقنة</span>
+            <strong>المقاس والأبعاد</strong>
+            <span id="modalDimensions">40 × 10 سم تقريباً</span>
+          </div>
+          <div class="modal-meta-item" style="grid-column: 1 / -1;">
+            <strong>مشغل هدايا ومشغولات خشبية (Made For You)</strong>
+            <span style="color: var(--brand-primary); font-weight: bold;">✨ صُنعت كل قطعة بحرفية عالية في مشغلنا مع خيارات حفر ليزر مخصص للأسماء والإهداءات</span>
           </div>
         </div>
         <p id="modalDesc" class="modal-desc" style="white-space: pre-line;"></p>
 
-        <!-- خيارات اللوحة المكتبية -->
-        <div id="deskPlateCustomizationBlock" style="display: none;"></div>
+        <!-- خيارات تخصيص لوحة الاسم المكتبية (تظهر فقط مع اللوحة المكتبية) -->
+        <div id="deskPlateCustomizationBlock" style="display: none; margin-top: 1rem;">
+          <div style="background: #FDF6EE; border: 1px solid #EAD8C7; border-radius: 12px; padding: 1.15rem; margin-bottom: 1rem;">
+            <div style="font-weight: 800; color: #6B2940; font-size: 1.05rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>✏️ بيانات الحفر بالليزر (الوجه الأمامي)</span>
+            </div>
+            <p style="font-size: 0.82rem; color: #7A5B4D; margin-bottom: 0.85rem;">
+              يتم حفر الاسم، المسمى الوظيفي، وشعار تخصصك أو شركتك بحفر ليزر أنيق وواضح (انظر صورة المخطط التوضيحي).
+            </p>
 
-        <!-- خيارات الصواني الخشبية والريزن -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div>
+                <label for="deskPlateName" style="display: block; font-size: 0.85rem; font-weight: 700; color: #2C2025; margin-bottom: 0.25rem;">
+                  الاسم الكامل المطلوب حفره *
+                </label>
+                <input type="text" id="deskPlateName" placeholder="مثال: المحامي طارق المجالي" style="width:100%; padding: 0.65rem 0.85rem; border: 1px solid #D6C2B0; border-radius: 8px; font-family: inherit; font-size: 0.95rem;">
+              </div>
+
+              <div>
+                <label for="deskPlateTitle" style="display: block; font-size: 0.85rem; font-weight: 700; color: #2C2025; margin-bottom: 0.25rem;">
+                  الوظيفة / المنصب / المسمى المهني
+                </label>
+                <input type="text" id="deskPlateTitle" placeholder="مثال: رئيس الدائرة القانونية - Head of Legal Dept" style="width:100%; padding: 0.65rem 0.85rem; border: 1px solid #D6C2B0; border-radius: 8px; font-family: inherit; font-size: 0.95rem;">
+              </div>
+
+              <div>
+                <label for="deskPlateLogo" style="display: block; font-size: 0.85rem; font-weight: 700; color: #2C2025; margin-bottom: 0.25rem;">
+                  الشعار أو الرمز أو الصورة المطلوبة
+                </label>
+                <input type="text" id="deskPlateLogo" placeholder="مثال: ميزان المحاماة / شعار طبي / إرسال لوجو مخصص بالواتساب" style="width:100%; padding: 0.65rem 0.85rem; border: 1px solid #D6C2B0; border-radius: 8px; font-family: inherit; font-size: 0.95rem;">
+              </div>
+            </div>
+          </div>
+
+          <!-- ميزة حفر الوجه الخلفي (الرسالة التي يراها صاحب المكتب) -->
+          <div style="background: #FFF7ED; border: 1px dashed #F59E0B; border-radius: 12px; padding: 1.15rem; margin-bottom: 1rem;">
+            <div style="font-weight: 800; color: #9A3412; font-size: 1.02rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>💌 ميزة حفر الوجه الخلفي (رسالة خاصة لصاحب المكتب)</span>
+            </div>
+            <p style="font-size: 0.82rem; color: #7C2D12; margin-bottom: 0.75rem;">
+              رسالة أو دعاء أو إهداء خاص يراه المهدى إليه فقط وهو جالس خلف مكتبه (كما في صورة النموذج الثالثة).
+            </p>
+            <textarea id="deskPlateBackMsg" rows="2" placeholder="اكتب عبارة الإهداء الخلفية (مثال: أهلٌ للثقة والأمانة قبل كل شيء، دمت فخراً لعائلتك وسنداً لا يميل - 2026/11/3)..." style="width:100%; padding: 0.65rem 0.85rem; border: 1px solid #FCD34D; border-radius: 8px; font-family: inherit; font-size: 0.92rem;"></textarea>
+          </div>
+
+          <!-- خيار إضافة صندوق هدايا فاخر (+3 د.أ) -->
+          <div style="background: #FDF1F4; border: 1px solid #E4B8C5; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+              <input type="checkbox" id="deskPlateBoxToggle" style="width: 20px; height: 20px; margin-top: 3px; accent-color: #8F415C;">
+              <div>
+                <strong style="color: #6B2940; font-size: 0.98rem; display: block;">🎁 إضافة صندوق هدايا خشبي فاخر مبطن (+3.00 د.أ)</strong>
+                <span style="font-size: 0.8rem; color: #733047; display: block; margin-top: 2px;">
+                  الصندوق غير مشمول تلقائياً، يمكنك إضافته لتقديم اللوحة بأبهى مظهر إهدائي (كما في صورة الصندوق).
+                </span>
+              </div>
+            </label>
+          </div>
+
+          <!-- تنبيه تحويل عربون العمل المخصص مسبقاً -->
+          <div style="background: #FEF3C7; border: 1px solid #FDE68A; border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.82rem; color: #92400E; line-height: 1.6;">
+            ⚠️ <strong>سياسة الطلب والتجهيز:</strong> نظراً لأن اللوحة تُصنع خصيصاً بالاسم والبيانات المطلوبة، يُشترط تحويل عربون 10 دنانير على الأقل مسبقاً عبر CliQ أو المحفظة الإلكترونية لتأكيد الطلب، وسيتم تزويدك ببيانات التحويل عبر الواتساب فور إرسال الطلب، بينما يُدفع باقي المبلغ وأجرة التوصيل كاش عند الاستلام.
+          </div>
+        </div>
+
+        <!-- خيارات البازل العادية (تظهر فقط مع البازل) -->
+        <div id="puzzleOptionsBlock" style="display: none;">
+          <div class="modal-options-block">
+            <div class="options-heading">
+              <span>اختر نوع الخامة:</span>
+              <small>حدد الخامة المفضلة</small>
+            </div>
+            <div class="material-cards-grid" id="modalMaterialOptions">
+              <!-- يتم تعبئتها ديناميكياً -->
+            </div>
+
+            <div class="options-heading" style="margin-top: 1rem;">
+              <span>اختر اللون / المظهر:</span>
+              <small id="selectedColorLabel" style="color: var(--brand-primary); font-weight: 700;">خشب طبيعي</small>
+            </div>
+            <div class="colors-swatches-grid" id="modalColorOptions">
+              <!-- يتم تعبئتها ديناميكياً -->
+            </div>
+
+            <!-- خدمة الحفر المخصص بالليزر (+3 د.أ) للبازل -->
+            <div class="engraving-addon-box" id="engravingBox">
+              <label class="engraving-toggle-label">
+                <input type="checkbox" id="modalEngravingToggle" class="engraving-toggle-checkbox">
+                <div class="engraving-toggle-info">
+                  <strong>✨ إضافة حفر ليزر مخصص (+3.00 د.أ)</strong>
+                  <p>حفر اسم، تاريخ، أو عبارة إهداء خاصة بالليزر مباشرة على قاعدة البازل.</p>
+                </div>
+              </label>
+              <div class="engraving-input-wrap" id="engravingInputWrap" style="display: none;">
+                <input type="text" id="modalEngravingText" placeholder="اكتب الاسم أو الإهداء المطلوب حفره على قاعدة البازل...">
+                <div class="engraving-notice-pill">
+                  ⚠️ <strong>سياسة الدفع لخدمة الحفر المخصص:</strong> نظراً لأن الحفر يُصمم خصيصاً لك، يُدفع رسم الحفر (3 دنانير) مسبقاً عبر CliQ أو المحافظ الإلكترونية، بينما يُدفع ثمن البازل والتوصيل كاش عند الاستلام.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- خيارات الصواني الخشبية والريزن (تظهر فقط مع الصواني) -->
         <div id="trayOptionsBlock" style="display: none; margin-top: 1rem;">
           <div style="background: #FDF6EE; border: 1px solid #EAD8C7; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
             <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
@@ -164,22 +267,35 @@
           </div>
         </div>
 
-        <!-- خيارات قلائد الريزن -->
-        <div id="pendantOptionsBlock" style="display: none;"></div>
-        <!-- خيارات البازل -->
-        <div id="puzzleOptionsBlock" style="display: none;"></div>
+        <!-- خيارات قلائد الريزن (تظهر فقط مع القلائد) -->
+        <div id="pendantOptionsBlock" style="display: none; margin-top: 1rem;">
+          <div style="background: #FDF1F4; border: 1px solid #E4B8C5; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+              <input type="checkbox" id="pendantBoxToggle" style="width: 20px; height: 20px; margin-top: 3px; accent-color: #8F415C;">
+              <div>
+                <strong style="color: #6B2940; font-size: 0.98rem; display: block;">🎁 إضافة علبة مجوهرات وإهداء فاخرة مبطنة (+3.00 د.أ)</strong>
+                <span style="font-size: 0.82rem; color: #733047; display: block; margin-top: 2px;">
+                  علبة إهداء راقية مخصصة لتقديم القلادة كهدية فاخرة تدوم طويلاً.
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
 
         <div class="modal-delivery-pill" style="margin-top: 1rem;">
           🚚 التوصيل السريع: داخل عمان 1 د.أ • خارج عمان وباقي المحافظات 2 د.أ
         </div>
         <div class="modal-footer" style="margin-top: 1.25rem;">
-          <div class="product-price" id="modalPrice">15.00 د.أ</div>
+          <div class="product-price" id="modalPrice">20.00 د.أ</div>
           <div class="modal-footer-btns">
             <button id="modalDirectOrderBtn" class="direct-order-action-btn" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
+              </svg>
               <span>اطلب الآن مباشرة ⚡</span>
             </button>
-            <button id="modalAddToCartBtn" class="modal-add-btn" type="button">
-              + أضف إلى السلة
+            <button id="modalAddToCartBtn" class="add-btn" type="button">
+              <span>+ أضف إلى السلة</span>
             </button>
           </div>
         </div>
@@ -187,112 +303,129 @@
     </div>
   </div>
 
-  <!-- درج سلة المشتريات (Drawer) -->
-  <div class="cart-drawer-overlay" id="cartOverlay">
-    <div class="cart-drawer">
-      <div class="cart-drawer-header">
-        <h3>سلة المشتريات 🛍️</h3>
-        <button class="cart-drawer-close" id="closeCartBtn">&times;</button>
+  <!-- خلفية السلة الشفافة -->
+  <div class="modal-overlay" id="cartOverlay"></div>
+
+  <!-- درج سلة المشتريات (Slide-out Cart) -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3>سلة المشتريات</h3>
+      <button class="modal-close" id="closeCartBtn" style="position:static;">&times;</button>
+    </div>
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- تضاف عناصر السلة هنا تلقائياً -->
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cod-tag-pill">💵 عربون مسبق عبر CliQ + المتبقي كاش عند الاستلام</div>
+      <div class="cart-summary-line">
+        <span>مجموع المنتجات:</span>
+        <span id="cartSubtotal">0 د.أ</span>
       </div>
-      <div class="cart-drawer-items" id="cartItemsContainer"></div>
-      <div class="cart-drawer-footer" id="cartFooter" style="display: none;">
-        <div class="cart-summary-line">
-          <span>المجموع الفرعي:</span>
-          <span id="cartDrawerSubtotal" class="amount">0.00 د.أ</span>
-        </div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
-          * التوصيل (1 د.أ عمان / 2 د.أ المحافظات) يُحسب في الخطوة التالية.
-        </div>
-        <button id="checkoutBtn" class="checkout-btn">متابعة إتمام الطلب ➔</button>
+      <div class="cart-summary-line">
+        <span>أجرة التوصيل (عمان 1 د.أ / المحافظات 2 د.أ):</span>
+        <span id="cartDelivery">1.00 د.أ</span>
       </div>
+      <div class="cart-summary-line total">
+        <span>المجموع الكلي المطلوب:</span>
+        <span id="cartTotal">0 د.أ</span>
+      </div>
+      <button id="proceedToCheckoutBtn" class="checkout-btn" style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #25D366;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
+        </svg>
+        <span>متابعة الطلب عبر الواتساب</span>
+      </button>
     </div>
   </div>
 
-  <!-- نافذة إتمام الطلب والدفع عند الاستلام (Checkout Modal) -->
+  <!-- نافذة تأكيد الطلب وعنوان التوصيل -->
   <div class="modal-overlay" id="checkoutModal">
-    <div class="modal-window checkout-modal-window">
+    <div class="modal-window">
       <button class="modal-close" id="closeCheckoutModal">&times;</button>
-      <div class="checkout-form-container" id="checkoutFormContainer">
-        <h2>إتمام طلب الشراء 🚚</h2>
-        <p class="checkout-sub">أدخل بيانات التوصيل وسيتم تجهيز طلبك وتأكيده عبر الواتساب فوراً.</p>
+      <div class="checkout-form" id="checkoutFormContainer">
+        <h3>تأكيد الطلب — تفاصيل التوصيل والدفع</h3>
+        <p class="sub">يرجى إدخال بيانات التوصيل لتجهيز طلبيتك الحرفية بأعلى دقة.</p>
+
+        <div class="form-payment-badge">
+          <span style="font-size: 1.5rem;">💳</span>
+          <div>
+            <strong>طريقة الدفع: عربون مسبق عبر CliQ + المتبقي كاش عند الاستلام</strong>
+            <div style="font-size: 0.8rem; color: #666;">نظراً لأن العمل تفصيل مخصص، يُحول عربون (10 دنانير على الأقل) مسبقاً لتأكيد وبدء التجهيز، والباقي يُدفع كاش للمندوب.</div>
+          </div>
+        </div>
+
+        <!-- تنبيه تحويل عربون العمل المخصص -->
+        <div id="checkoutCliqNoticeContainer" class="checkout-cliq-notice">
+          <strong>⚠️ تنبيه بخصوص عربون العمل المخصص:</strong>
+          <div>يتضمن طلبك عملاً يدوياً مخصصاً بالاسم والشعار. يُشترط تحويل عربون 10 دنانير على الأقل مسبقاً عبر CliQ أو المحافظ الإلكترونية لتأكيد الطلب، وسيتم تزويدك ببيانات التحويل مباشرة في محادثة الواتساب فور إرسال الطلب.</div>
+        </div>
 
         <form id="codOrderForm">
           <div class="form-group">
             <label for="custName">الاسم الكامل *</label>
-            <input type="text" id="custName" required placeholder="مثال: أحمد العبداللات">
+            <input type="text" id="custName" required placeholder="مثال: أحمد عبد الله">
           </div>
           <div class="form-group">
-            <label for="custPhone">رقم هاتف المستلم (واتساب) *</label>
-            <input type="tel" id="custPhone" required placeholder="07XXXXXXXX" dir="ltr" style="text-align: right;">
+            <label for="custPhone">رقم هاتف الاتصال / الواتساب *</label>
+            <input type="tel" id="custPhone" required placeholder="مثال: 0791234567 للتنسيق مع المندوب">
           </div>
           <div class="form-group">
-            <label for="custCity">المدينة / المحافظة *</label>
-            <select id="custCity" required>
-              <option value="عمان" data-fee="1.0" selected>عمان (أجرة التوصيل: 1.00 د.أ)</option>
-              <option value="الزرقاء" data-fee="2.0">الزرقاء (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="إربد" data-fee="2.0">إربد (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="البلقاء / السلط" data-fee="2.0">البلقاء / السلط (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="مادبا" data-fee="2.0">مادبا (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="جرش" data-fee="2.0">جرش (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="عجلون" data-fee="2.0">عجلون (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="المفرق" data-fee="2.0">المفرق (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="الكرك" data-fee="2.0">الكرك (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="الطفيلة" data-fee="2.0">الطفيلة (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="معان" data-fee="2.0">معان (أجرة التوصيل: 2.00 د.أ)</option>
-              <option value="العقبة" data-fee="2.0">العقبة (أجرة التوصيل: 2.00 د.أ)</option>
+            <label for="custCity">منطقة التوصيل *</label>
+            <select id="custCity" required style="font-weight: 700; font-size: 1rem; padding: 0.75rem;">
+              <option value="داخل عمان" data-fee="1" selected>📍 داخل عمان (أجرة التوصيل: 1.00 د.أ)</option>
+              <option value="خارج عمان / باقي المحافظات" data-fee="2">🚚 خارج عمان وباقي المحافظات (أجرة التوصيل: 2.00 د.أ)</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="custAddress">العنوان التفصيلي (المنطقة، الشارع، رقم البناية) *</label>
-            <textarea id="custAddress" rows="2" required placeholder="مثال: دابوق، قرب إشارة المواصفات، عمارة 14"></textarea>
+            <label for="custAddress">العنوان بالتفصيل (المنطقة، الشارع، المعلم القريب، رقم العمارة) *</label>
+            <textarea id="custAddress" rows="3" required placeholder="يرجى كتابة منطقتك وعنوانك بالتفصيل (مثال: عمان - عبدون شارع دمشق قرب بنك الاتحاد، أو إربد - شارع الجامعة...)"></textarea>
           </div>
           <div class="form-group">
-            <label for="custNotes">ملاحظات إضافية (اختياري)</label>
-            <input type="text" id="custNotes" placeholder="أي تفاصيل خاصة بتسليم الشحنة...">
+            <label for="custNotes">ملاحظات إضافية للتصميم أو التوصيل</label>
+            <textarea id="custNotes" rows="2" placeholder="مثال: تفاصيل إضافية للخط، أو وقت التوصيل المناسب..."></textarea>
           </div>
 
-          <div class="checkout-order-summary">
-            <h4>ملخص الحساب الإجمالي</h4>
-            <div class="summary-row">
-              <span>مجموع المنتجات:</span>
-              <strong id="checkoutSubtotal">0.00 د.أ</strong>
+          <!-- تفاصيل الحساب والتوصيل -->
+          <div class="order-breakdown-box">
+            <div class="breakdown-row">
+              <span>سعر المنتجات:</span>
+              <span id="checkoutSubtotal">0 د.أ</span>
             </div>
-            <div class="summary-row">
+            <div class="breakdown-row" id="checkoutAddonsRow" style="display: none; color: var(--brand-primary); font-weight: 700;">
+              <span>الصندوق الفاخر / إضافات الحفر:</span>
+              <span id="checkoutAddonsTotal">0.00 د.أ</span>
+            </div>
+            <div class="breakdown-row">
               <span id="checkoutDeliveryLabel">أجرة التوصيل (داخل عمان):</span>
-              <strong id="checkoutDeliveryFee">1.00 د.أ</strong>
+              <span id="checkoutDeliveryFee">1.00 د.أ</span>
             </div>
-            <div class="summary-row total-row">
-              <span>المجموع الكلي:</span>
-              <span id="checkoutOrderTotal" class="amount">0.00 د.أ</span>
+            <div class="breakdown-row total-row">
+              <span>المجموع الكلي للطلب:</span>
+              <span id="checkoutOrderTotal">0 د.أ</span>
             </div>
-
-            <div class="payment-policy-box">
-              <div class="policy-item deposit">
-                <span>💳 عربون التفصيل المطلوب مسبقاً (CliQ):</span>
-                <strong id="checkoutUpfrontAmount">0.00 د.أ</strong>
+            <div id="checkoutPaymentSplitRow" style="margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px dashed #d1c5b4; font-size: 0.88rem;">
+              <div style="color: #92400e; font-weight: 800; margin-bottom: 0.25rem;">
+                💳 عربون التجهيز المطلوب (عبر CliQ / المحفظة): <span id="checkoutUpfrontAmount">0.00 د.أ</span>
               </div>
-              <div class="policy-item cod">
-                <span>💵 المتبقي كاش عند الاستلام:</span>
-                <strong id="checkoutCodAmount">0.00 د.أ</strong>
+              <div style="color: var(--forest-green); font-weight: 800;">
+                💵 المتبقي كاش عند الاستلام: <span id="checkoutCodAmount">0.00 د.أ</span>
               </div>
-              <small class="policy-note">
-                * يُشترط تحويل عربون 10 دنانير على الأقل للأعمال والطلبات المخصصة عبر كليك (CliQ) أو المحفظة الإلكترونية لتأكيد الطلب وبدء التنفيذ، ويتم دفع باقي المبلغ وأجرة التوصيل كاش عند استلام طلبيتك أمام المندوب.
-              </small>
             </div>
           </div>
 
-          <button type="submit" class="submit-order-btn">
-            <span>تأكيد الطلب وإرسال التفاصيل عبر الواتساب</span>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <!-- زر الإرسال الموحد عبر الواتساب -->
+          <button type="submit" class="whatsapp-submit-btn" style="font-size: 1.1rem; padding: 0.95rem; margin-top: 0.5rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
             </svg>
+            <span>تأكيد الطلب وإرساله عبر الواتساب</span>
           </button>
         </form>
       </div>
 
-      <div class="order-success-view" id="orderSuccessView" style="display: none;">
+      <!-- شاشة تأكيد النجاح -->
+      <div class="order-success" id="orderSuccessView" style="display:none;">
         <div class="success-icon">✓</div>
-        <h2>تم استلام طلبك بنجاح!</h2>
         <div class="order-id-badge" id="successOrderNumber">طلب رقم #MFU-1001</div>
         <h3>جاري فتح محادثة الواتساب...</h3>
         <p>تم تجهيز تفاصيل طلبك وعنوانك بدقة. يرجى الضغط على زر <strong>إرسال (Send)</strong> داخل محادثة الواتساب لتأكيد خروج المندوب فوراً!</p>
@@ -304,10 +437,11 @@
     </div>
   </div>
 
+  <!-- رسالة التنبيه العائمة (Toast) -->
   <div class="toast" id="toast">تمت الإضافة إلى السلة!</div>
 
-  <!-- زر الواتساب العائم -->
-  <a href="https://wa.me/962789423717?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20MadeForU%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%B5%D9%88%D8%A7%D9%86%D9%8A%20%D8%A7%D9%84%D8%AA%D9%82%D8%AF%D9%8A%D9%85%20%D8%A7%D9%84%D8%AE%D8%B4%D8%A8%D9%8A%D8%A9" target="_blank" rel="noopener" class="floating-whatsapp-btn" aria-label="تواصل معنا عبر الواتساب" title="تواصل معنا عبر الواتساب">
+  <!-- زر الواتساب العائم للتواصل السريع (Floating WhatsApp Quick Chat) -->
+  <a href="https://wa.me/962789423717?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20MadeForU%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%A7%D9%84%D9%87%D8%AF%D8%A7%D9%8A%D8%A7%20%D9%88%D8%A7%D9%84%D9%85%D8%B4%D8%BA%D9%88%D9%84%D8%A7%D8%AA%20%D8%A7%D9%84%D8%AE%D8%B4%D8%A8%D9%8A%D8%A9" target="_blank" rel="noopener" class="floating-whatsapp-btn" aria-label="تواصل معنا عبر الواتساب" title="تواصل معنا عبر الواتساب">
     <div class="whatsapp-pulse"></div>
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.532 2.027.812 3.149.813 3.182 0 5.767-2.584 5.768-5.766-.001-3.182-2.587-5.755-5.768-5.755zm0 10.455c-.958 0-1.895-.262-2.716-.757l-.195-.116-1.394.366.372-1.359-.128-.204a4.673 4.673 0 01-.715-2.619c0-2.58 2.099-4.679 4.68-4.679 2.579 0 4.678 2.099 4.678 4.679 0 2.58-2.099 4.689-4.685 4.689zm8.211-14.869C17.973 0 15.111 0 12.031 0 5.402 0 .016 5.385.016 12.015c0 2.115.553 4.18 1.603 6l-1.619 5.985 6.136-1.608a11.96 11.96 0 005.895 1.543c6.629 0 12.015-5.385 12.015-12.015 0-3.208-1.25-6.223-3.805-8.195z"/>
@@ -315,7 +449,7 @@
     <span class="floating-whatsapp-text">تحدث معنا</span>
   </a>
 
-  <script src="products.js?v=35"></script>
-  <script src="app.js?v=35"></script>
+  <script src="products.js?v=36"></script>
+  <script src="app.js?v=36"></script>
 </body>
 </html>

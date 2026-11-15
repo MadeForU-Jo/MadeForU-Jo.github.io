@@ -511,37 +511,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  closeProductModal.addEventListener("click", () => {
-    productModal.classList.remove("active");
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-  });
-
-  productModal.addEventListener("click", (e) => {
-    if (e.target === productModal) {
-      productModal.classList.remove("active");
+  if (closeProductModal) {
+    closeProductModal.addEventListener("click", () => {
+      if (productModal) productModal.classList.remove("active");
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', window.location.pathname);
       }
-    }
-  });
+    });
+  }
 
-  // زر إضافة إلى السلة
-  modalAddToCartBtn.addEventListener("click", () => {
-    if (selectedProduct) {
-      if (selectedProduct.isDeskPlate) {
-        const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
-        if (!nameVal) {
-          alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
-          if (deskPlateNameInput) deskPlateNameInput.focus();
-          return;
+  if (productModal) {
+    productModal.addEventListener("click", (e) => {
+      if (e.target === productModal) {
+        productModal.classList.remove("active");
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
         }
       }
-      addToCartWithOptions(selectedProduct);
-      productModal.classList.remove("active");
-    }
-  });
+    });
+  }
+
+  // زر إضافة إلى السلة
+  if (modalAddToCartBtn) {
+    modalAddToCartBtn.addEventListener("click", () => {
+      if (selectedProduct) {
+        if (selectedProduct.isDeskPlate) {
+          const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
+          if (!nameVal) {
+            alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
+            if (deskPlateNameInput) deskPlateNameInput.focus();
+            return;
+          }
+        }
+        addToCartWithOptions(selectedProduct);
+        if (productModal) productModal.classList.remove("active");
+      }
+    });
+  }
 
   // زر الطلب المباشر الفوري (فتح نموذج إتمام الطلب مباشرة)
   if (modalDirectOrderBtn) {
@@ -698,7 +704,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderCart() {
     const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
-    cartCount.textContent = totalCount;
+    if (cartCount) cartCount.textContent = totalCount;
+
+    if (!cartItemsList) return;
 
     if (cart.length === 0) {
       cartItemsList.innerHTML = `
@@ -708,18 +716,22 @@ document.addEventListener("DOMContentLoaded", () => {
           <p style="font-size: 0.9rem; margin-top: 0.35rem;">اختر لوحة اسم مكتبية خشب زان أو بازل فنية لبدء طلبك وتخصيص الحفر!</p>
         </div>
       `;
-      cartSubtotal.textContent = `0.00 ${CURRENCY}`;
+      if (cartSubtotal) cartSubtotal.textContent = `0.00 ${CURRENCY}`;
       if (cartDelivery) cartDelivery.textContent = `عمان 1.00 / المحافظات 2.00 ${CURRENCY}`;
-      cartTotal.textContent = `0.00 ${CURRENCY}`;
-      proceedToCheckoutBtn.disabled = true;
-      proceedToCheckoutBtn.style.opacity = "0.5";
-      proceedToCheckoutBtn.style.cursor = "not-allowed";
+      if (cartTotal) cartTotal.textContent = `0.00 ${CURRENCY}`;
+      if (proceedToCheckoutBtn) {
+        proceedToCheckoutBtn.disabled = true;
+        proceedToCheckoutBtn.style.opacity = "0.5";
+        proceedToCheckoutBtn.style.cursor = "not-allowed";
+      }
       return;
     }
 
-    proceedToCheckoutBtn.disabled = false;
-    proceedToCheckoutBtn.style.opacity = "1";
-    proceedToCheckoutBtn.style.cursor = "pointer";
+    if (proceedToCheckoutBtn) {
+      proceedToCheckoutBtn.disabled = false;
+      proceedToCheckoutBtn.style.opacity = "1";
+      proceedToCheckoutBtn.style.cursor = "pointer";
+    }
 
     let subtotal = 0;
     cartItemsList.innerHTML = cart.map(item => {
@@ -781,17 +793,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // فتح وإغلاق درج السلة
   function openCartDrawer() {
-    cartDrawer.classList.add("open");
-    cartOverlay.classList.add("active");
+    if (cartDrawer) cartDrawer.classList.add("open");
+    if (cartOverlay) cartOverlay.classList.add("active");
   }
   function closeCartDrawer() {
-    cartDrawer.classList.remove("open");
-    cartOverlay.classList.remove("active");
+    if (cartDrawer) cartDrawer.classList.remove("open");
+    if (cartOverlay) cartOverlay.classList.remove("active");
   }
 
-  openCartBtn.addEventListener("click", openCartDrawer);
-  closeCartBtn.addEventListener("click", closeCartDrawer);
-  cartOverlay.addEventListener("click", closeCartDrawer);
+  if (openCartBtn) openCartBtn.addEventListener("click", openCartDrawer);
+  if (closeCartBtn) closeCartBtn.addEventListener("click", closeCartDrawer);
+  if (cartOverlay) cartOverlay.addEventListener("click", closeCartDrawer);
 
   // الانتقال لنافذة الدفع وتأكيد العنوان
   function openCheckoutModalView() {
@@ -799,19 +811,22 @@ document.addEventListener("DOMContentLoaded", () => {
     closeCartDrawer();
     updateCheckoutTotals();
     
-    checkoutFormContainer.style.display = "block";
-    orderSuccessView.style.display = "none";
-    checkoutModal.classList.add("active");
+    if (checkoutFormContainer) checkoutFormContainer.style.display = "block";
+    if (orderSuccessView) orderSuccessView.style.display = "none";
+    if (checkoutModal) checkoutModal.classList.add("active");
   }
 
-  proceedToCheckoutBtn.addEventListener("click", openCheckoutModalView);
+  if (proceedToCheckoutBtn) proceedToCheckoutBtn.addEventListener("click", openCheckoutModalView);
 
-  closeCheckoutModal.addEventListener("click", () => {
-    checkoutModal.classList.remove("active");
-  });
+  if (closeCheckoutModal) {
+    closeCheckoutModal.addEventListener("click", () => {
+      if (checkoutModal) checkoutModal.classList.remove("active");
+    });
+  }
 
   // تأكيد الطلب وإرساله مباشرة عبر الواتساب
-  codOrderForm.addEventListener("submit", (e) => {
+  if (codOrderForm) {
+    codOrderForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const name = document.getElementById("custName").value.trim();
@@ -917,20 +932,26 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutFormContainer.style.display = "none";
     orderSuccessView.style.display = "block";
     codOrderForm.reset();
-  });
+    });
+  }
 
-  doneBtn.addEventListener("click", () => {
-    checkoutModal.classList.remove("active");
-  });
+  if (doneBtn) {
+    doneBtn.addEventListener("click", () => {
+      if (checkoutModal) checkoutModal.classList.remove("active");
+    });
+  }
 
   // البحث الفوري
-  searchInput.addEventListener("input", (e) => {
-    searchQuery = e.target.value;
-    renderProducts();
-  });
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      renderProducts();
+    });
+  }
 
   // إظهار التنبيه العائم
   function showToast(msg) {
+    if (!toast) return;
     toast.textContent = msg;
     toast.classList.add("active");
     setTimeout(() => {
@@ -959,10 +980,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // التشغيل الأولي
-  initCategories();
-  renderCategoriesShowcase();
-  renderProducts();
-  renderCart();
-  checkUrlProductLink();
+  // التشغيل الأولي الموثوق
+  try { renderProducts(); } catch (err) { console.error("Error rendering products:", err); }
+  try { initCategories(); } catch (err) { console.error("Error initializing categories:", err); }
+  try { renderCategoriesShowcase(); } catch (err) { console.error("Error rendering showcase:", err); }
+  try { renderCart(); } catch (err) { console.error("Error rendering cart:", err); }
+  try { checkUrlProductLink(); } catch (err) { console.error("Error checking URL link:", err); }
 });
