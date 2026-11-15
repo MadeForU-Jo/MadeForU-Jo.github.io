@@ -54,28 +54,6 @@ const STORE_CONFIG = {
 // ==========================================
 const STORE_CATEGORIES = [
   {
-    id: "trays",
-    name: "صواني خشبية وريزن",
-    fullName: "صواني خشبية وريزن ☕",
-    icon: "☕",
-    page: "trays.html",
-    tagline: "صواني تقديم يدوية بحبوب القهوة والريزن وتفريغ البرق الكهربائي",
-    badge: "جديد وحصري ✨",
-    image: "images/Wood Trays/resin Coffee Bean Wood Tray 18JD/1.jpg",
-    itemCount: 4
-  },
-  {
-    id: "pendants",
-    name: "قلائد وسلاسل ريزن",
-    fullName: "قلائد وسلاسل ريزن 💎",
-    icon: "💎",
-    page: "pendants.html",
-    tagline: "مجوهرات فنية فريدة مدمجة بالخشب الطبيعي والريزن الملكي المصقول",
-    badge: "إصدار يدوي 💎",
-    image: "images/Pendants/Black Resin Pendant 20JD/1.jpg",
-    itemCount: 2
-  },
-  {
     id: "desk-plates",
     name: "لوحات مكتبية فاخرة",
     fullName: "لوحات مكتبية فاخرة 💼",
@@ -96,6 +74,28 @@ const STORE_CATEGORIES = [
     badge: "ديكور وإهداء 🇯🇴",
     image: "images/Jordan Map Puzzle/Jordan Map render s0000.png",
     itemCount: 4
+  },
+  {
+    id: "trays",
+    name: "صواني خشبية وريزن",
+    fullName: "صواني خشبية وريزن ☕",
+    icon: "☕",
+    page: "trays.html",
+    tagline: "صواني تقديم يدوية بحبوب القهوة والريزن وتفريغ البرق الكهربائي",
+    badge: "جديد وحصري ✨",
+    image: "images/Wood Trays/resin Coffee Bean Wood Tray 18JD/1.jpg",
+    itemCount: 4
+  },
+  {
+    id: "pendants",
+    name: "قلائد وسلاسل ريزن",
+    fullName: "قلائد وسلاسل ريزن 💎",
+    icon: "💎",
+    page: "pendants.html",
+    tagline: "مجوهرات فنية فريدة مدمجة بالخشب الطبيعي والريزن الملكي المصقول",
+    badge: "إصدار يدوي 💎",
+    image: "images/Pendants/Black Resin Pendant 20JD/1.jpg",
+    itemCount: 2
   }
 ];
 
@@ -406,10 +406,10 @@ const PUZZLE_PRODUCTS = [
   }
 ];
 
-// دمج جميع منتجات المتجر
+// دمج جميع منتجات المتجر بالترتيب المطلوب: اللوحات المكتبية، ثم البازل، ثم الصواني، ثم القلائد
 const PRODUCTS = [
   ...DESK_PRODUCTS,
+  ...PUZZLE_PRODUCTS,
   ...TRAY_PRODUCTS,
-  ...PENDANT_PRODUCTS,
-  ...PUZZLE_PRODUCTS
+  ...PENDANT_PRODUCTS
 ];
