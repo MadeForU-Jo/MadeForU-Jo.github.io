@@ -71,6 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const deskPlateBackMsgInput = document.getElementById("deskPlateBackMsg");
   const deskPlateBoxToggle = document.getElementById("deskPlateBoxToggle");
 
+  // عناصر خيارات الصواني الخشبية
+  const trayOptionsBlock = document.getElementById("trayOptionsBlock");
+  const trayEngravingToggle = document.getElementById("trayEngravingToggle");
+  const trayEngravingWrap = document.getElementById("trayEngravingWrap");
+  const trayEngravingText = document.getElementById("trayEngravingText");
+
+  // عناصر خيارات قلائد الريزن
+  const pendantOptionsBlock = document.getElementById("pendantOptionsBlock");
+  const pendantBoxToggle = document.getElementById("pendantBoxToggle");
+
   // عناصر خيارات البازل
   const puzzleOptionsBlock = document.getElementById("puzzleOptionsBlock");
   const modalMaterialOptions = document.getElementById("modalMaterialOptions");
@@ -105,6 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
     deskPlateBoxToggle.addEventListener("change", () => {
       if (!selectedProduct) return;
       const hasBox = deskPlateBoxToggle.checked;
+      const boxPrice = hasBox ? (selectedProduct.boxFee || 3.0) : 0;
+      modalPrice.textContent = `${(selectedProduct.price + boxPrice).toFixed(2)} ${CURRENCY}`;
+    });
+  }
+
+  // تفاعل حفر الليزر للصواني (+3 د.أ)
+  if (trayEngravingToggle) {
+    trayEngravingToggle.addEventListener("change", () => {
+      if (!selectedProduct) return;
+      const hasEngraving = trayEngravingToggle.checked;
+      if (trayEngravingWrap) trayEngravingWrap.style.display = hasEngraving ? "block" : "none";
+      const fee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
+      modalPrice.textContent = `${(selectedProduct.price + fee).toFixed(2)} ${CURRENCY}`;
+    });
+  }
+
+  // تفاعل علبة الهدايا للقلائد (+3 د.أ)
+  if (pendantBoxToggle) {
+    pendantBoxToggle.addEventListener("change", () => {
+      if (!selectedProduct) return;
+      const hasBox = pendantBoxToggle.checked;
       const boxPrice = hasBox ? (selectedProduct.boxFee || 3.0) : 0;
       modalPrice.textContent = `${(selectedProduct.price + boxPrice).toFixed(2)} ${CURRENCY}`;
     });
@@ -157,11 +188,52 @@ document.addEventListener("DOMContentLoaded", () => {
     custCitySelect.addEventListener("change", updateCheckoutTotals);
   }
 
+  // الفئة المحددة لصفحة القسم الحالية (data-page-category)
+  const pageCategorySlug = (document.body.getAttribute("data-page-category") || "").trim().toLowerCase();
+  const pageCategoryDef = STORE_CATEGORIES.find(c => c.id === pageCategorySlug);
+  if (pageCategoryDef) {
+    activeCategory = pageCategoryDef.fullName;
+  }
+
+  // عرض بطاقات الأقسام في الصفحة الرئيسية
+  function renderCategoriesShowcase() {
+    const container = document.getElementById("categoriesShowcaseGrid");
+    if (!container) return;
+
+    container.innerHTML = STORE_CATEGORIES.map(cat => `
+      <a href="${cat.page}" class="category-card">
+        <div class="category-card-img-wrap">
+          <span class="category-card-badge">${cat.badge}</span>
+          <img class="category-card-img" src="${cat.image}" alt="${cat.name}" loading="lazy" onerror="this.src='images/MadeForU Logo Trans.png'">
+        </div>
+        <div class="category-card-body">
+          <div class="category-card-title-row">
+            <h3 class="category-card-title">${cat.icon} ${cat.name}</h3>
+            <span class="category-card-count">${cat.itemCount} منتجات</span>
+          </div>
+          <p class="category-card-desc">${cat.tagline}</p>
+          <div class="category-card-btn">
+            <span>تصفح قسم ${cat.name}</span>
+            <span>➔</span>
+          </div>
+        </div>
+      </a>
+    `).join("");
+  }
+
   // تهيئة الفئات وتصنيفات المنتجات
   function initCategories() {
-    const categories = ["الكل", ...new Set(PRODUCTS.map(p => p.category))];
+    if (!categoryContainer) return;
+
+    // إذا كنا في صفحة قسم مستقل، نخفي فلاتر الأقسام السريعة لمنع التشتيت
+    if (pageCategorySlug) {
+      categoryContainer.style.display = "none";
+      return;
+    }
+
+    const categories = ["الكل", ...STORE_CATEGORIES.map(c => c.fullName)];
     categoryContainer.innerHTML = categories.map(cat => `
-      <button class="cat-pill ${cat === "الكل" ? "active" : ""}" data-category="${cat}">
+      <button class="cat-pill ${cat === activeCategory ? "active" : ""}" data-category="${cat}">
         ${cat}
       </button>
     `).join("");
@@ -195,9 +267,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // عرض المنتجات
   function renderProducts() {
+    if (!productsGrid) return;
     const q = searchQuery.toLowerCase().trim();
-    const filtered = PRODUCTS.filter(item => {
-      const matchesCat = activeCategory === "الكل" || item.category === activeCategory;
+
+    let itemsToFilter = PRODUCTS;
+
+    if (pageCategorySlug) {
+      // صفحة قسم مستقل: نعرض فقط منتجات هذا القسم (مثل صواني، قلائد، بازل، لوحات)
+      itemsToFilter = PRODUCTS.filter(item => item.categorySlug === pageCategorySlug);
+    } else if (activeCategory === "الكل" && !q) {
+      // في الصفحة الرئيسية: نعرض المنتجات المميزة والأكثر طلباً فقط لعدم تكديس الصفحة
+      itemsToFilter = PRODUCTS.filter(item => item.featured === true);
+    } else if (activeCategory !== "الكل") {
+      itemsToFilter = PRODUCTS.filter(item => item.category === activeCategory);
+    }
+
+    const filtered = itemsToFilter.filter(item => {
       const matchesQuery = !q ||
         item.title.toLowerCase().includes(q) ||
         (item.sku && item.sku.toLowerCase().includes(q)) ||
@@ -205,14 +290,14 @@ document.addEventListener("DOMContentLoaded", () => {
         (item.dimensions && item.dimensions.toLowerCase().includes(q)) ||
         item.category.toLowerCase().includes(q) ||
         item.shortDesc.toLowerCase().includes(q);
-      return matchesCat && matchesQuery;
+      return matchesQuery;
     });
 
     if (filtered.length === 0) {
       productsGrid.innerHTML = `
         <div class="empty-state">
           <h3>لا توجد نتائج مطابقة لبحثك</h3>
-          <p>جرّب البحث بكلمة أخرى أو اختر تصنيف "الكل" لعرض جميع المنتجات.</p>
+          <p>جرّب البحث بكلمة أخرى أو تصفح باقي أقسام المتجر.</p>
         </div>
       `;
       return;
@@ -342,11 +427,16 @@ document.addEventListener("DOMContentLoaded", () => {
     modalDimensions.textContent = item.dimensions || "40 × 10 سم تقريباً";
     modalDesc.textContent = item.description;
 
+    // إخفاء كافة كتل التخصيص أولاً
+    if (deskPlateCustomizationBlock) deskPlateCustomizationBlock.style.display = "none";
+    if (puzzleOptionsBlock) puzzleOptionsBlock.style.display = "none";
+    if (trayOptionsBlock) trayOptionsBlock.style.display = "none";
+    if (pendantOptionsBlock) pendantOptionsBlock.style.display = "none";
+
     if (item.isDeskPlate) {
-      // إظهار قسم اللوحة المكتبية وإخفاء البازل
+      // إظهار قسم اللوحة المكتبية
       if (deskPlateCustomizationBlock) deskPlateCustomizationBlock.style.display = "block";
-      if (puzzleOptionsBlock) puzzleOptionsBlock.style.display = "none";
-      if (modalWood) modalWood.textContent = "خشب زان طبيعي صلب (سماكة عالية)";
+      if (modalWood) modalWood.textContent = item.materialInfo || "خشب زان طبيعي صلب (سماكة عالية)";
 
       // تصفير حقول اللوحة المكتبية
       if (deskPlateNameInput) deskPlateNameInput.value = "";
@@ -356,9 +446,24 @@ document.addEventListener("DOMContentLoaded", () => {
       if (deskPlateBoxToggle) deskPlateBoxToggle.checked = false;
 
       modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
+    } else if (item.isTray) {
+      // إظهار قسم الصواني الخشبية
+      if (trayOptionsBlock) trayOptionsBlock.style.display = "block";
+      if (modalWood) modalWood.textContent = item.materialInfo || "خشب طبيعي صلب وريزن إيبوكسي";
+      if (trayEngravingToggle) trayEngravingToggle.checked = false;
+      if (trayEngravingWrap) trayEngravingWrap.style.display = "none";
+      if (trayEngravingText) trayEngravingText.value = "";
+
+      modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
+    } else if (item.isPendant) {
+      // إظهار قسم القلائد
+      if (pendantOptionsBlock) pendantOptionsBlock.style.display = "block";
+      if (modalWood) modalWood.textContent = item.materialInfo || "خشب طبيعي صلب وريزن إيبوكسي مصقول";
+      if (pendantBoxToggle) pendantBoxToggle.checked = false;
+
+      modalPrice.textContent = `${item.price.toFixed(2)} ${CURRENCY}`;
     } else {
-      // إظهار قسم البازل وإخفاء اللوحة المكتبية
-      if (deskPlateCustomizationBlock) deskPlateCustomizationBlock.style.display = "none";
+      // إظهار قسم البازل
       if (puzzleOptionsBlock) puzzleOptionsBlock.style.display = "block";
 
       currentMaterial = STORE_CONFIG.materials[0];
@@ -459,6 +564,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // إضافة عنصر إلى السلة
   function addToCartWithOptions(product) {
+    const prodSlug = product.slug || product.id;
+
     if (product.isDeskPlate) {
       const engravedName = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
       const engravedTitle = deskPlateTitleInput ? deskPlateTitleInput.value.trim() : "";
@@ -467,8 +574,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const hasBox = deskPlateBoxToggle ? deskPlateBoxToggle.checked : false;
       const boxFee = hasBox ? (product.boxFee || 3.0) : 0;
       const finalPrice = product.price + boxFee;
-
-      const prodSlug = product.slug || product.id;
       const cartItemId = `desk_${prodSlug}_${encodeURIComponent(engravedName)}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
 
       cart.push({
@@ -478,11 +583,53 @@ document.addEventListener("DOMContentLoaded", () => {
         sku: product.sku || product.code || "MFU-101",
         isDeskPlate: true,
         title: product.title,
-        materialName: "خشب زان طبيعي صلب (40×10 سم)",
+        materialName: product.materialInfo || "خشب زان طبيعي صلب (40×10 سم)",
         engravedName: engravedName || "حسب التنسيق بالواتساب",
         engravedTitle,
         engravedLogo,
         backMessage,
+        hasBox,
+        boxFee,
+        price: finalPrice,
+        image: product.image,
+        qty: 1
+      });
+    } else if (product.isTray) {
+      const hasEngraving = trayEngravingToggle ? trayEngravingToggle.checked : false;
+      const engravingText = hasEngraving ? (trayEngravingText ? trayEngravingText.value.trim() : "") : "";
+      const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
+      const finalPrice = product.price + engravingFee;
+      const cartItemId = `tray_${prodSlug}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}_${Date.now()}`;
+
+      cart.push({
+        cartItemId,
+        productId: prodSlug,
+        productSlug: prodSlug,
+        sku: product.sku || product.code || "MFU-400",
+        isTray: true,
+        title: product.title,
+        materialName: product.materialInfo || "خشب طبيعي وريزن إيبوكسي صلب",
+        hasEngraving,
+        engravingText,
+        engravingFee,
+        price: finalPrice,
+        image: product.image,
+        qty: 1
+      });
+    } else if (product.isPendant) {
+      const hasBox = pendantBoxToggle ? pendantBoxToggle.checked : false;
+      const boxFee = hasBox ? (product.boxFee || 3.0) : 0;
+      const finalPrice = product.price + boxFee;
+      const cartItemId = `pendant_${prodSlug}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
+
+      cart.push({
+        cartItemId,
+        productId: prodSlug,
+        productSlug: prodSlug,
+        sku: product.sku || product.code || "MFU-500",
+        isPendant: true,
+        title: product.title,
+        materialName: product.materialInfo || "خشب طبيعي صلب وريزن مصقول كالأحجار الكريمة",
         hasBox,
         boxFee,
         price: finalPrice,
@@ -496,7 +643,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const engravingFee = hasEngraving ? (STORE_CONFIG.engravingFee || 3.0) : 0;
       const basePrice = getProductCalculatedPrice(product, currentMaterial);
       const finalPrice = basePrice + engravingFee;
-      const prodSlug = product.slug || product.id;
       const cartItemId = `puz_${prodSlug}_${currentMaterial.id}_${currentColor.id}_${hasEngraving ? 'eng_' + encodeURIComponent(engravingText) : 'std'}`;
 
       const existing = cart.find(c => c.cartItemId === cartItemId);
@@ -508,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
           productId: prodSlug,
           productSlug: prodSlug,
           sku: product.sku || product.code || "MFU-200",
-          isDeskPlate: false,
+          isPuzzle: true,
           title: product.title,
           materialName: currentMaterial.name,
           colorName: currentColor.name,
@@ -723,6 +869,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (i.engravedLogo) line += `\n  └ ⚖️ الشعار/الرمز: ${i.engravedLogo}`;
         if (i.backMessage) line += `\n  └ 💌 إهداء الوجه الخلفي: "${i.backMessage}"`;
         line += `\n  └ 🎁 صندوق هدايا فاخر (+3 د.أ): ${i.hasBox ? 'نعم (مشمول)' : 'لا (بدون صندوق)'}`;
+      } else if (i.isTray) {
+        if (i.hasEngraving) {
+          line += `\n  └ ✨ حفر ليزر مخصص (+3 د.أ): "${i.engravingText || 'نعم'}"`;
+        }
+      } else if (i.isPendant) {
+        line += `\n  └ 🎁 علبة مجوهرات وإهداء فاخرة (+3 د.أ): ${i.hasBox ? 'نعم (مشمول)' : 'لا (بدون علبة)'}`;
       } else if (i.hasEngraving) {
         line += `\n  └ ✨ حفر ليزر مخصص (+${(i.engravingFee || 3).toFixed(0)} د.أ): "${i.engravingText}"`;
       }
@@ -809,6 +961,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // التشغيل الأولي
   initCategories();
+  renderCategoriesShowcase();
   renderProducts();
   renderCart();
   checkUrlProductLink();

@@ -2033,3 +2033,211 @@ body {
     display: none;
   }
 }
+
+
+/* ==========================================
+   CATEGORY SHOWCASE, SUBPAGES & NAVIGATION
+   ========================================== */
+.nav-cat-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-cat-bar::-webkit-scrollbar {
+  display: none;
+}
+.nav-cat-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.nav-cat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: var(--cream-bg);
+  border: 1px solid var(--border-subtle);
+  transition: var(--transition);
+}
+.nav-cat-link:hover, .nav-cat-link.active {
+  background: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+}
+
+/* CATEGORIES SHOWCASE SECTION */
+.categories-showcase-section {
+  margin: 2.5rem 0 3.5rem;
+}
+.section-header-wrap {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.section-badge-pill {
+  display: inline-block;
+  background: var(--brand-tint);
+  color: var(--brand-primary);
+  border: 1px solid rgba(143, 65, 92, 0.2);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.section-header-wrap h2 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--wood-dark);
+  margin-bottom: 0.5rem;
+}
+.section-header-wrap p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.categories-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.category-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-light);
+}
+.category-card-img-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: #eee;
+}
+.category-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.category-card:hover .category-card-img {
+  transform: scale(1.06);
+}
+.category-card-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(42, 26, 34, 0.85);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+.category-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.category-card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.category-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--wood-dark);
+}
+.category-card-count {
+  font-size: 0.8rem;
+  color: var(--brand-primary);
+  background: var(--brand-tint);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.category-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+.category-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--brand-tint);
+  color: var(--brand-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  border: 1px solid rgba(143, 65, 92, 0.2);
+}
+.category-card:hover .category-card-btn {
+  background: var(--brand-primary);
+  color: #fff;
+}
+
+/* CATEGORY PAGE HERO */
+.category-page-hero {
+  background: linear-gradient(135deg, #2A1A22 0%, #4D1A2E 50%, #6B2940 100%);
+  color: #fff;
+  padding: 2.75rem 1.5rem;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.category-breadcrumbs {
+  font-size: 0.85rem;
+  color: var(--wood-light);
+  margin-bottom: 0.75rem;
+}
+.category-breadcrumbs a {
+  color: #fff;
+  text-decoration: underline;
+  margin: 0 0.25rem;
+}
+.category-page-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+}
+.category-page-hero p {
+  font-size: 1.05rem;
+  color: #FFE6EE;
+  max-width: 650px;
+  margin: 0 auto;
+}

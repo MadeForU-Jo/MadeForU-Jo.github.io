@@ -80,6 +80,17 @@
     </div>
   </header>
 
+  <!-- شريط روابط الأقسام السريعة -->
+  <nav class="nav-cat-bar" aria-label="أقسام المتجر">
+    <div class="nav-cat-container">
+      <a href="index.html" class="nav-cat-link active">🏠 الرئيسية</a>
+      <a href="trays.html" class="nav-cat-link">☕ صواني خشب وريزن</a>
+      <a href="pendants.html" class="nav-cat-link">💎 قلائد وسلاسل ريزن</a>
+      <a href="desk-plates.html" class="nav-cat-link">💼 لوحات مكتبية</a>
+      <a href="puzzles.html" class="nav-cat-link">🧩 أحاجي وبازل</a>
+    </div>
+  </nav>
+
   <!-- القسم الترحيبي (Hero) -->
   <section class="hero">
     <div class="hero-content">
@@ -97,6 +108,24 @@
 
   <!-- القسم الرئيسي للمنتجات -->
   <main class="main-container">
+
+    <!-- قسم بطاقات الأقسام الرئيسية في المشغل -->
+    <section class="categories-showcase-section">
+      <div class="section-header-wrap">
+        <span class="section-badge-pill">أقسام MadeForU 🪵</span>
+        <h2>تصفح أقسام المشغل الفنية</h2>
+        <p>اختر القسم الذي يناسب اهتمامك لاستعراض كافة القطع والتصاميم الحصرية لكل فئة بشكل مستقل.</p>
+      </div>
+      <div class="categories-showcase-grid" id="categoriesShowcaseGrid">
+        <!-- يتم تحميل بطاقات الأقسام ديناميكياً -->
+      </div>
+    </section>
+
+    <!-- شريط المنتجات المختارة -->
+    <div class="section-header-wrap" style="margin-bottom: 1.25rem; text-align: right;">
+      <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--wood-dark);">✨ تشكيلة مختارة من الأكثر طلباً</h3>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">قطع فنية يدوية ومميزة من مشغلنا</p>
+    </div>
 
     <!-- شريط البحث والفلترة -->
     <div class="toolbar">
@@ -341,6 +370,39 @@
           </div>
         </div>
 
+        <!-- خيارات الصواني الخشبية والريزن (تظهر فقط مع الصواني) -->
+        <div id="trayOptionsBlock" style="display: none; margin-top: 1rem;">
+          <div style="background: #FDF6EE; border: 1px solid #EAD8C7; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+              <input type="checkbox" id="trayEngravingToggle" style="width: 20px; height: 20px; margin-top: 3px; accent-color: var(--brand-primary);">
+              <div>
+                <strong style="color: var(--wood-dark); font-size: 0.98rem; display: block;">✨ إضافة حفر ليزر مخصص (+3.00 د.أ)</strong>
+                <span style="font-size: 0.82rem; color: var(--text-secondary); display: block; margin-top: 2px;">
+                  إمكانية حفر اسم العائلة أو إهداء خاص بالليزر مباشرة على خشب الصينية.
+                </span>
+              </div>
+            </label>
+            <div id="trayEngravingWrap" style="display: none; margin-top: 0.75rem;">
+              <input type="text" id="trayEngravingText" placeholder="اكتب الاسم أو عبارة الإهداء المطلوبة..." style="width:100%; padding: 0.65rem 0.85rem; border: 1px solid #D6C2B0; border-radius: 8px; font-family: inherit; font-size: 0.95rem;">
+            </div>
+          </div>
+        </div>
+
+        <!-- خيارات قلائد الريزن (تظهر فقط مع القلائد) -->
+        <div id="pendantOptionsBlock" style="display: none; margin-top: 1rem;">
+          <div style="background: #FDF1F4; border: 1px solid #E4B8C5; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+              <input type="checkbox" id="pendantBoxToggle" style="width: 20px; height: 20px; margin-top: 3px; accent-color: #8F415C;">
+              <div>
+                <strong style="color: #6B2940; font-size: 0.98rem; display: block;">🎁 إضافة علبة مجوهرات وإهداء فاخرة مبطنة (+3.00 د.أ)</strong>
+                <span style="font-size: 0.82rem; color: #733047; display: block; margin-top: 2px;">
+                  علبة إهداء راقية مخصصة لتقديم القلادة كهدية فاخرة تدوم طويلاً.
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <div class="modal-delivery-pill" style="margin-top: 1rem;">
           🚚 التوصيل السريع: داخل عمان 1 د.أ • خارج عمان وباقي المحافظات 2 د.أ
         </div>
@@ -508,7 +570,7 @@
     <span class="floating-whatsapp-text">تحدث معنا</span>
   </a>
 
-  <script src="products.js?v=31"></script>
-  <script src="app.js?v=31"></script>
+  <script src="products.js?v=35"></script>
+  <script src="app.js?v=35"></script>
 </body>
 </html>

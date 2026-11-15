@@ -24,9 +24,10 @@ Before adding any new product to `products.js` or creating landing pages:
    * **Redirect HTML Files:** Ensure any new `.html` file does not overwrite or collide with existing files.
 2. **Follow the SKU / Series Convention:**
    * `100` series: Desk Name Plates & Office Items (`MFU-101`, `MFU-102`...).
-   * `200` series: Puzzles & Wall Art (`MFU-201`, `MFU-202`...).
+   * `200` series: Puzzles & Wall Art (`MFU-201`, `MFU-202`, `MFU-203`, `MFU-204`...).
    * `300` series: Wooden Rifles, Props, & Antiques (`MFU-301`...).
-   * `400` series: Resin Crafts & Home Decor (`MFU-401`...).
+   * `400` series: Wooden & Resin Trays (`MFU-401`, `MFU-402`, `MFU-403`, `MFU-404`).
+   * `500` series: Resin & Wood Pendants / Jewelry (`MFU-501`, `MFU-502`...).
 
 ---
 
@@ -36,6 +37,12 @@ Before adding any new product to `products.js` or creating landing pages:
   * Custom laser engraving on the front (Name, Profession, Logo) and optional back-face personal message.
   * Optional luxury gift box (+3 JD).
   * Requires a minimum **10 JD down payment** via CliQ / e-wallet before production.
+* **Wooden & Resin Trays:**
+  * Crafted from solid natural wood, fractal lightning discharge, or embedded coffee beans with clear epoxy resin.
+  * Price: 15 JD – 18 JD with optional laser custom engraving (+3 JD).
+* **Resin & Wood Pendants:**
+  * Handcrafted from natural wood burl and royal epoxy resin with a genuine leather cord.
+  * Price: 20 JD with optional luxury jewelry gift box (+3 JD).
 * **Puzzles & Geometric Wall Art:**
   * Strictly made from **Solid MDF Wood** (`خشب MDF صلب`) or **Modern Acrylic** (`أكريليك عصري صلب`).
   * **NEVER** list beech wood or natural wood for puzzles.
