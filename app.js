@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDesc = document.getElementById("modalDesc");
   const modalPrice = document.getElementById("modalPrice");
   const modalAddToCartBtn = document.getElementById("modalAddToCartBtn");
+  const modalDirectOrderBtn = document.getElementById("modalDirectOrderBtn");
 
   // عناصر خيارات لوحة الاسم المكتبية
   const deskPlateCustomizationBlock = document.getElementById("deskPlateCustomizationBlock");
@@ -216,13 +217,31 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="product-price">${item.price.toFixed(2)} ${CURRENCY}</span>
               ${item.isDeskPlate ? `<span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر الوجهين متاح ✨</span>` : ''}
             </div>
-            <button class="add-btn add-to-cart-quick" data-id="${item.id}">
-              ${item.isDeskPlate ? 'تخصيص اللوحة والحفر' : 'خيارات البازل والحفر'}
-            </button>
+            <div class="card-action-btns">
+              <button class="card-direct-btn card-direct-quick" data-id="${item.id}" type="button">
+                ⚡ اطلب الآن
+              </button>
+              <button class="add-btn add-to-cart-quick" data-id="${item.id}" type="button">
+                ${item.isDeskPlate ? 'تخصيص' : 'خيارات'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
     `).join("");
+
+    productsGrid.querySelectorAll(".card-direct-quick").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.getAttribute("data-id"));
+        openProductModalView(id);
+        setTimeout(() => {
+          if (deskPlateNameInput && deskPlateCustomizationBlock && deskPlateCustomizationBlock.style.display !== "none") {
+            deskPlateNameInput.focus();
+          }
+        }, 150);
+      });
+    });
 
     productsGrid.querySelectorAll(".product-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -366,12 +385,40 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === productModal) productModal.classList.remove("active");
   });
 
+  // زر إضافة إلى السلة
   modalAddToCartBtn.addEventListener("click", () => {
     if (selectedProduct) {
+      if (selectedProduct.isDeskPlate) {
+        const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
+        if (!nameVal) {
+          alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
+          if (deskPlateNameInput) deskPlateNameInput.focus();
+          return;
+        }
+      }
       addToCartWithOptions(selectedProduct);
       productModal.classList.remove("active");
     }
   });
+
+  // زر الطلب المباشر الفوري (فتح نموذج إتمام الطلب مباشرة)
+  if (modalDirectOrderBtn) {
+    modalDirectOrderBtn.addEventListener("click", () => {
+      if (selectedProduct) {
+        if (selectedProduct.isDeskPlate) {
+          const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
+          if (!nameVal) {
+            alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
+            if (deskPlateNameInput) deskPlateNameInput.focus();
+            return;
+          }
+        }
+        addToCartWithOptions(selectedProduct);
+        productModal.classList.remove("active");
+        openCheckoutModalView();
+      }
+    });
+  }
 
   // إضافة عنصر إلى السلة
   function addToCartWithOptions(product) {
@@ -558,7 +605,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cartOverlay.addEventListener("click", closeCartDrawer);
 
   // الانتقال لنافذة الدفع وتأكيد العنوان
-  proceedToCheckoutBtn.addEventListener("click", () => {
+  function openCheckoutModalView() {
     if (cart.length === 0) return;
     closeCartDrawer();
     updateCheckoutTotals();
@@ -566,7 +613,9 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutFormContainer.style.display = "block";
     orderSuccessView.style.display = "none";
     checkoutModal.classList.add("active");
-  });
+  }
+
+  proceedToCheckoutBtn.addEventListener("click", openCheckoutModalView);
 
   closeCheckoutModal.addEventListener("click", () => {
     checkoutModal.classList.remove("active");

@@ -947,6 +947,68 @@ body {
   justify-content: space-between;
   padding-top: 1rem;
   border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.modal-footer-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.direct-order-action-btn {
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: all var(--transition);
+}
+
+.direct-order-action-btn:hover {
+  background: #20bd5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+}
+
+.direct-order-action-btn:active {
+  transform: translateY(0);
+}
+
+.card-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.card-direct-btn {
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all var(--transition);
+}
+
+.card-direct-btn:hover {
+  background: #20bd5a;
+  transform: translateY(-1px);
 }
 
 /* CART DRAWER (Slides from left in RTL) */
@@ -1880,18 +1942,27 @@ body {
     font-size: 0.76rem;
     padding: 0.35rem 0.65rem;
   }
-  .modal-bulk-note {
-    font-size: 0.76rem;
-  }
   .modal-footer {
     padding-top: 0.75rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
   }
   .modal-footer .product-price {
-    font-size: 1.25rem;
+    text-align: center;
+    font-size: 1.35rem;
   }
-  .modal-footer .add-btn {
-    padding: 0.6rem 1.1rem;
-    font-size: 0.9rem;
+  .modal-footer-btns {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-footer-btns .direct-order-action-btn,
+  .modal-footer-btns .add-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
   }
 
   /* CHECKOUT FORM IN MODAL */
