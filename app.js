@@ -375,14 +375,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     productModal.classList.add("active");
+
+    if (window.history && window.history.replaceState) {
+      const slug = item.isDeskPlate ? 'deskplate' : item.id;
+      window.history.replaceState(null, '', `?product=${slug}`);
+    }
   }
 
   closeProductModal.addEventListener("click", () => {
     productModal.classList.remove("active");
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
   });
 
   productModal.addEventListener("click", (e) => {
-    if (e.target === productModal) productModal.classList.remove("active");
+    if (e.target === productModal) {
+      productModal.classList.remove("active");
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    }
   });
 
   // زر إضافة إلى السلة
@@ -743,8 +756,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
+  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads)
+  function checkUrlProductLink() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const prodParam = (params.get("product") || params.get("p") || params.get("id") || "").trim().toLowerCase();
+      const hash = window.location.hash ? window.location.hash.replace("#", "").trim().toLowerCase() : "";
+
+      let targetId = null;
+      if (prodParam) {
+        if (prodParam === "deskplate" || prodParam === "plate" || prodParam === "1" || prodParam.includes("desk")) {
+          targetId = 1;
+        } else {
+          const parsed = parseInt(prodParam);
+          if (!isNaN(parsed)) targetId = parsed;
+        }
+      } else if (hash) {
+        if (hash === "deskplate" || hash === "desk-plate" || hash === "plate" || hash === "1") {
+          targetId = 1;
+        } else {
+          const parsed = parseInt(hash);
+          if (!isNaN(parsed)) targetId = parsed;
+        }
+      }
+
+      if (targetId) {
+        setTimeout(() => {
+          openProductModalView(targetId);
+        }, 120);
+      }
+    } catch (err) {
+      console.warn("Could not parse direct product link", err);
+    }
+  }
+
   // التشغيل الأولي
   initCategories();
   renderProducts();
   renderCart();
+  checkUrlProductLink();
 });
