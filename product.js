@@ -65,13 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const boxToggle = document.getElementById("ppDeskBoxToggle");
       if (boxToggle && boxToggle.checked) total += (selectedProduct.boxFee || STORE_CONFIG.boxFee || 3);
 
-    } else if (selectedProduct.isTray) {
-      const engToggle = document.getElementById("ppTrayEngravingToggle");
-      if (engToggle && engToggle.checked) total += (STORE_CONFIG.engravingFee || 3);
-
-    } else if (selectedProduct.isPendant) {
-      const boxToggle = document.getElementById("ppPendantBoxToggle");
-      if (boxToggle && boxToggle.checked) total += (selectedProduct.boxFee || STORE_CONFIG.boxFee || 3);
+    } else if (selectedProduct.isTray || selectedProduct.isPendant) {
+      // صواني وقلائد — السعر ثابت ومحدد بدون إضافات
+      total = selectedProduct.price || 0;
 
     } else {
       // بازل
@@ -198,20 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
       else details += `\n🎁 صندوق هدايا: غير مشمول`;
       details += `\n\n⚠️ سياسة الدفع: عربون 10 دنانير على الأقل مسبقاً عبر CliQ لبدء التجهيز، والمتبقي كاش عند الاستلام.`;
 
-    } else if (product.isTray) {
-      const hasEng = document.getElementById("ppTrayEngravingToggle")?.checked || false;
-      const engText = (document.getElementById("ppTrayEngravingText")?.value || "").trim();
-      if (hasEng) {
-        const fee = STORE_CONFIG.engravingFee || 3;
-        finalPrice += fee;
-        details = `\n✨ حفر ليزر مخصص (+${fee.toFixed(2)} ${CURRENCY}): "${engText || 'سيتم التنسيق'}"`;
-      }
-
-    } else if (product.isPendant) {
-      const hasBox = document.getElementById("ppPendantBoxToggle")?.checked || false;
-      const boxFee = hasBox ? (product.boxFee || STORE_CONFIG.boxFee || 3) : 0;
-      finalPrice += boxFee;
-      details = `\n🎁 علبة مجوهرات فاخرة: ${hasBox ? `مشمولة (+${boxFee.toFixed(2)} ${CURRENCY})` : "غير مشمولة"}`;
+    } else if (product.isTray || product.isPendant) {
+      // صواني وقلائد — طلب مباشر بدون إضافات
+      details = "";
+      finalPrice = product.price || 0;
 
     } else {
       // بازل
@@ -303,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupGallery(product);
 
     // إخفاء جميع أقسام الخيارات
-    ["ppDeskPlateOptions", "ppPuzzleOptions", "ppTrayOptions", "ppPendantOptions"].forEach(id => {
+    ["ppDeskPlateOptions", "ppPuzzleOptions"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
     });
@@ -316,23 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // ربط التغييرات بتحديث السعر
       document.getElementById("ppDeskBoxToggle")?.addEventListener("change", refreshPrice);
 
-    } else if (product.isTray) {
-      const block = document.getElementById("ppTrayOptions");
-      if (block) block.style.display = "block";
-
-      const engToggle = document.getElementById("ppTrayEngravingToggle");
-      const engWrap = document.getElementById("ppTrayEngravingWrap");
-      engToggle?.addEventListener("change", () => {
-        if (engWrap) engWrap.style.display = engToggle.checked ? "block" : "none";
-        refreshPrice();
-      });
-
-    } else if (product.isPendant) {
-      const block = document.getElementById("ppPendantOptions");
-      if (block) block.style.display = "block";
-      document.getElementById("ppPendantBoxToggle")?.addEventListener("change", refreshPrice);
-
-    } else {
+    } else if (product.isPuzzle) {
       // بازل
       const block = document.getElementById("ppPuzzleOptions");
       if (block) block.style.display = "block";
