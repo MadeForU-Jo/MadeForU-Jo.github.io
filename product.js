@@ -80,33 +80,172 @@ document.addEventListener("DOMContentLoaded", () => {
     if (topPriceEl) topPriceEl.textContent = `${total.toFixed(2)} ${CURRENCY}`;
   }
 
-  // ===== معرض الصور =====
+  // ===== معرض الصور التفاعلي مع دعم السحب والنقاط (Option 1: Swipeable + Dots) =====
   function setupGallery(product) {
     const mainImg = document.getElementById("ppMainImg");
+    const galleryWrap = document.getElementById("ppGalleryWrap");
     const thumbsContainer = document.getElementById("ppThumbs");
+    const dotsContainer = document.getElementById("ppDots");
+    const counterEl = document.getElementById("ppGalleryCounter");
+    const prevBtn = document.getElementById("ppGalleryPrev");
+    const nextBtn = document.getElementById("ppGalleryNext");
+
     if (!mainImg) return;
 
-    mainImg.src = product.image || "";
+    const gallery = (product.gallery && product.gallery.length > 0) ? product.gallery : [product.image];
+    let currentIndex = 0;
+
+    // تهيئة الصورة الأولى
+    mainImg.src = gallery[0] || product.image || "";
     mainImg.alt = product.title || "";
 
-    if (!thumbsContainer) return;
-    thumbsContainer.innerHTML = "";
+    // تنظيف العناصر السابقة
+    if (thumbsContainer) thumbsContainer.innerHTML = "";
+    if (dotsContainer) dotsContainer.innerHTML = "";
 
-    if (!product.gallery || product.gallery.length <= 1) return;
+    // إذا كانت هناك صورة واحدة فقط، نخفي الأسهم والعداد والنقاط
+    if (gallery.length <= 1) {
+      if (counterEl) counterEl.style.display = "none";
+      if (prevBtn) prevBtn.style.display = "none";
+      if (nextBtn) nextBtn.style.display = "none";
+      return;
+    }
 
-    product.gallery.forEach((src, idx) => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = `صورة ${idx + 1}`;
-      img.className = "pp-thumb" + (idx === 0 ? " active" : "");
-      img.loading = "lazy";
-      img.addEventListener("click", () => {
-        mainImg.src = src;
-        thumbsContainer.querySelectorAll(".pp-thumb").forEach(t => t.classList.remove("active"));
-        img.classList.add("active");
+    // إظهار العداد والأسهم
+    if (counterEl) {
+      counterEl.style.display = "block";
+      counterEl.textContent = `1 / ${gallery.length}`;
+    }
+    if (prevBtn) prevBtn.style.display = "flex";
+    if (nextBtn) nextBtn.style.display = "flex";
+
+    // الانتقال لصورة محددة
+    function goToImage(newIndex) {
+      if (newIndex < 0) newIndex = gallery.length - 1;
+      if (newIndex >= gallery.length) newIndex = 0;
+      currentIndex = newIndex;
+
+      // تأثير انتقال سلس
+      mainImg.style.opacity = "0.2";
+      setTimeout(() => {
+        mainImg.src = gallery[currentIndex];
+        mainImg.style.opacity = "1";
+      }, 90);
+
+      // تحديث العداد
+      if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${gallery.length}`;
+
+      // تحديث النقاط (Dots)
+      if (dotsContainer) {
+        dotsContainer.querySelectorAll(".pp-gallery-dot").forEach((dot, idx) => {
+          dot.classList.toggle("active", idx === currentIndex);
+        });
+      }
+
+      // تحديث المصغرات (Thumbnails) والتمرير التلقائي
+      if (thumbsContainer) {
+        const thumbs = thumbsContainer.querySelectorAll(".pp-thumb");
+        thumbs.forEach((thumb, idx) => {
+          const isActive = idx === currentIndex;
+          thumb.classList.toggle("active", isActive);
+          if (isActive) {
+            thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+          }
+        });
+      }
+    }
+
+    function nextImage() { goToImage(currentIndex + 1); }
+    function prevImage() { goToImage(currentIndex - 1); }
+
+    // توليد نقاط المؤشر (Dots)
+    if (dotsContainer) {
+      dotsContainer.innerHTML = gallery.map((_, idx) => `
+        <span class="pp-gallery-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}" aria-label="الصورة ${idx + 1}"></span>
+      `).join("");
+
+      dotsContainer.querySelectorAll(".pp-gallery-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+          const idx = parseInt(dot.getAttribute("data-index"), 10);
+          goToImage(idx);
+        });
       });
-      thumbsContainer.appendChild(img);
-    });
+    }
+
+    // توليد المصغرات (Thumbnails)
+    if (thumbsContainer) {
+      product.gallery.forEach((src, idx) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `صورة ${idx + 1}`;
+        img.className = "pp-thumb" + (idx === 0 ? " active" : "");
+        img.loading = "lazy";
+        img.addEventListener("click", () => goToImage(idx));
+        thumbsContainer.appendChild(img);
+      });
+    }
+
+    // ربط الأسهم
+    if (prevBtn) {
+      prevBtn.onclick = (e) => { e.stopPropagation(); prevImage(); };
+    }
+    if (nextBtn) {
+      nextBtn.onclick = (e) => { e.stopPropagation(); nextImage(); };
+    }
+
+    // دعم السحب باللمس على شاشات الموبايل (Touch Swipe)
+    if (galleryWrap) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      galleryWrap.addEventListener("touchstart", (e) => {
+        if (!e.touches || e.touches.length === 0) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      galleryWrap.addEventListener("touchend", (e) => {
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        // التحقق من أن السحب أفقي وليس تمرير رأسي للصفحة
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+          // سحب لليسار: عرض الصورة التالية
+          if (diffX < 0) {
+            nextImage();
+          } else {
+            // سحب لليمين: عرض الصورة السابقة
+            prevImage();
+          }
+        }
+      }, { passive: true });
+
+      // دعم السحب بالماوس للكمبيوتر (Mouse Drag)
+      let mouseStartX = 0;
+      let isDragging = false;
+
+      galleryWrap.addEventListener("mousedown", (e) => {
+        mouseStartX = e.clientX;
+        isDragging = true;
+      });
+
+      galleryWrap.addEventListener("mouseup", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diffX = e.clientX - mouseStartX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) nextImage();
+          else prevImage();
+        }
+      });
+
+      galleryWrap.addEventListener("mouseleave", () => {
+        isDragging = false;
+      });
+    }
   }
 
   // ===== خيارات البازل =====

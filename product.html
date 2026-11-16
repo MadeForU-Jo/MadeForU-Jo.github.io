@@ -15,8 +15,8 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
-  <link rel="stylesheet" href="styles.css?v=43">
-  <link rel="stylesheet" href="product.css?v=43">
+  <link rel="stylesheet" href="styles.css?v=44">
+  <link rel="stylesheet" href="product.css?v=44">
 </head>
 <body id="productPageBody">
 
@@ -95,12 +95,18 @@
       <!-- المعرض + التفاصيل -->
       <div class="product-page-grid">
 
-        <!-- يسار: معرض الصور -->
+        <!-- يسار: معرض الصور السلس (Swipeable) -->
         <div class="product-gallery-col">
-          <div class="product-gallery-main-wrap">
+          <div class="product-gallery-main-wrap" id="ppGalleryWrap">
             <span class="pp-badge" id="ppBadge"></span>
+            <span class="pp-gallery-counter" id="ppGalleryCounter">1 / 1</span>
+            <button type="button" class="pp-gallery-arrow prev" id="ppGalleryPrev" aria-label="الصورة السابقة">&#8250;</button>
+            <button type="button" class="pp-gallery-arrow next" id="ppGalleryNext" aria-label="الصورة التالية">&#8249;</button>
             <img class="product-gallery-main-img" id="ppMainImg" src="" alt="">
           </div>
+          <!-- نقاط مؤشر الصور (Dots) -->
+          <div class="pp-gallery-dots" id="ppDots"></div>
+          <!-- مصغرات الصور (Thumbnails) -->
           <div class="product-gallery-thumbs" id="ppThumbs"></div>
         </div>
 
@@ -216,7 +222,7 @@
     <span class="floating-whatsapp-text">تحدث معنا</span>
   </a>
 
-  <script src="products.js?v=43"></script>
-  <script src="product.js?v=43"></script>
+  <script src="products.js?v=44"></script>
+  <script src="product.js?v=44"></script>
 </body>
 </html>
