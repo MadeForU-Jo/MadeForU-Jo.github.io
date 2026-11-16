@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // عناصر خيارات لوحة الاسم المكتبية
   const deskPlateCustomizationBlock = document.getElementById("deskPlateCustomizationBlock");
-  const deskPlateNameInput = document.getElementById("deskPlateName");
+  const deskPlateEngravingDetailsInput = document.getElementById("deskPlateEngravingDetails") || document.getElementById("deskPlateName");
+  const deskPlateNameInput = deskPlateEngravingDetailsInput;
   const deskPlateTitleInput = document.getElementById("deskPlateTitle");
   const deskPlateLogoInput = document.getElementById("deskPlateLogo");
   const deskPlateBackMsgInput = document.getElementById("deskPlateBackMsg");
@@ -439,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (modalWood) modalWood.textContent = item.materialInfo || "خشب زان طبيعي صلب (سماكة عالية)";
 
       // تصفير حقول اللوحة المكتبية
-      if (deskPlateNameInput) deskPlateNameInput.value = "";
+      if (deskPlateEngravingDetailsInput) deskPlateEngravingDetailsInput.value = "";
       if (deskPlateTitleInput) deskPlateTitleInput.value = "";
       if (deskPlateLogoInput) deskPlateLogoInput.value = "";
       if (deskPlateBackMsgInput) deskPlateBackMsgInput.value = "";
@@ -536,10 +537,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalAddToCartBtn.addEventListener("click", () => {
       if (selectedProduct) {
         if (selectedProduct.isDeskPlate) {
-          const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
-          if (!nameVal) {
-            alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
-            if (deskPlateNameInput) deskPlateNameInput.focus();
+          const detailsVal = deskPlateEngravingDetailsInput ? deskPlateEngravingDetailsInput.value.trim() : "";
+          if (!detailsVal) {
+            alert("يرجى كتابة تفاصيل الحفر والاسم المطلوب على اللوحة أولاً!");
+            if (deskPlateEngravingDetailsInput) deskPlateEngravingDetailsInput.focus();
             return;
           }
         }
@@ -554,10 +555,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalDirectOrderBtn.addEventListener("click", () => {
       if (selectedProduct) {
         if (selectedProduct.isDeskPlate) {
-          const nameVal = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
-          if (!nameVal) {
-            alert("يرجى كتابة الاسم المطلوب حفره على اللوحة أولاً!");
-            if (deskPlateNameInput) deskPlateNameInput.focus();
+          const detailsVal = deskPlateEngravingDetailsInput ? deskPlateEngravingDetailsInput.value.trim() : "";
+          if (!detailsVal) {
+            alert("يرجى كتابة تفاصيل الحفر والاسم المطلوب على اللوحة أولاً!");
+            if (deskPlateEngravingDetailsInput) deskPlateEngravingDetailsInput.focus();
             return;
           }
         }
@@ -573,14 +574,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const prodSlug = product.slug || product.id;
 
     if (product.isDeskPlate) {
-      const engravedName = deskPlateNameInput ? deskPlateNameInput.value.trim() : "";
+      let engravedDetails = deskPlateEngravingDetailsInput ? deskPlateEngravingDetailsInput.value.trim() : "";
+      if (!engravedDetails && deskPlateNameInput) {
+        engravedDetails = deskPlateNameInput.value.trim();
+      }
       const engravedTitle = deskPlateTitleInput ? deskPlateTitleInput.value.trim() : "";
       const engravedLogo = deskPlateLogoInput ? deskPlateLogoInput.value.trim() : "";
       const backMessage = deskPlateBackMsgInput ? deskPlateBackMsgInput.value.trim() : "";
       const hasBox = deskPlateBoxToggle ? deskPlateBoxToggle.checked : false;
       const boxFee = hasBox ? (product.boxFee || 3.0) : 0;
       const finalPrice = product.price + boxFee;
-      const cartItemId = `desk_${prodSlug}_${encodeURIComponent(engravedName)}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
+      const cartItemId = `desk_${prodSlug}_${encodeURIComponent(engravedDetails.slice(0, 20))}_${hasBox ? 'box' : 'nobox'}_${Date.now()}`;
 
       cart.push({
         cartItemId,
@@ -590,7 +594,8 @@ document.addEventListener("DOMContentLoaded", () => {
         isDeskPlate: true,
         title: product.title,
         materialName: product.materialInfo || "خشب زان طبيعي صلب (40×10 سم)",
-        engravedName: engravedName || "حسب التنسيق بالواتساب",
+        engravedDetails: engravedDetails || "حسب التنسيق بالواتساب",
+        engravedName: engravedDetails || "حسب التنسيق بالواتساب",
         engravedTitle,
         engravedLogo,
         backMessage,
@@ -740,13 +745,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let customDetailsHtml = '';
       if (item.isDeskPlate) {
+        const detailsText = item.engravedDetails || item.engravedName || "حسب التنسيق بالواتساب";
+        const formattedDetails = detailsText.split("\n").map(l => l.trim()).filter(Boolean).join(" • ");
         customDetailsHtml = `
-          <div style="font-size:0.75rem; color:#6B2940; margin-top:3px; background:#FDF4E9; padding:4px 8px; border-radius:6px; line-height:1.4;">
-            <div><strong>👤 الاسم:</strong> ${item.engravedName}</div>
+          <div style="font-size:0.75rem; color:#6B2940; margin-top:3px; background:#FDF4E9; padding:5px 8px; border-radius:6px; line-height:1.45; word-break:break-word;">
+            <div><strong>✏️ تفاصيل الحفر:</strong> ${formattedDetails}</div>
             ${item.engravedTitle ? `<div><strong>💼 الوظيفة:</strong> ${item.engravedTitle}</div>` : ''}
             ${item.engravedLogo ? `<div><strong>⚖️ الشعار:</strong> ${item.engravedLogo}</div>` : ''}
             ${item.backMessage ? `<div><strong>💌 خلفية:</strong> "${item.backMessage}"</div>` : ''}
-            ${item.hasBox ? `<div style="color:#8F415C; font-weight:700;">🎁 مشمول صندوق هدايا فاخر (+3 د.أ)</div>` : '<div style="color:#888;">بدون صندوق هدايا</div>'}
+            ${item.hasBox ? `<div style="color:#8F415C; font-weight:700; margin-top:3px;">🎁 مشمول صندوق هدايا فاخر (+3 د.أ)</div>` : '<div style="color:#888; margin-top:3px;">بدون صندوق هدايا</div>'}
           </div>
         `;
       } else {
@@ -879,7 +886,8 @@ document.addEventListener("DOMContentLoaded", () => {
       let line = `• [كود: ${i.sku || 'MFU'}] ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName}`;
       if (i.isDeskPlate) {
-        line += `\n  └ 👤 الاسم المطلوب: ${i.engravedName}`;
+        const detailsText = i.engravedDetails || i.engravedName || "حسب التنسيق بالواتساب";
+        line += `\n  └ ✏️ تفاصيل الحفر المطلوبة:\n${detailsText.split('\n').map(l => '     • ' + l.trim()).filter(l => l.length > 7).join('\n')}`;
         if (i.engravedTitle) line += `\n  └ 💼 الوظيفة/المنصب: ${i.engravedTitle}`;
         if (i.engravedLogo) line += `\n  └ ⚖️ الشعار/الرمز: ${i.engravedLogo}`;
         if (i.backMessage) line += `\n  └ 💌 إهداء الوجه الخلفي: "${i.backMessage}"`;
