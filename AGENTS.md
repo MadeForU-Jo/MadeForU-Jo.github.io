@@ -53,3 +53,11 @@ Before adding any new product to `products.js` or creating landing pages:
 ## 4. Language & Tone Guidelines
 * **User Communication:** English.
 * **Website UI & Customer Facing Text:** Warm, friendly, non-technical everyday Arabic (`لهجة عربية واضحة ومفهومة للزبائن`). Avoid overly complex industrial terms (use "حفر ليزر" instead of "ماكينة CO2 ليزر").
+
+---
+
+## 5. Deployment & Git Workflow
+* **No Deployment Verification or Polling:**
+  * Once code edits, additions, or updates are completed and locally verified, commit and push directly to `origin main`.
+  * **DO NOT** test, poll, curl, ping, or wait for GitHub Pages build/deployment statuses or live URL availability.
+  * Just push the changes and finish your turn immediately.
