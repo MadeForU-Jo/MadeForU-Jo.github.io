@@ -1013,6 +1013,31 @@ body {
   transform: translateY(-1px);
 }
 
+.pp-view-btn {
+  background: var(--brand-primary);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.15rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: var(--transition);
+}
+
+.pp-view-btn:hover {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+
+.product-card:hover .pp-view-btn {
+  background: var(--brand-hover);
+}
+
 /* CART DRAWER (Slides from left in RTL) */
 .cart-drawer {
   position: fixed;

@@ -326,35 +326,19 @@ document.addEventListener("DOMContentLoaded", () => {
               ${item.isDeskPlate ? `<span style="font-size:0.75rem; color:#8F415C; display:block; font-weight:700;">+ حفر الوجهين متاح ✨</span>` : ''}
             </div>
             <div class="card-action-btns">
-              <button class="card-direct-btn card-direct-quick" data-slug="${item.slug}" type="button">
-                ⚡ اطلب الآن
-              </button>
-              <button class="add-btn add-to-cart-quick" data-slug="${item.slug}" type="button">
-                ${item.isDeskPlate ? 'تخصيص' : 'خيارات'}
-              </button>
+              <span class="pp-view-btn">
+                عرض المنتج ←
+              </span>
             </div>
           </div>
         </div>
       </div>
     `).join("");
 
-    productsGrid.querySelectorAll(".card-direct-quick").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const slug = btn.getAttribute("data-slug");
-        openProductModalView(slug);
-        setTimeout(() => {
-          if (deskPlateNameInput && deskPlateCustomizationBlock && deskPlateCustomizationBlock.style.display !== "none") {
-            deskPlateNameInput.focus();
-          }
-        }, 150);
-      });
-    });
-
     productsGrid.querySelectorAll(".product-card").forEach(card => {
       card.addEventListener("click", () => {
         const slug = card.getAttribute("data-slug");
-        openProductModalView(slug);
+        window.location.href = `product.html?slug=${encodeURIComponent(slug)}`;
       });
     });
   }
@@ -967,7 +951,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads using permanent slugs & SKU numbers)
+  // فحص الرابط المباشر للمنتج (Direct Product Link for Facebook Ads)
+  // إعادة توجيه ?product= و ?p= وغيرها إلى صفحة المنتج المنفردة (product.html?slug=...)
   function checkUrlProductLink() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -978,9 +963,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (queryKey) {
         const match = findProduct(queryKey);
         if (match) {
-          setTimeout(() => {
-            openProductModalView(match.slug);
-          }, 120);
+          // إعادة التوجيه إلى صفحة المنتج المنفردة (تحافظ على التوافق مع روابط الإعلانات القديمة)
+          window.location.replace(`product.html?slug=${encodeURIComponent(match.slug)}`);
         }
       }
     } catch (err) {
