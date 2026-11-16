@@ -39,10 +39,10 @@ Before adding any new product to `products.js` or creating landing pages:
   * Requires a minimum **10 JD down payment** via CliQ / e-wallet before production.
 * **Wooden & Resin Trays:**
   * Crafted from solid natural wood, fractal lightning discharge, or embedded coffee beans with clear epoxy resin.
-  * Price: 15 JD – 18 JD with optional laser custom engraving (+3 JD).
+  * Price: 24 JD – 29 JD.
 * **Resin & Wood Pendants:**
   * Handcrafted from natural wood burl and royal epoxy resin with a genuine leather cord.
-  * Price: 20 JD with optional luxury jewelry gift box (+3 JD).
+  * Price: 34 JD.
 * **Puzzles & Geometric Wall Art:**
   * Strictly made from **Solid MDF Wood** (`خشب MDF صلب`) or **Modern Acrylic** (`أكريليك عصري صلب`).
   * **NEVER** list beech wood or natural wood for puzzles.
