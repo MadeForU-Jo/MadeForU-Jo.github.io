@@ -321,17 +321,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function buildWhatsAppMessage(product) {
     let details = "";
     let finalPrice = product.price || 0;
+    let isCustomized = false;
 
     if (product.isDeskPlate) {
+      isCustomized = true;
       const engText = (document.getElementById("ppDeskEngravingDetails")?.value || "").trim();
       const hasBox = document.getElementById("ppDeskBoxToggle")?.checked || false;
       const boxFee = hasBox ? (product.boxFee || STORE_CONFIG.boxFee || 3) : 0;
       finalPrice += boxFee;
 
-      details = `\n📋 *تفاصيل الحفر بالليزر:*\n${engText || "سيتم التنسيق بالواتساب"}`;
+      details = `📋 *تفاصيل الحفر بالليزر:*\n${engText || "سيتم التنسيق بالواتساب"}`;
       if (hasBox) details += `\n🎁 صندوق هدايا فاخر: مشمول (+${boxFee.toFixed(2)} ${CURRENCY})`;
       else details += `\n🎁 صندوق هدايا: غير مشمول`;
-      details += `\n\n⚠️ سياسة الدفع: عربون 10 دنانير على الأقل مسبقاً عبر CliQ لبدء التجهيز، والمتبقي كاش عند الاستلام.`;
 
     } else if (product.isTray || product.isPendant) {
       // صواني وقلائد — طلب مباشر بدون إضافات
@@ -345,26 +346,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const engText = (document.getElementById("ppPuzzleEngravingText")?.value || "").trim();
       let engInfo = "";
       if (hasEng) {
+        isCustomized = true;
         const fee = STORE_CONFIG.engravingFee || 3;
         finalPrice += fee;
         engInfo = `\n✨ حفر ليزر مخصص (+${fee.toFixed(2)} ${CURRENCY}): "${engText || 'سيتم التنسيق بالواتساب'}"`;
       }
-      details = `\n🎨 الخامة: ${currentMaterial.name}\n🖌 اللون: ${currentColor.name}${engInfo}`;
+      details = `🎨 الخامة: ${currentMaterial.name}\n🖌 اللون: ${currentColor.name}${engInfo}`;
     }
 
-    const orderNum = "MFU-" + Math.floor(1000 + Math.random() * 9000);
     const pageUrl = window.location.href;
 
+    let paymentInfo = "";
+    if (isCustomized) {
+      paymentInfo = `\n\n⚠️ *ملاحظة الدفع:* للقطع المصممة حسب الطلب (المخصصة)، يُشترط دفع عربون 10 دنانير مسبقاً عبر CliQ أو المحفظة الإلكترونية لبدء التجهيز، والمتبقي كاش عند الاستلام.`;
+    }
+
     const msg =
-      `*طلب جديد — مشغل MadeForU* 🪵\n\n` +
-      `🔢 رقم الطلب: #${orderNum}\n` +
-      `📦 المنتج: ${product.title}\n` +
-      `🏷 كود: ${product.sku || product.id}\n` +
-      `🔗 الصفحة: ${pageUrl}\n` +
-      `${details}\n\n` +
-      `💰 *السعر: ${finalPrice.toFixed(2)} ${CURRENCY}* (لا يشمل التوصيل)\n` +
-      `🚚 التوصيل: داخل عمان 1 ${CURRENCY} / خارج عمان 2 ${CURRENCY}\n\n` +
-      `يرجى تزويدي باسمي الكامل وعنوان التوصيل ووقت مناسب 🙏`;
+      `🔗 رابط المنتج:\n${pageUrl}\n\n` +
+      (details ? `${details}\n\n` : "") +
+      `💰 السعر: ${finalPrice.toFixed(2)} ${CURRENCY}\n` +
+      `🚚 التوصيل: داخل عمان 1 ${CURRENCY} / خارج عمان 2 ${CURRENCY}` +
+      paymentInfo +
+      `\n\n` +
+      `👤 الاسم الكريم:\n` +
+      `📍 عنوان التوصيل (المدينة / المنطقة):\n` +
+      `📞 رقم بديل (اختياري):`;
 
     return msg;
   }
@@ -391,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
       breadcrumbCat.href = catDef.page;
     }
     if (breadcrumbProd) {
-      breadcrumbProd.textContent = product.sku || product.title;
+      breadcrumbProd.textContent = product.title;
     }
 
     // تمييز القسم النشط في شريط الأقسام
@@ -409,15 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
       badgeEl.style.display = product.badge ? "block" : "none";
     }
 
-    // SKU + Title + Meta
+    // Title + Meta
     const skuEl = document.getElementById("ppSku");
+    if (skuEl) skuEl.remove();
     const titleEl = document.getElementById("ppTitle");
     const materialEl = document.getElementById("ppMaterial");
     const dimensionsEl = document.getElementById("ppDimensions");
     const priceEl = document.getElementById("ppPrice");
     const descEl = document.getElementById("ppDescription");
 
-    if (skuEl) skuEl.textContent = `كود: ${product.sku || product.id}`;
     if (titleEl) titleEl.textContent = product.title || "";
     if (materialEl) materialEl.textContent = product.materialInfo || "";
     if (dimensionsEl) dimensionsEl.textContent = product.dimensions || "";

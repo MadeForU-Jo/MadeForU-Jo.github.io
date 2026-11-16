@@ -311,9 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <img class="product-img" src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/MadeForU Logo Trans.png'">
         </div>
         <div class="product-body">
-          <div class="product-category" style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="product-category">
             <span>${item.category}</span>
-            <span style="font-family:monospace; background:rgba(143,65,92,0.08); color:var(--brand-primary); font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid rgba(143,65,92,0.18);">كود: ${item.sku}</span>
           </div>
           <h3 class="product-title">${item.title}</h3>
           <div class="product-specs">
@@ -407,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalImg.alt = item.title;
     modalBadge.textContent = item.badge || item.category;
     const modalSkuTag = document.getElementById("modalSkuTag");
-    if (modalSkuTag) modalSkuTag.textContent = `كود المنتج: ${item.sku}`;
+    if (modalSkuTag) modalSkuTag.style.display = "none";
     modalTitle.textContent = item.title;
     modalDimensions.textContent = item.dimensions || "40 × 10 سم تقريباً";
     modalDesc.textContent = item.description;
@@ -867,7 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // صياغة رسالة الواتساب بدقة واحترافية
     let itemsText = cart.map(i => {
-      let line = `• [كود: ${i.sku || 'MFU'}] ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
+      let line = `• ${i.title} (${i.qty} قطع) = ${(i.price * i.qty).toFixed(2)} ${CURRENCY}\n` +
                  `  └ الخامة: ${i.materialName}`;
       if (i.isDeskPlate) {
         const detailsText = i.engravedDetails || i.engravedName || "حسب التنسيق بالواتساب";

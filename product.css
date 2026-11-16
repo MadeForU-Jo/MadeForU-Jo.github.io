@@ -268,17 +268,7 @@ html, body {
   box-sizing: border-box;
 }
 .pp-sku-tag {
-  font-family: monospace;
-  font-size: 0.78rem;
-  font-weight: 800;
-  background: rgba(143,65,92,0.09);
-  color: var(--brand-primary);
-  padding: 3px 10px;
-  border-radius: 5px;
-  border: 1px solid rgba(143,65,92,0.18);
-  display: inline-block;
-  letter-spacing: 0.5px;
-  align-self: flex-start;
+  display: none !important;
 }
 .pp-title {
   font-size: 1.5rem;
